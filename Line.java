@@ -1,5 +1,8 @@
 //ID: 204351670
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
 /**
  * Line class supports methods that their goal is to represent a Line in 2D
  * space (XY plane).
@@ -114,23 +117,23 @@ public class Line {
             if (this.isParallelToYAxis() || this.isParallelToXAxis()
                     || other.isParallelToYAxis() || other.isParallelToXAxis()) {
                 if (this.isParallelToYAxis()) {
-                    return (HelpFunctions.belongs(intersection.getY(), 'y',
+                    return (belongs(intersection.getY(), 'y',
                             other));
                 } else if (this.isParallelToXAxis()) {
-                    return (HelpFunctions.belongs(intersection.getX(), 'x',
+                    return (belongs(intersection.getX(), 'x',
                             other));
                 } else if (other.isParallelToYAxis()) {
-                    return (HelpFunctions.belongs(intersection.getY(), 'y',
+                    return (belongs(intersection.getY(), 'y',
                             this));
                 } else {
-                    return (HelpFunctions.belongs(intersection.getX(), 'x',
+                    return (belongs(intersection.getX(), 'x',
                             this));
                 }
             }
-            return (HelpFunctions.belongs(intersection.getX(), 'x', this)
-                    && HelpFunctions.belongs(intersection.getY(), 'y', this)
-                    && HelpFunctions.belongs(intersection.getX(), 'x', other)
-                    && HelpFunctions.belongs(intersection.getY(), 'y', other));
+            return (belongs(intersection.getX(), 'x', this)
+                    && belongs(intersection.getY(), 'y', this)
+                    && belongs(intersection.getX(), 'x', other)
+                    && belongs(intersection.getY(), 'y', other));
         }
 
     }
@@ -199,7 +202,7 @@ public class Line {
      *
      * @return true, if the line is parallel to the x-axis, 'false' otherwise.
      */
-    public boolean isParallelToXAxis() {
+    private boolean isParallelToXAxis() {
         return (Double.compare(this.end.getY(),
                 this.start.getY()) == 0);
     }
@@ -209,7 +212,7 @@ public class Line {
      *
      * @return true, if the line is parallel to the y-axis, 'false' otherwise.
      */
-    public boolean isParallelToYAxis() {
+    private boolean isParallelToYAxis() {
         return (Double.compare(this.end.getX(),
                 this.start.getX()) == 0);
     }
@@ -224,7 +227,7 @@ public class Line {
      *
      * @return double, returning the slope of the Line's equation.
      */
-    public double calcLineSlope() {
+    private double calcLineSlope() {
             //if a line is parallel to one of the axis we'll define the slope
             //as 0.
             if (this.isParallelToYAxis() || this.isParallelToXAxis()) {
@@ -248,7 +251,7 @@ public class Line {
      *
      * @return double, returning the slope of the Line's equation.
      */
-    public double calcFreeCoefficient() {
+    private double calcFreeCoefficient() {
         if (this.isParallelToXAxis()) {
             return this.start.getY();
         } else if (this.isParallelToYAxis()) {
@@ -265,7 +268,7 @@ public class Line {
      *           slope.
      * @return true, if both lines have the same slope, 'false' otherwise.
      */
-    public boolean haveSameSlope(Line l2) {
+    private boolean haveSameSlope(Line l2) {
         return (Double.compare(this.calcLineSlope(),
                 l2.calcLineSlope()) == 0);
     }
@@ -279,14 +282,15 @@ public class Line {
      *               otherwise.
      * @throws Exception if the intersection point has negative coordinates.
      */
-    public Point checkParallelIntersectingCase(Line other) throws Exception {
+    private Point checkParallelIntersectingCase(Line other)
+            throws Exception {
         //if both lines are the same, return null.
         if (this.equals(other)) {
             return null;
             //check if two lines are parallel.
-        } else if (this.haveSameSlope(other)) {
+        } else {
             //check if lines overlap
-            if (HelpFunctions.areProjectionsOverlapping(this, other)) {
+            if (areProjectionsOverlapping(this, other)) {
                 return null;
                 //check if there is only one intersection point.
             } else if (this.hasSameEdge(other)) {
@@ -329,5 +333,122 @@ public class Line {
             return true;
         }
         return false;
+    }
+
+    /**
+     * check if the projections of two lines are overlapping.
+     *
+     * each line will have a projection on both x and y axis.
+     * the function will check if the projections are overlapping either in
+     * both axis' or only one of them.
+     *
+     * @param l1 a Line object.
+     * @param l2 a Line object.
+     * @return true, if the two lines projections overlap.
+     */
+    public static boolean areProjectionsOverlapping(Line l1, Line l2) {
+        return (xAxisOverlappingCheck(l1, l2)
+                && yAxisOverlappingCheck(l1, l2)
+                || (xAxisOverlappingCheck(l2, l1)
+                && yAxisOverlappingCheck(l2, l1)));
+    }
+
+    /**
+     * check if the projections of two lines are overlapping on the x-axis.
+     *
+     * @param l1 a Line object.
+     * @param l2 a Line object.
+     * @return true, if the two lines projections overlap on the x axis..
+     */
+    public static boolean xAxisOverlappingCheck(Line l1, Line l2) {
+        double l1StartPointXCoordinate = l1.start().getX();
+        double l1EndPointXCoordinate = l1.end().getX();
+        double l2StartPointXCoordinate = l2.start().getX();
+        double l2EndPointXCoordinate = l2.end().getX();
+        //check overlap on the x-axis projections segments.
+        return (belongs(l1StartPointXCoordinate, l2StartPointXCoordinate,
+                l2EndPointXCoordinate) || (belongs(l1EndPointXCoordinate,
+                l2StartPointXCoordinate, l2EndPointXCoordinate)));
+    }
+
+    /**
+     * check if the projections of two lines are overlapping on the y-axis.
+     *
+     * @param l1 a Line object.
+     * @param l2 a Line object.
+     * @return true, if the two lines projections overlap on the y axis..
+     */
+    private static boolean yAxisOverlappingCheck(Line l1, Line l2) {
+        double l1StartPointYCoordinate = l1.start().getY();
+        double l1EndPointYCoordinate = l1.end().getY();
+        double l2StartPointYCoordinate = l2.start().getY();
+        double l2EndPointYCoordinate = l2.end().getY();
+        //check overlap on the x-axis projections segments.
+        return belongs(l1StartPointYCoordinate, l2StartPointYCoordinate,
+                l2EndPointYCoordinate) || (belongs(l1EndPointYCoordinate,
+                l2StartPointYCoordinate, l2EndPointYCoordinate));
+    }
+
+    /**
+     * (Without limiting generality let b <= c).
+     * check if a double value 'a' belongs in the section (b,c) of double
+     * values.
+     *
+     * @param a double variable.
+     * @param b double variable.
+     * @param c double variable.
+     * @return true, if a is in (b,c) and 'false' otherwise.
+     */
+    public static boolean belongs(double a, double b, double c) {
+        if (a < max(b, c) && a > min(b, c)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * checks if a coordinate from a given axis belongs to the section projected
+     * by line on that same axis.
+     *
+     * @param coordinate an 'x' or 'y' coordinate.
+     * @param axis a char variable that indicates if the coordinate is of
+     *              x, or y axis.
+     * @param l the line that the projected segment is being projected from.
+     * @return true, if the coordinate is in the segment projected, 'false'
+     *               otherwise.
+     */
+    private boolean belongs(double coordinate, char axis, Line l) {
+        switch (axis) {
+            case 'x':
+                if (coordinate < max(l.start().getX(), l.end().getX())
+                        && coordinate > min(l.start().getX(), l.end().getX())) {
+                    return true;
+                }
+            case 'y':
+                if (coordinate < max(l.start().getY(), l.end().getY())
+                        && coordinate > min(l.start().getY(), l.end().getY())) {
+                    return true;
+                }
+            default:
+                return false;
+        }
+    }
+
+
+    //FOR TESTING!!!
+    public double getSlope() {
+        return this.calcLineSlope();
+    }
+
+    public boolean getIsParallelToXAxis() {
+        return this.isParallelToXAxis();
+    }
+
+    public boolean getIsParallelToYAxis() {
+        return this.isParallelToYAxis();
+    }
+
+    public double getFreeCoefficient() {
+        return this.calcFreeCoefficient();
     }
 }
