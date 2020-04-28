@@ -1,6 +1,7 @@
 //ID: 204351670
 
-import java.nio.DoubleBuffer;
+import java.awt.geom.Arc2D;
+import java.util.Objects;
 
 import static java.lang.Math.sqrt;
 import static java.lang.Math.pow;
@@ -78,8 +79,26 @@ public class Point {
      * @param other another Point Object.
      * @return 'true', if points are the same (as mentioned in the description)
      */
-    public boolean equals(Point other) {
-        return (Double.compare(this.x, other.getX()) == 0
-                && Double.compare(this.y, other.getY()) == 0);
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (obj instanceof Point) {
+            Point test = (Point) obj;
+            if(Double.compare(test.x,this.x) == 0
+                    && Double.compare(test.y,this.y) == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }

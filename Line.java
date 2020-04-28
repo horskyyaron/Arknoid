@@ -109,33 +109,18 @@ public class Line {
         Point intersection = this.intersectionWith(other);
         if (intersection == null) {
             return false;
-        //check if intersection point is in range.
+        //check if the two lines have the same starting\ending points.
         } else if (this.hasSameEdge(other)) {
             return true;
+            //check if intersection point is in range.
         } else {
-            //check case when one of the lines is parallel to the axis:
-            if (this.isParallelToYAxis() || this.isParallelToXAxis()
-                    || other.isParallelToYAxis() || other.isParallelToXAxis()) {
-                if (this.isParallelToYAxis()) {
-                    return (belongs(intersection.getY(), 'y',
-                            other));
-                } else if (this.isParallelToXAxis()) {
-                    return (belongs(intersection.getX(), 'x',
-                            other));
-                } else if (other.isParallelToYAxis()) {
-                    return (belongs(intersection.getY(), 'y',
-                            this));
-                } else {
-                    return (belongs(intersection.getX(), 'x',
-                            this));
-                }
-            }
+            //if lines have different slopes, checks if the intersection point
+            //is within both lines limits.
             return (belongs(intersection.getX(), 'x', this)
                     && belongs(intersection.getY(), 'y', this)
                     && belongs(intersection.getX(), 'x', other)
                     && belongs(intersection.getY(), 'y', other));
         }
-
     }
 
     /**
@@ -151,7 +136,7 @@ public class Line {
         //check two parallel lines case.
         if (Double.compare(this.calcLineSlope(),
                 other.calcLineSlope()) == 0) {
-            return checkParallelIntersectingCase(other);
+            return checkLineContinuesLine(other);
         } else {
             //check if the lines have one mutual edges
             if (this.hasSameEdge(other)) {
@@ -262,18 +247,6 @@ public class Line {
     }
 
     /**
-     * check if two lines have the same slope.
-     *
-     * @param l2 the second line, which is being checked for haveing the same
-     *           slope.
-     * @return true, if both lines have the same slope, 'false' otherwise.
-     */
-    private boolean haveSameSlope(Line l2) {
-        return (Double.compare(this.calcLineSlope(),
-                l2.calcLineSlope()) == 0);
-    }
-
-    /**
      * check if two lines are continuing each other, with an intersection point
      * between them.
      *
@@ -282,7 +255,7 @@ public class Line {
      *               otherwise.
      * @throws Exception if the intersection point has negative coordinates.
      */
-    private Point checkParallelIntersectingCase(Line other)
+    private Point checkLineContinuesLine(Line other)
             throws Exception {
         //if both lines are the same, return null.
         if (this.equals(other)) {
@@ -319,7 +292,7 @@ public class Line {
     }
 
     /**
-     * check if two lines have a same "base" point.
+     * check if two lines have at least one same "base" point.
      * "base" point meaning starting/ending point of a line.
      *
      * @param other another line variable.
@@ -346,11 +319,11 @@ public class Line {
      * @param l2 a Line object.
      * @return true, if the two lines projections overlap.
      */
-    public static boolean areProjectionsOverlapping(Line l1, Line l2) {
-        return (xAxisOverlappingCheck(l1, l2)
-                && yAxisOverlappingCheck(l1, l2)
-                || (xAxisOverlappingCheck(l2, l1)
-                && yAxisOverlappingCheck(l2, l1)));
+    private boolean areProjectionsOverlapping(Line l1, Line l2) {
+        return (areXAxisProjectionsOverlap(l1, l2)
+                && areYAxisProjectionsOverlap(l1, l2)
+                || (areXAxisProjectionsOverlap(l2, l1)
+                && areYAxisProjectionsOverlap(l2, l1)));
     }
 
     /**
@@ -360,7 +333,7 @@ public class Line {
      * @param l2 a Line object.
      * @return true, if the two lines projections overlap on the x axis..
      */
-    public static boolean xAxisOverlappingCheck(Line l1, Line l2) {
+    private boolean areXAxisProjectionsOverlap(Line l1, Line l2) {
         double l1StartPointXCoordinate = l1.start().getX();
         double l1EndPointXCoordinate = l1.end().getX();
         double l2StartPointXCoordinate = l2.start().getX();
@@ -378,7 +351,7 @@ public class Line {
      * @param l2 a Line object.
      * @return true, if the two lines projections overlap on the y axis..
      */
-    private static boolean yAxisOverlappingCheck(Line l1, Line l2) {
+    private static boolean areYAxisProjectionsOverlap(Line l1, Line l2) {
         double l1StartPointYCoordinate = l1.start().getY();
         double l1EndPointYCoordinate = l1.end().getY();
         double l2StartPointYCoordinate = l2.start().getY();
@@ -399,7 +372,7 @@ public class Line {
      * @param c double variable.
      * @return true, if a is in (b,c) and 'false' otherwise.
      */
-    public static boolean belongs(double a, double b, double c) {
+    private static boolean belongs(double a, double b, double c) {
         if (a < max(b, c) && a > min(b, c)) {
             return true;
         }
@@ -434,7 +407,6 @@ public class Line {
         }
     }
 
-
     //FOR TESTING!!!
     public double getSlope() {
         return this.calcLineSlope();
@@ -450,5 +422,9 @@ public class Line {
 
     public double getFreeCoefficient() {
         return this.calcFreeCoefficient();
+    }
+
+    public boolean getAreProjectionsOverlapping(Line l1, Line l2) {
+        return this.areProjectionsOverlapping(l1, l2);
     }
 }

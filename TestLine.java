@@ -127,6 +127,11 @@ public class TestLine {
         l2 = new Line(0,4,1,2);
         assertTrue("they dont intersect in the range of the lines", !l1.isIntersecting(l2));
 
+        l1 = new Line(0,0,100,100);
+        l2 = new Line(60,20,80,20);
+        assertTrue("they dont intersect in the range of the lines", !l1.isIntersecting(l2));
+
+
 
     }
 
@@ -146,11 +151,11 @@ public class TestLine {
     public void testOverlap() throws Exception {
         Line l1 = new Line (0,0,1,1);
         Line l2 = new Line (0,0,2,2);
-        assertTrue("Should overlap", Line.areProjectionsOverlapping(l1,l2));
-        assertTrue("Should overlap", Line.areProjectionsOverlapping(l2,l1));
+        assertTrue("Should overlap", l1.getAreProjectionsOverlapping(l1,l2));
+        assertTrue("Should overlap", l1.getAreProjectionsOverlapping(l2,l1));
         l2 = new Line (0.5,0.5,0.7,0.7);
-        assertTrue("Should overlap", Line.areProjectionsOverlapping(l1,l2));
-        assertTrue("Should overlap", Line.areProjectionsOverlapping(l2,l1));
+        assertTrue("Should overlap", l1.getAreProjectionsOverlapping(l1,l2));
+        assertTrue("Should overlap", l1.getAreProjectionsOverlapping(l1,l2));
     }
 
     @Test
