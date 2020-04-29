@@ -6,27 +6,41 @@ public class LineEquation {
 
     public LineEquation(Line line) {
         this.line = line;
-        this.yCoefficient = 1;
-        this.xCoefficient = -1 * line.getSlope();
-        this.freeCoefficient = line.getSlope() * line.start().getX() - line.start().getY();
+        if(Double.compare(line.start().getX(), line.end().getX()) == 0) {
+            // when it's parallel to y-axis.
+            this.yCoefficient = 0;
+            this.xCoefficient = 1;
+            this.freeCoefficient = (-1) * line.start().getX();
+        } else if (Double.compare(line.start().getY(), line.end().getY()) == 0) {
+            //when it's parallel to x-axis.
+            this.yCoefficient = 1;
+            this.xCoefficient = 0;
+            this.freeCoefficient = (-1) * line.start().getY();
+        } else {
+            //not parallel case.
+            this.yCoefficient = 1;
+            this.xCoefficient = -1 * line.getSlope();
+            this.freeCoefficient = line.getSlope() * line.start().getX() - line.start().getY();
+        }
     }
 
     public LineEquation(Point start, Point end) throws Exception {
-        this.line = new Line(start,end);
-        this.yCoefficient = 1;
-        this.xCoefficient = -1 * line.getSlope();
-        this.freeCoefficient = line.getSlope() * line.start().getX() - line.start().getY();
+        this(new Line(start,end));
     }
 
     public double getXCoefficient() {
-        return xCoefficient;
+        return this.xCoefficient;
     }
 
     public double getYCoefficient() {
-        return yCoefficient;
+        return this.yCoefficient;
     }
 
     public double getFreeCoefficient() {
-        return freeCoefficient;
+        return this.freeCoefficient;
+    }
+
+    public Line getLine() {
+        return this.line;
     }
 }

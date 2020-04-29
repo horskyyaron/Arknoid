@@ -68,38 +68,38 @@ public class TestLine {
         assertTrue(Double.compare(l.end().getY(),3.97) == 0);
     }
 
-    @Test
-    public void testSlopeCalculating () throws Exception{
-        Line l  = new Line (0,0,1,1);
-        assertTrue(Double.compare(l.getSlope() ,1) == 0);
-        l = new Line(0,0,2,3);
-        assertTrue(Double.compare(l.getSlope() , 1.5) == 0);
-        l = new Line(1,3,7,11);
-        assertTrue(Double.compare(l.getSlope() , (double)4/3) == 0);
-        //l = new Line(1,3,8,-2);
-        //assertTrue(HelpFunctions.areTwoDoublesEqual(l.calcLineSlope() , (-0.7142857143)));
-        l = new Line(0,0,0,5);
-        assertTrue(Double.compare(l.getSlope() , 0) == 0);
+//    @Test
+//    public void testSlopeCalculating () throws Exception{
+//        Line l  = new Line (0,0,1,1);
+//        assertTrue(Double.compare(l.getSlope() ,1) == 0);
+//        l = new Line(0,0,2,3);
+//        assertTrue(Double.compare(l.getSlope() , 1.5) == 0);
+//        l = new Line(1,3,7,11);
+//        assertTrue(Double.compare(l.getSlope() , (double)4/3) == 0);
+//        //l = new Line(1,3,8,-2);
+//        //assertTrue(HelpFunctions.areTwoDoublesEqual(l.calcLineSlope() , (-0.7142857143)));
+//        l = new Line(0,0,0,5);
+//        assertTrue(Double.compare(l.getSlope() , 0) == 0);
+//
+//    }
+//
+//    @Test
+//    public void testParallel () throws Exception{
+//        Line l = new Line(0,0,0,1);
+//        assertTrue(l.getIsParallelToYAxis());
+//        l = new Line(1,2,5,2);
+//        assertTrue(l.getIsParallelToXAxis());
+//    }
 
-    }
-
-    @Test
-    public void testParallel () throws Exception{
-        Line l = new Line(0,0,0,1);
-        assertTrue(l.getIsParallelToYAxis());
-        l = new Line(1,2,5,2);
-        assertTrue(l.getIsParallelToXAxis());
-    }
-
-    @Test
-    public  void testFreeCoefficient() throws Exception{
-
-        Line l = new Line(1,3,7,11);
-//        assertTrue(Double.compare(l.getFreeCoefficient() , (double)((-8/6)+3)) == 0);
-        l = new Line(7,8,3,9.23);
-        assertTrue(Double.compare(l.getFreeCoefficient() , (double)10.1525) == 0);
-
-    }
+//    @Test
+//    public  void testFreeCoefficient() throws Exception{
+//
+//        Line l = new Line(1,3,7,11);
+////        assertTrue(Double.compare(l.getFreeCoefficient() , (double)((-8/6)+3)) == 0);
+//        l = new Line(7,8,3,9.23);
+//        assertTrue(Double.compare(l.getFreeCoefficient() , (double)10.1525) == 0);
+//
+//    }
 
     @Test
     public void testIntersectingLines () throws Exception {
@@ -108,6 +108,21 @@ public class TestLine {
         assertTrue("Shouldn't be intersecting",!l1.isIntersecting(l2));
         l2 = new Line (0,0,2,3);
         assertTrue(l1.isIntersecting(l2));
+        assertTrue(l1.intersectionWith(l2).equals(new Point(0,0)));
+        assertTrue(l2.isIntersecting(l1));
+        l2 = new Line (1,1,2,2);
+        assertTrue(l1.isIntersecting(l2));
+        assertTrue(l1.intersectionWith(l2).equals(new Point(1,1)));
+        l2 = new Line (2,2,1,1);
+        assertTrue(l1.isIntersecting(l2));
+        assertTrue(l1.intersectionWith(l2).equals(new Point(1,1)));
+        assertTrue(l2.isIntersecting(l1));
+        assertTrue(l2.isIntersecting(l1));
+        assertTrue(l2.intersectionWith(l1).equals(new Point(1,1)));
+        assertTrue(l1.isIntersecting(l2));
+        l2 = new Line (2,2,1,1);
+        assertTrue(l1.isIntersecting(l2));
+        assertTrue(l1.intersectionWith(l2).equals(new Point(1,1)));
         assertTrue(l2.isIntersecting(l1));
 
         l2 = new Line (5,9,1,1);
@@ -118,11 +133,6 @@ public class TestLine {
         l1 = new Line(0,0,1,1);
         assertTrue("Should be (0.5,0.5):",l1.isIntersecting(l2));
 
-        //check when two lines intersect, but not in the range.
-        //l1 = new Line(0,0,-2,-1);
-        //l2 = new Line(-2.5,0,-1.5,2);
-        //assertTrue("they dont intersect in the range of the lines", !l1.isIntersecting(l2));
-
         l1 = new Line(0,0,0.5,0.5);
         l2 = new Line(0,4,1,2);
         assertTrue("they dont intersect in the range of the lines", !l1.isIntersecting(l2));
@@ -131,56 +141,28 @@ public class TestLine {
         l2 = new Line(60,20,80,20);
         assertTrue("they dont intersect in the range of the lines", !l1.isIntersecting(l2));
 
+        l1 = new Line(0,0,100,100);
+        l2 = new Line(60,60,100,60);
+        assertTrue("they intersect in (60,60)", l1.isIntersecting(l2));
+        assertTrue("they intersect in (60,60)", l1.intersectionWith(l2).equals(new Point (60,60)));
+
+        l2 = new Line(100,60,60,60);
+        assertTrue("they intersect in (60,60)", l1.isIntersecting(l2));
+        assertTrue("they intersect in (60,60)", l1.intersectionWith(l2).equals(new Point (60,60)));
+        assertTrue("they intersect in (60,60)", l2.isIntersecting(l1));
+        assertTrue("they intersect in (60,60)", l2.intersectionWith(l1).equals(new Point (60,60)));
+
+        l1 = new Line(1,3,4.5,9);
+        l2 = new Line(8,4,1,1.5);
+        assertTrue("they intersect in (60,60)", !l1.isIntersecting(l2));
+        l1 = new Line(1,3,8,4);
+        l2 = new Line(4.5,9,1,1.5);
+        assertTrue("they intersect in (60,60)", l1.isIntersecting(l2));
+        l1 = new Line(1,3,4.5,9);
+        l2 = new Line(8,4,0.5,8);
+        assertTrue("they intersect in (60,60)", l1.isIntersecting(l2));
+
 
 
     }
-
-    @Test
-    public void testAreTwoLinesParallel() throws Exception {
-        Line l1 = new Line (0,0,1,1);
-        Line l2 = new Line (0,1,1,0);
-        //Line l3 = new Line (-0.5,0,0,0.5);
-        assertTrue("they are not parallel",!(Double.compare(l1.getSlope(),l2.getSlope()) == 0));
-//        assertTrue("they are not parallel",!l2.haveSameSlope(l3));
-////        assertTrue("they are parallel",l1.haveSameSlope(l3));
-////        l3 = new Line(0,0,2,2);
-////        assertTrue(l1.haveSameSlope(l3));
-    }
-
-    @Test
-    public void testOverlap() throws Exception {
-        Line l1 = new Line (0,0,1,1);
-        Line l2 = new Line (0,0,2,2);
-        assertTrue("Should overlap", l1.getAreProjectionsOverlapping(l1,l2));
-        assertTrue("Should overlap", l1.getAreProjectionsOverlapping(l2,l1));
-        l2 = new Line (0.5,0.5,0.7,0.7);
-        assertTrue("Should overlap", l1.getAreProjectionsOverlapping(l1,l2));
-        assertTrue("Should overlap", l1.getAreProjectionsOverlapping(l1,l2));
-    }
-
-    @Test
-    public void testIntersectionPoint() throws Exception {
-        Line l1 = new Line (0,0,1,1);
-        Line l2 = new Line (0,1,1,0);
-        //Line l3 = new Line (-0.5,0,0,0.5);
-        assertTrue(l1.intersectionWith(l2).equals(new Point (0.5,0.5)));;
-        //assertTrue(l1.intersectionWith(l3) == null);
-//        l1 = new Line(0,0,-4,-2);
-//        l2 = new Line(0,5,-2.5,0);
-//        assertTrue(l1.intersectionWith(l2).equals(new Point (-3.3333333333,-1.6666666667)));;
-        l1 = new Line (0,0,1,1);
-        l2 = new Line(1,1,2,2);
-        assertTrue("intersection should be (1,1)",l1.intersectionWith(l2).equals(new Point (1,1)));
-        l2 = new Line (0,5,1,1);
-        assertTrue("intersection should be (1,1)",l1.intersectionWith(l2).equals(new Point (1,1)));
-        l2 = new Line (1,1,5,8);
-        assertTrue("intersection should be (1,1)",l1.intersectionWith(l2).equals(new Point (1,1)));
-
-    }
-
-
-
-
-
-
 }

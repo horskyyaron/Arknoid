@@ -3,8 +3,7 @@
 import java.awt.geom.Arc2D;
 import java.util.Objects;
 
-import static java.lang.Math.sqrt;
-import static java.lang.Math.pow;
+import static java.lang.Math.*;
 
 /**
  * Point class supports methods that their goal is to represent a point in 2D
@@ -76,7 +75,7 @@ public class Point {
      * y-coordinate of a given point equals to the y-coordinate
      * of the other point.
      *
-     * @param other another Point Object.
+     * @param obj another Point Object.
      * @return 'true', if points are the same (as mentioned in the description)
      */
     @Override
@@ -101,4 +100,21 @@ public class Point {
     public int hashCode() {
         return Objects.hash(x, y);
     }
+
+//    /**
+//     //     * (Without limiting generality let b <= c).
+//     //     * check if a double value 'a' belongs in the section (b,c) of double
+//     //     * values.
+//     //     *
+//     //     * @param a double variable.
+//     //     * @param b double variable.
+//     //     * @param c double variable.
+//     //     * @return true, if a is in (b,c) and 'false' otherwise.
+//     //     */
+//    private static boolean belongs(double a, double b, double c) {
+//        if (a < max(b, c) && a > min(b, c)) {
+//            return true;
+//        }
+//        return false;
+//    }
 }
