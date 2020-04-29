@@ -191,7 +191,7 @@ public class Velocity {
     }
 
     public void applyVerticalSurfaceHit() {
-        this.changeDirectionVertical();
+        this.changeDirectionHorizontal();
     }
 
     private int getAngleQuadrant() {
@@ -208,7 +208,7 @@ public class Velocity {
     }
 
     public void applyHorizontalSurfaceHit() {
-        this.changeDirectionHorizontal();
+        this.changeDirectionVertical();
     }
 
     @Override
