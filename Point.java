@@ -1,6 +1,7 @@
 //ID: 204351670
 
 import java.awt.geom.Arc2D;
+import java.util.List;
 import java.util.Objects;
 
 import static java.lang.Math.*;
@@ -99,6 +100,29 @@ public class Point {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
+    }
+
+    public Point getClosetsPoint(List<Point> intersectionPointsWithRec) {
+        int indexOfClosestPoint = 0;
+        double minDistance = this.distance(intersectionPointsWithRec.get(0));
+
+        for (int i = 1; i < intersectionPointsWithRec.size(); i++) {
+            if(minDistance > this.distance(intersectionPointsWithRec.get(i))) {
+                minDistance = this.distance(intersectionPointsWithRec.get(i));
+                indexOfClosestPoint = i;
+            }
+        }
+
+        return intersectionPointsWithRec.get(indexOfClosestPoint);
+
+
+    }
+
+    //check's if the point satisfying the line equation.
+    public boolean isSatisfying(LineEquation equation) {
+        return (this.x * equation.getXCoefficient() + this.y
+                * equation.getYCoefficient()
+                + equation.getFreeCoefficient() == 0);
     }
 
 //    /**

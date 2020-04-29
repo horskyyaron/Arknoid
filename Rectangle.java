@@ -3,6 +3,8 @@ import biuoop.DrawSurface;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Objects;
 
 /**
  * Frame class supports methods that their goal is to represent a certain
@@ -26,7 +28,8 @@ public class Rectangle {
      * @throws Exception if top left frame corner point gets negative
      *                   coordinates values.
      */
-    public Rectangle(Point upperleft, int width, int height) throws Exception {
+    public Rectangle(Point upperleft, double width, double height)
+            throws Exception {
 
         this.upperLeft = upperleft;
         this.width = width;
@@ -85,7 +88,7 @@ public class Rectangle {
             throws Exception {
         //getting an array of the rectangle Lines.
         Line[] rectangleEdges = rectangleToLinesArray();
-        java.util.List<Point> pointList = new ArrayList<>();
+        java.util.List<Point> pointList = new LinkedList<>();
 
         //if the line has an intersection point with the rectangle ledges,
         // add those points to the list..
@@ -150,4 +153,19 @@ public class Rectangle {
         return intersectionPoints(line);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Rectangle rectangle = (Rectangle) obj;
+        return Double.compare(rectangle.width, width) == 0 &&
+                Double.compare(rectangle.height, height) == 0 &&
+                Objects.equals(upperLeft, rectangle.upperLeft) &&
+                Objects.equals(color, rectangle.color);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(upperLeft, width, height, color);
+    }
 }

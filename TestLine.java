@@ -68,39 +68,6 @@ public class TestLine {
         assertTrue(Double.compare(l.end().getY(),3.97) == 0);
     }
 
-//    @Test
-//    public void testSlopeCalculating () throws Exception{
-//        Line l  = new Line (0,0,1,1);
-//        assertTrue(Double.compare(l.getSlope() ,1) == 0);
-//        l = new Line(0,0,2,3);
-//        assertTrue(Double.compare(l.getSlope() , 1.5) == 0);
-//        l = new Line(1,3,7,11);
-//        assertTrue(Double.compare(l.getSlope() , (double)4/3) == 0);
-//        //l = new Line(1,3,8,-2);
-//        //assertTrue(HelpFunctions.areTwoDoublesEqual(l.calcLineSlope() , (-0.7142857143)));
-//        l = new Line(0,0,0,5);
-//        assertTrue(Double.compare(l.getSlope() , 0) == 0);
-//
-//    }
-//
-//    @Test
-//    public void testParallel () throws Exception{
-//        Line l = new Line(0,0,0,1);
-//        assertTrue(l.getIsParallelToYAxis());
-//        l = new Line(1,2,5,2);
-//        assertTrue(l.getIsParallelToXAxis());
-//    }
-
-//    @Test
-//    public  void testFreeCoefficient() throws Exception{
-//
-//        Line l = new Line(1,3,7,11);
-////        assertTrue(Double.compare(l.getFreeCoefficient() , (double)((-8/6)+3)) == 0);
-//        l = new Line(7,8,3,9.23);
-//        assertTrue(Double.compare(l.getFreeCoefficient() , (double)10.1525) == 0);
-//
-//    }
-
     @Test
     public void testIntersectingLines () throws Exception {
         Line l1 = new Line (0,0,1,1);
@@ -162,6 +129,23 @@ public class TestLine {
         l2 = new Line(8,4,0.5,8);
         assertTrue("they intersect in (60,60)", l1.isIntersecting(l2));
 
+
+
+    }
+
+    @Test
+    public void testClosetsIntersection () throws Exception {
+        Rectangle r = new Rectangle(new Point (10,10),10,20);
+        Line l1 = new Line(50,20,0,20);
+        Line l2 = new Line (0,20,50,20);
+        assertTrue(l1.closestIntersectionToStartOfLine(r).equals(new Point(20,20)));
+        assertTrue(l2.closestIntersectionToStartOfLine(r).equals(new Point(10,20)));
+        l1 = new Line(20,20,15,20);
+        l1.closestIntersectionToStartOfLine(r);
+        l1 = new Line(20,20,30,20);
+        assertTrue(l1.closestIntersectionToStartOfLine(r).equals(new Point(20,20)));
+        l1 = new Line(7,5,20,20);
+        l1.closestIntersectionToStartOfLine(r);
 
 
     }

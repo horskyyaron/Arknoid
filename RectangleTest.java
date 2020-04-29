@@ -51,8 +51,15 @@ public class RectangleTest {
         assertTrue(intersectionPoints.size() == 2);
         assertTrue(intersectionPoints.contains(new Point(1,1)));
 
-
     }
 
+    @Test
+    public void testEquals () throws Exception {
+        Rectangle r = new Rectangle(new Point(1,1),50,50);
+        Rectangle r2 = new Rectangle(new Point(1,1),50,50);
+        assertTrue(r.equals(r2));
+        r2 = new Rectangle(new Point(1,1),50,100);
+        assertTrue(!r.equals(r2));
+    }
 
 }

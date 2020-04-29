@@ -1,5 +1,7 @@
 //ID: 204351670
 
+import java.awt.geom.Arc2D;
+import java.util.List;
 import java.util.Objects;
 
 import static java.lang.Math.*;
@@ -97,7 +99,6 @@ public class Line {
         return this.end;
     }
 
-
     /**
      * checks if the given line is intersecting with another line.
      *
@@ -122,9 +123,11 @@ public class Line {
                     //check if the intersection point, is one of the lines base
                     // points.
                 } else if (isIntersectionPointABasePoint(intersection,this,other)) {
+                    //if the intersection belongs to a line, check if it's also
+                    // in the second line range.
                     if(this.isPointALinesBasePoint(intersection)) {
-                        return (belongs(intersection.getX(),'x',other)
-                                && belongs(intersection.getY(),'y',other));
+                        return (belongsWithEdges(intersection.getX(),'x',other)
+                                && belongsWithEdges(intersection.getY(),'y',other));
                     } else {
                         return (belongs(intersection.getX(),'x',this)
                                 && belongs(intersection.getY(),'y',this));
@@ -136,6 +139,31 @@ public class Line {
         } else {
             //check for continuing lines case:
             return checkContinuingLines(other);
+        }
+    }
+
+    /**
+     * returns the intersection point of a given line with another line.
+     *
+     * @param other the other line which is being checked for the intersection
+     *              point.
+     * @return Point, the intersection point of the two lines.
+     * @throws Exception if one of the lines have points with negative
+     *                   coordinates.
+     */
+    public Point intersectionWith (Line other) throws Exception {
+
+        if(this.isIntersecting(other)) {
+            //if one mutual base point.
+            if(this.hasOneMutualBasePoint(other)) {
+                return this.getMutualBasePoint(other);
+            }
+            //if no mutual base point.
+            LinearSystemOfEquation system = new LinearSystemOfEquation(this,
+                    other);
+            return system.getSystemSolution();
+        } else {
+            return null;
         }
     }
 
@@ -152,7 +180,7 @@ public class Line {
     }
 
     private boolean isIntersectionPointInLinesRange(Point intersection,
-                                                LinearSystemOfEquation system) {
+                                                    LinearSystemOfEquation system) {
 
         //declaring intersection point coordinate and Lines variable for
         // readability.
@@ -161,24 +189,50 @@ public class Line {
         Line l1 = system.getEquation1().getLine();
         Line l2 = system.getEquation2().getLine();
 
+        //in case the two lines are parallel
+        if(l1.isParallel() && l2.isParallel()) {
+            if(l1.isParallelToX()) {
+                //l2 is parallel to y.
+                return (belongsWithEdges(intersection.getX(),'x',l1)
+                        && belongsWithEdges(intersection.getY(),'y',l2));
+            } else {
+                //l1 is parallel to y-axis and l2 is parallel to x-axis.
+                return (belongsWithEdges(intersection.getX(),'x',l2)
+                        && belongsWithEdges(intersection.getY(),'y',l1));
+            }
+        }
         //in case one of the line is parallel to axis:
         //of the form y=c
-        if(system.getEquation1().getXCoefficient() == 0) {
+        if(l1.isParallelToX()) {
             return (belongs(x,'x',l1) && belongs(x,'x',l2) && belongs(y,'y',l2));
             //of the form x=c
-        } else if (system.getEquation1().getYCoefficient() == 0) {
+        } else if (l1.isParallelToY()) {
             return (belongs(y,'y',l1) && belongs(y,'y',l2) && belongs(y,'x',l2));
             //of the form y=c
-        } else if (system.getEquation2().getXCoefficient() == 0) {
+        } else if (l2.isParallelToX()) {
             return (belongs(x,'x',l1) && belongs(x,'x',l2) && belongs(y,'y',l1));
             //of the form x=c
-        } else if (system.getEquation2().getYCoefficient() == 0) {
+        } else if (l2.isParallelToY()) {
             return (belongs(y,'y',l1) && belongs(y,'y',l2) && belongs(y,'x',l1));
         } else {
             //check if the intersection point is within the lines range.
             return (belongs(x, 'x', l1) && belongs(x, 'x', l2) && belongs(y, 'y', l1)
                     && belongs(y, 'y', l2));
         }
+    }
+
+    private boolean isParallelToX() {
+        LineEquation equation = new LineEquation(this);
+        //if of the form y=c
+        return (equation.getXCoefficient() == 0);
+    }
+    private boolean isParallelToY() {
+        LineEquation equation = new LineEquation(this);
+        //if of the form x=c
+        return (equation.getYCoefficient() == 0);
+    }
+    private boolean isParallel() {
+        return (this.isParallelToX() || this.isParallelToY());
     }
 
     private boolean checkContinuingLines(Line other) throws Exception {
@@ -196,7 +250,7 @@ public class Line {
     }
 
     private boolean isBasePointValidForContinuingLineCase(Line other,
-                                                      Point mutualBasePoint) {
+                                                          Point mutualBasePoint) {
         //getting the non mutual points in each of the lines.
         Point lineNonMutualPoint, otherLineNonMutualPoint;
         if (this.start.equals(mutualBasePoint)) {
@@ -222,7 +276,6 @@ public class Line {
             return true;
         }
     }
-
     private Point getMutualBasePoint(Line other) {
         if (this.start.equals(other.start) && !this.end.equals(other.end)) {
             return this.start;
@@ -250,32 +303,6 @@ public class Line {
         }
     }
 
-
-    /**
-     * returns the intersection point of a given line with another line.
-     *
-     * @param other the other line which is being checked for the intersection
-     *              point.
-     * @return Point, the intersection point of the two lines.
-     * @throws Exception if one of the lines have points with negative
-     *                   coordinates.
-     */
-    public Point intersectionWith (Line other) throws Exception {
-
-        if(this.isIntersecting(other)) {
-            //if one mutual base point.
-            if(this.hasOneMutualBasePoint(other)) {
-                return this.getMutualBasePoint(other);
-            }
-            //if no mutual base point.
-            LinearSystemOfEquation system = new LinearSystemOfEquation(this,
-                    other);
-            return system.getSystemSolution();
-        } else {
-            return null;
-        }
-    }
-
     public boolean belongs(double coordinate,char axis, Line line) {
         double a, b;
         switch (axis) {
@@ -287,6 +314,21 @@ public class Line {
                 a = line.start.getX();
                 b = line.end.getX();
                 return (coordinate < max(a, b) && coordinate > min(a, b));
+            default:
+                return false;
+        }
+    }
+
+    private boolean belongsWithEdges(double coordinate,char axis, Line line) {
+        switch (axis) {
+            case 'x':
+                return belongs(coordinate,axis,line)
+                        || Double.compare(coordinate,line.start.getX()) == 0
+                        || Double.compare(coordinate,line.end.getX()) == 0;
+            case 'y':
+                return belongs(coordinate,axis,line)
+                        || Double.compare(coordinate,line.start.getY()) == 0
+                        || Double.compare(coordinate,line.end.getY()) == 0;
             default:
                 return false;
         }
@@ -304,6 +346,33 @@ public class Line {
         }
     }
 
+    public Point closestIntersectionToStartOfLine(Rectangle rect)
+            throws Exception {
+        //check if line is intersecting with given rectangle.
+        if (!this.isIntersectingWithRec(rect)) {
+            return null;
+        } else {
+            List<Point> intersectionPointsWithRec =
+                    rect.getIntersectionPoints(this);
+            return this.start.getClosetsPoint(intersectionPointsWithRec);
+            }
+    }
+
+    private boolean isIntersectingWithRec(Rectangle r) throws Exception {
+        Line[] recEdges = r.getRectangleToLinesArray();
+        return (this.isIntersecting(recEdges[0])
+                || this.isIntersecting(recEdges[1])
+                || this.isIntersecting(recEdges[2])
+                || this.isIntersecting(recEdges[3]));
+    }
+
+    public boolean isLineVertical() {
+        return (Double.compare(this.start.getX(), this.end.getX()) == 0);
+    }
+
+    public boolean isLineHorizontal() {
+        return (Double.compare(this.start.getY(), this.end.getY()) == 0);
+    }
 
 
     /**

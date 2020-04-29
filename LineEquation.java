@@ -1,3 +1,4 @@
+//Line equation: ax + by + c = 0;
 public class LineEquation {
     private Line line;
     private double xCoefficient;
