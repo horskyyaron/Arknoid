@@ -8,7 +8,7 @@ import java.util.LinkedList;
 public class RectangleTest {
     @Test
     public void testRectangleToEdgePointsArray() throws Exception {
-        Rectangle r = new Rectangle(new Point(0,0),100,100, Color.black);
+        Rectangle r = new Rectangle(new Point(0,0),100,100);
         Point[] pointArr = r.getRectangleToEdgePointsArray();
         assertTrue("supposed to be true", pointArr[0].equals(new Point(0,0)));
         assertTrue("supposed to be true", pointArr[1].equals(new Point(100,0)));
@@ -16,7 +16,7 @@ public class RectangleTest {
         assertTrue("supposed to be true", pointArr[3].equals(new Point(0,100)));
         assertFalse("supposed to be false", pointArr[3].equals(new Point(50,100)));
 
-        r = new Rectangle(new Point(50,50),57,63,Color.black);
+        r = new Rectangle(new Point(50,50),57,63);
         pointArr = r.getRectangleToEdgePointsArray();
         assertTrue("supposed to be true", pointArr[0].equals(new Point(50,50)));
         assertTrue("supposed to be true", pointArr[1].equals(new Point(107,50)));
@@ -27,7 +27,7 @@ public class RectangleTest {
 
     @Test
     public void testRectangleToLinesArray() throws Exception {
-        Rectangle r = new Rectangle(new Point(0,0),100,100, Color.black);
+        Rectangle r = new Rectangle(new Point(0,0),100,100);
         Line[] linesArr = r.getRectangleToLinesArray();
 
         assertTrue("supposed to be true", linesArr[0].equals(new Line(0,0,100,0)));
@@ -39,19 +39,19 @@ public class RectangleTest {
 
     @Test
     public void testIntersectionPointsWithRectangle() throws Exception {
-        //Line l1 = new Line(0,0,6,6);
-        //Rectangle r = new Rectangle(new Point(0,0),2,2, Color.black);
-
-
-//        assertTrue(intersectionPoints.contains(new Point (0,0)));
-//        assertTrue(intersectionPoints.contains(new Point (2,2)));
-//        assertTrue(!intersectionPoints.contains(new Point (2,3)));
-//        assertTrue(!intersectionPoints.contains(new Point (2,4)));
 
         Line l1 = new Line (0,0,100,100);
-        Rectangle r = new Rectangle(new Point(60,20),20,40,Color.black);
+        Rectangle r = new Rectangle(new Point(60,20),20,40);
         java.util.List<Point> intersectionPoints = r.getIntersectionPoints(l1);
-        assertTrue(intersectionPoints.contains(new Point (60,60)));
+       assertTrue(intersectionPoints.contains(new Point (60,60)));
+
+        l1 = new Line (0,0,2,2);
+        r = new Rectangle(new Point(0.5,1),1,1);
+        intersectionPoints = r.getIntersectionPoints(l1);
+        assertTrue(intersectionPoints.size() == 2);
+        assertTrue(intersectionPoints.contains(new Point(1,1)));
+
+
     }
 
 

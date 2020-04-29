@@ -1,10 +1,8 @@
 //ID: 204351670
 import biuoop.DrawSurface;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Frame class supports methods that their goal is to represent a certain
@@ -25,17 +23,14 @@ public class Rectangle {
      *                frame.
      * @param width holds the frame width.
      * @param height holds the frame height.
-     * @param color holds the frame background color.
      * @throws Exception if top left frame corner point gets negative
      *                   coordinates values.
      */
-    public Rectangle(Point upperleft, int width, int height,
-                     java.awt.Color color) throws Exception {
+    public Rectangle(Point upperleft, int width, int height) throws Exception {
 
         this.upperLeft = upperleft;
         this.width = width;
         this.height = height;
-        this.color = color;
     }
 
     /**
@@ -137,6 +132,9 @@ public class Rectangle {
 
     }
 
+    public void setColor (java.awt.Color color) {
+        this.color = color;
+    }
 
     //Getters for checking.
     public Point[] getRectangleToEdgePointsArray() throws Exception {

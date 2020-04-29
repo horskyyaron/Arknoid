@@ -122,7 +122,13 @@ public class Line {
                     //check if the intersection point, is one of the lines base
                     // points.
                 } else if (isIntersectionPointABasePoint(intersection,this,other)) {
-                    return true;
+                    if(this.isPointALinesBasePoint(intersection)) {
+                        return (belongs(intersection.getX(),'x',other)
+                                && belongs(intersection.getY(),'y',other));
+                    } else {
+                        return (belongs(intersection.getX(),'x',this)
+                                && belongs(intersection.getY(),'y',this));
+                    }
                 } else {
                     return (isIntersectionPointInLinesRange(intersection, system));
                 }
@@ -131,6 +137,11 @@ public class Line {
             //check for continuing lines case:
             return checkContinuingLines(other);
         }
+    }
+
+    //tell if a point is a start\end point of a given line.
+    private boolean isPointALinesBasePoint(Point point) {
+        return (point.equals(this.start) || point.equals(this.end));
     }
 
     private boolean isIntersectionPointABasePoint(Point intersection, Line line, Line other) {
@@ -142,15 +153,32 @@ public class Line {
 
     private boolean isIntersectionPointInLinesRange(Point intersection,
                                                 LinearSystemOfEquation system) {
+
         //declaring intersection point coordinate and Lines variable for
         // readability.
         double x = intersection.getX();
         double y = intersection.getY();
         Line l1 = system.getEquation1().getLine();
         Line l2 = system.getEquation2().getLine();
-        //check if the intersection point is within the lines range.
-        return (belongs(x,'x',l1) && belongs(x,'x',l2) && belongs(y,'y',l1)
-                && belongs(y,'y',l2));
+
+        //in case one of the line is parallel to axis:
+        //of the form y=c
+        if(system.getEquation1().getXCoefficient() == 0) {
+            return (belongs(x,'x',l1) && belongs(x,'x',l2) && belongs(y,'y',l2));
+            //of the form x=c
+        } else if (system.getEquation1().getYCoefficient() == 0) {
+            return (belongs(y,'y',l1) && belongs(y,'y',l2) && belongs(y,'x',l2));
+            //of the form y=c
+        } else if (system.getEquation2().getXCoefficient() == 0) {
+            return (belongs(x,'x',l1) && belongs(x,'x',l2) && belongs(y,'y',l1));
+            //of the form x=c
+        } else if (system.getEquation2().getYCoefficient() == 0) {
+            return (belongs(y,'y',l1) && belongs(y,'y',l2) && belongs(y,'x',l1));
+        } else {
+            //check if the intersection point is within the lines range.
+            return (belongs(x, 'x', l1) && belongs(x, 'x', l2) && belongs(y, 'y', l1)
+                    && belongs(y, 'y', l2));
+        }
     }
 
     private boolean checkContinuingLines(Line other) throws Exception {
@@ -248,6 +276,36 @@ public class Line {
         }
     }
 
+    public boolean belongs(double coordinate,char axis, Line line) {
+        double a, b;
+        switch (axis) {
+            case 'y':
+                a = line.start.getY();
+                b = line.end.getY();
+                return (coordinate < max(a, b) && coordinate > min(a, b));
+            case 'x':
+                a = line.start.getX();
+                b = line.end.getX();
+                return (coordinate < max(a, b) && coordinate > min(a, b));
+            default:
+                return false;
+        }
+    }
+
+    public double getSlope() {
+        //if line is parallel, return 0;
+        if(Double.compare(this.start().getX(), this.end().getX()) == 0 ||
+            (Double.compare(this.start().getY(), this.end().getY()) == 0)) {
+            return 0;
+        } else {
+            //calculating line slope from two point equation.
+            return ((this.end.getY() - this.start.getY())
+                    / (this.end.getX() - this.start.getX()));
+        }
+    }
+
+
+
     /**
      * checks if two line are equal.
      *
@@ -282,33 +340,5 @@ public class Line {
     @Override
     public int hashCode() {
         return Objects.hash(end, start);
-    }
-
-    public boolean belongs(double coordinate,char axis, Line line) {
-        double a, b;
-        switch (axis) {
-            case 'y':
-                a = line.start.getY();
-                b = line.end.getY();
-                return (coordinate < max(a, b) && coordinate > min(a, b));
-            case 'x':
-                a = line.start.getX();
-                b = line.end.getX();
-                return (coordinate < max(a, b) && coordinate > min(a, b));
-            default:
-                return false;
-        }
-    }
-
-    public double getSlope() {
-        //if line is parallel, return 0;
-        if(Double.compare(this.start().getX(), this.end().getX()) == 0 ||
-            (Double.compare(this.start().getY(), this.end().getY()) == 0)) {
-            return 0;
-        } else {
-            //calculating line slope from two point equation.
-            return ((this.end.getY() - this.start.getY())
-                    / (this.end.getX() - this.start.getX()));
-        }
     }
 }
