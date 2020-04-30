@@ -102,18 +102,18 @@ public class Point {
         return Objects.hash(x, y);
     }
 
-    public Point getClosetsPoint(List<Point> intersectionPointsWithRec) {
+    public Point getClosetsFromPointList(List<Point> intersectionPointsList) {
         int indexOfClosestPoint = 0;
-        double minDistance = this.distance(intersectionPointsWithRec.get(0));
+        double minDistance = this.distance(intersectionPointsList.get(0));
 
-        for (int i = 1; i < intersectionPointsWithRec.size(); i++) {
-            if(minDistance > this.distance(intersectionPointsWithRec.get(i))) {
-                minDistance = this.distance(intersectionPointsWithRec.get(i));
+        for (int i = 1; i < intersectionPointsList.size(); i++) {
+            if(minDistance > this.distance(intersectionPointsList.get(i))) {
+                minDistance = this.distance(intersectionPointsList.get(i));
                 indexOfClosestPoint = i;
             }
         }
 
-        return intersectionPointsWithRec.get(indexOfClosestPoint);
+        return intersectionPointsList.get(indexOfClosestPoint);
 
 
     }

@@ -1,6 +1,5 @@
 //ID: 204351670
 
-import java.awt.geom.Arc2D;
 import java.util.List;
 import java.util.Objects;
 
@@ -354,7 +353,7 @@ public class Line {
         } else {
             List<Point> intersectionPointsWithRec =
                     rect.getIntersectionPoints(this);
-            return this.start.getClosetsPoint(intersectionPointsWithRec);
+            return this.start.getClosetsFromPointList(intersectionPointsWithRec);
             }
     }
 
