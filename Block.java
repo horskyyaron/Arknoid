@@ -46,12 +46,15 @@ public class Block implements Collidable {
 
     public Line getImpactLineFromCollisionPoint(Point collisionPoint)
             throws Exception {
+        //getting an array constructed of the block lines.
         Line[] blockEdges = this.block.getRectangleToLinesArray();
+        LineEquation lineEquation;
         //getting the block edges.
         for (int i = 0; i < blockEdges.length; i++) {
             //getting each line equation.
-            LineEquation equation = new LineEquation(blockEdges[i]);
-            if(collisionPoint.isSatisfying(equation)) {
+            lineEquation = new LineEquation(blockEdges[i]);
+            //check if the collision point is on the line.
+            if(collisionPoint.isSatisfying(lineEquation)) {
                 return blockEdges[i];
             }
         }

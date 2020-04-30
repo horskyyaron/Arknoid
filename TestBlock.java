@@ -98,7 +98,7 @@ public class TestBlock {
 
         Velocity vLDAfter = block.hit(c1,vLD);
         assertTrue(vLDAfter.equals(new Velocity(1,1)));
-        
+
 
     }
 }
