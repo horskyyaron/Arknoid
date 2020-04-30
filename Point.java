@@ -103,18 +103,21 @@ public class Point {
     }
 
     public Point getClosetsFromPointList(List<Point> intersectionPointsList) {
-        int indexOfClosestPoint = 0;
-        double minDistance = this.distance(intersectionPointsList.get(0));
+        if(intersectionPointsList.isEmpty()) {
+            return null;
+        } else {
 
-        for (int i = 1; i < intersectionPointsList.size(); i++) {
-            if(minDistance > this.distance(intersectionPointsList.get(i))) {
-                minDistance = this.distance(intersectionPointsList.get(i));
-                indexOfClosestPoint = i;
+            int indexOfClosestPoint = 0;
+            double minDistance = this.distance(intersectionPointsList.get(0));
+
+            for (int i = 1; i < intersectionPointsList.size(); i++) {
+                if (minDistance > this.distance(intersectionPointsList.get(i))) {
+                    minDistance = this.distance(intersectionPointsList.get(i));
+                    indexOfClosestPoint = i;
+                }
             }
+            return intersectionPointsList.get(indexOfClosestPoint);
         }
-
-        return intersectionPointsList.get(indexOfClosestPoint);
-
 
     }
 

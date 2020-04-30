@@ -8,6 +8,9 @@ import java.util.Random;
  * screen animation.
  */
 public class Ball {
+    //Constants
+    //for get near collision point.
+    private static double DELTA = 0.1;
 
     //fields.
     private Point center;
@@ -58,313 +61,352 @@ public class Ball {
     }
 
 
-    /**
-     * will draw a given ball onto an input surface.
-     *
-     * @param surface the surface which the ball will be drawn on.
-     */
-    public void drawOn(DrawSurface surface) {
-        surface.setColor(this.color);
-        surface.fillCircle(this.getX(), this.getY(), this.radius);
-    }
-
-
-
-
-
-    /**
-     * will change the ball's position according to the limits of a given
-     * animation frame.
-     *
-     * @param movementFrame the frame which limits the balls movement
-     *                      possibilities to a certain area on the screen.
-     * @throws Exception if frame's top left corner point has negative coordinates.
-     */
-    public void moveOneStep(Frame movementFrame) throws Exception {
-        //The ball is at an edge of the frame.
-        if (this.isInEdgeMove(movementFrame)) {
+    public void moveOneStep(GameEnvironment gameEnvironment) throws Exception {
+        Line trajectory = computeBallTrajectory();
+        if(gameEnvironment.getClosestCollision(trajectory) == null) {
+            //no collision, move to end of trajectory.
             this.center = this.getVelocity().applyToPoint(this.center);
-            //if the next move will get the ball out of bounds.
-        } else if (this.isOutOfBoundsMove(movementFrame, "dx")
-                || this.isOutOfBoundsMove(movementFrame, "dy")) {
-            //1D case.
-            if (this.isOneDimensinalMovement()) {
-                //when the ball moves up and down
-                if (this.getVelocity().getDx() == 0) {
-                    //when tha ball moves down
-                    if (this.getVelocity().getDy() > 0) {
-                        this.moveToEdge("down", movementFrame);
-                        return;
-                    } else {
-                        this.moveToEdge("up", movementFrame);
-                        return;
-                    }
-                    //when the ball moves to the sides.
-                } else {
-                    if (this.getVelocity().getDx() > 0) {
-                        this.moveToEdge("right", movementFrame);
-                        return;
-                    } else {
-                        this.moveToEdge("left", movementFrame);
-                        return;
-                    }
-                }
-            //2D case.
-            } else {
-                //handling the horizontal movement
-                if (this.getVelocity().getDy() > 0
-                        && this.isOutOfBoundsMove(movementFrame, "dy")) {
-                    this.moveToEdge("down", movementFrame);
-
-                } else if (this.getVelocity().getDy() < 0
-                        && this.isOutOfBoundsMove(movementFrame, "dy")) {
-                    this.moveToEdge("up", movementFrame);
-                }
-                //handling the vertical movement.
-                if (this.getVelocity().getDx() > 0
-                        && this.isOutOfBoundsMove(movementFrame, "dx")) {
-                    this.moveToEdge("right", movementFrame);
-
-                } else if (this.getVelocity().getDx() < 0
-                        && this.isOutOfBoundsMove(movementFrame, "dx")) {
-                    this.moveToEdge("left", movementFrame);
-                }
-            }
-        //regular move.
         } else {
-            this.center = this.getVelocity().applyToPoint(this.center);
+            //there was a hit with collidable
+            //get information about the collision.
+            CollisionInfo collisionInfo =
+                    gameEnvironment.getClosestCollision(trajectory);
+            //move ball.
+            moveNearCollisionPoint(collisionInfo.collisionPoint(), trajectory,
+                    collisionInfo.getCollisionImpactLine());
+
+            //update the collidable object about the hit.
+            this.setVelocity(collisionInfo.collisionObject().
+                    hit(collisionInfo.collisionPoint(), this.getVelocity()));
+
+
         }
+//        //The ball is at an edge of the frame.
+//        if (this.isInEdgeMove(movementFrame)) {
+//            this.center = this.getVelocity().applyToPoint(this.center);
+//            //if the next move will get the ball out of bounds.
+//        } else if (this.isOutOfBoundsMove(movementFrame, "dx")
+//                || this.isOutOfBoundsMove(movementFrame, "dy")) {
+//            //1D case.
+//            if (this.isOneDimensinalMovement()) {
+//                //when the ball moves up and down
+//                if (this.getVelocity().getDx() == 0) {
+//                    //when tha ball moves down
+//                    if (this.getVelocity().getDy() > 0) {
+//                        this.moveToEdge("down", movementFrame);
+//                        return;
+//                    } else {
+//                        this.moveToEdge("up", movementFrame);
+//                        return;
+//                    }
+//                    //when the ball moves to the sides.
+//                } else {
+//                    if (this.getVelocity().getDx() > 0) {
+//                        this.moveToEdge("right", movementFrame);
+//                        return;
+//                    } else {
+//                        this.moveToEdge("left", movementFrame);
+//                        return;
+//                    }
+//                }
+//            //2D case.
+//            } else {
+//                //handling the horizontal movement
+//                if (this.getVelocity().getDy() > 0
+//                        && this.isOutOfBoundsMove(movementFrame, "dy")) {
+//                    this.moveToEdge("down", movementFrame);
+//
+//                } else if (this.getVelocity().getDy() < 0
+//                        && this.isOutOfBoundsMove(movementFrame, "dy")) {
+//                    this.moveToEdge("up", movementFrame);
+//                }
+//                //handling the vertical movement.
+//                if (this.getVelocity().getDx() > 0
+//                        && this.isOutOfBoundsMove(movementFrame, "dx")) {
+//                    this.moveToEdge("right", movementFrame);
+//
+//                } else if (this.getVelocity().getDx() < 0
+//                        && this.isOutOfBoundsMove(movementFrame, "dx")) {
+//                    this.moveToEdge("left", movementFrame);
+//                }
+//            }
+//        //regular move.
+//        } else {
+//            this.center = this.getVelocity().applyToPoint(this.center);
+//        }
     }
 
-    /**
-     * will move the ball so that it will touch the edge input edge.
-     *
-     * @param edge string that tells which edge the ball will go to.
-     * @param movementFrame the frame which limits the balls movement
-     *                      possibilities to a certain area on the screen.
-     * @throws Exception if frame's top left corner point has negative
-     *                   coordinates.
-     */
-    private void moveToEdge(String edge, Frame movementFrame)
-            throws Exception {
-        //for code comprehension and readability.
-        int leftEdge = (int) movementFrame.getTopLeft().getX();
-        int rightEdge = (int) movementFrame.getTopLeft().getX()
-                + movementFrame.getFrameWidth();
-        int upperEdge = (int) movementFrame.getTopLeft().getY();
-        int lowerEdge = (int) movementFrame.getTopLeft().getY()
-                + movementFrame.getFrameHeight();
-
-        switch (edge) {
-            case "up":
-                this.center = new Point(this.center.getX(), upperEdge
-                        + this.radius);
-                return;
-            case "down":
-                this.center = new Point(this.center.getX(), lowerEdge
-                        - this.radius);
-                return;
-            case "left":
-                this.center = new Point(leftEdge + this.radius,
-                        this.center.getY());
-                return;
-            case "right":
-                this.center = new Point(rightEdge - this.radius,
-                        this.center.getY());
-                return;
-            default:
-                return;
-        }
-    }
-
-    /**
-     * check if the ball is moving in a one dimentional movement. (up-down,
-     * left-right).
-     *
-     * @return true if one of the speed components is zero.
-     */
-    private boolean isOneDimensinalMovement() {
-        return (this.getVelocity().getDx() == 0
-                ^ this.getVelocity().getDy() == 0);
-    }
-
-    /**
-     * check if the current move will get the ball out of the frame borders.
-     *
-     * @param speedComponet string that tells which movement to check:
-     *                      horizontal or vertical movement.
-     * @param movementFrame the frame which limits the balls movement
-     *                      possibilities to a certain area on the screen.
-     * @return 'true' if the current movement of the ball will move the ball
-     *          outside the frame borders.
-     */
-    private boolean isOutOfBoundsMove(Frame movementFrame,
-                                      String speedComponet) {
-        //for code comprehension and readability.
-        int leftEdge = (int) movementFrame.getTopLeft().getX();
-        int rightEdge = (int) movementFrame.getTopLeft().getX()
-                + movementFrame.getFrameWidth();
-        int upperEdge = (int) movementFrame.getTopLeft().getY();
-        int lowerEdge = (int) movementFrame.getTopLeft().getY()
-                + movementFrame.getFrameHeight();
-
-        int dx = (int) this.getVelocity().getDx();
-        int dy = (int) this.getVelocity().getDy();
-
-        if (speedComponet.equals("dx")) {
-            if (dx < 0 && this.center.getX() - radius + dx < leftEdge) {
-                return true;
-            } else if (dx > 0 && this.center.getX() + radius + dx > rightEdge) {
-                return true;
-            }
-        //y comp.
+    //temporary for testing.
+    private void moveNearCollisionPoint(Point collisionPoint,
+                                        Line trajectory, Line impactLine)
+                                        throws Exception {
+        if(impactLine.isHorizontal()) {
+            //check horizontal impact stuff.
+            moveNearHorizontalLine(collisionPoint, trajectory,impactLine);
         } else {
-            if (dy < 0 && this.center.getY() - radius + dy < upperEdge) {
-                return true;
-            } else if (dy > 0 && this.center.getY() + radius + dy > lowerEdge) {
-                return true;
-            }
+            //check vertical impact stuff.
+            moveNearVerticalLine(collisionPoint, trajectory,impactLine);
         }
-        return false;
-    }
-
-
-    /**
-     * will check if a move is starting from one of the frame boeders.
-     * preform the move, and will notify that the move happend.
-     *
-     * @param movementFrame the frame which limits the balls movement
-     *                      possibilities to a certain area on the screen.
-     * @return true if a ball moved from one of the frame edges. 'false'
-     *         otherwise.
-     */
-    public boolean isInEdgeMove(Frame movementFrame) {
-        //for code comprehension and readability.
-        int leftEdge = (int) movementFrame.getTopLeft().getX();
-        int rightEdge = (int) movementFrame.getTopLeft().getX() + movementFrame.getFrameWidth();
-        int upperEdge = (int) movementFrame.getTopLeft().getY();
-        int lowerEdge = (int) movementFrame.getTopLeft().getY() + movementFrame.getFrameHeight();
-
-        //indicator for having a ball in edge case.
-        int indicator = 0;
-
-        //right edge
-        if (this.getX() + this.radius == rightEdge) {
-            if (this.velocity.getDx() > 0) {
-                this.velocity.changeDirectionHorizontal();
-            }
-            indicator++;
-        //left edge.
-        } else if (this.getX() - this.radius == leftEdge) {
-            if (this.velocity.getDx() < 0) {
-                this.velocity.changeDirectionHorizontal();
-            }
-            indicator++;
-        }
-        //lower edge.
-        if (this.getY() + this.radius == lowerEdge) {
-            this.velocity.changeDirectionVertical();
-            indicator++;
-        //upper edge.
-        } else if (this.getY() - this.radius == upperEdge) {
-            this.velocity.changeDirectionVertical();
-            indicator++;
-        }
-        return (indicator != 0);
 
     }
 
-
-
-    /**
-     * Will change the initial ball position so that the initial ball's position
-     * will corresponds to the animation frame limitation.
-     *
-     * @param ball a ball object.
-     * @param movementFrame the frame which limits the new inital position of
-     *                      the ball.
-     * @return a new ball object, with an initial position that corresponds to
-     *         the given frame.
-     * @throws Exception if ball's center point have negative coordinates.
-     */
-    public static Ball fixOutOfScreenInitPosition(Ball ball,
-                                                  Frame movementFrame)
-                                                  throws Exception {
-        Random random = new Random();
-        int width = movementFrame.getFrameWidth();
-        int height = movementFrame.getFrameHeight();
-        Point topLeft = movementFrame.getTopLeft();
-
-        //check for out of bounds.
-        while (((ball.getX() - ball.getSize()) <= topLeft.getX())
-                || ((ball.getX() + ball.getSize()) >= topLeft.getX() + width)
-                || (ball.getY() - ball.getSize()) <= topLeft.getY()
-                || (ball.getY() + ball.getSize()) >= topLeft.getY() + height) {
-            //changing to a valid initial position.
-            Point newInitPosition = new Point(random.nextInt(width) + 1
-                    + topLeft.getX(), random.nextInt(height) + 1
-                    + topLeft.getY());
-            ball = new Ball(newInitPosition, ball.getSize(), Color.BLACK);
-        }
-        return ball;
-    }
-
-
-    /**
-     * check if the ball is inside the frame.
-     *
-     * @param x ball's center point's x- coordinate.
-     * @param y ball's center point's y- coordinate.
-     * @param radius ball's radius.
-     * @param animationFrame the frame which limits the balls movement
-     *                      possibilities to a certain area on the screen.
-     * @return true if the ball is in a valid position under the frame
-     *         constraints, 'false' otherwise.
-     */
-    public static boolean isBallPositionIsValidInFrame(int x, int y, int radius,
-                                                Frame animationFrame) {
-        return !(x - radius < animationFrame.getTopLeft().getX()
-                || x + radius > animationFrame.getTopLeft().getX()
-                + animationFrame.getFrameWidth()
-                || y - radius < animationFrame.getTopLeft().getY()
-                || y + radius > animationFrame.getTopLeft().getY()
-                + animationFrame.getFrameHeight());
-    }
-
-    /**
-     * Fixes the situation of a ball stuck to the edge of the screen.
-     *
-     * initial position of the ball and certain velocity components may cause
-     * an animation of a ball stuck to an edge of the frame. the function will
-     * change the direction so it will not happen.
-     *
-     * @param ball the ball being checked.
-     * @param animationFrame the frame which the ball will be animated on.
-     */
-    public static void fixBallStuckInEdgeOfScreen(Ball ball,
-                                                  Frame animationFrame) {
-        //for code comprehension.
-        int x = ball.getX();
-        int y = ball.getY();
-        Velocity v = ball.getVelocity();
-        int radius = ball.getSize();
-
-        if (x - radius == animationFrame.getTopLeft().getX() && v.getDx() > 0) {
-            ball.getVelocity().changeDirectionHorizontal();
-        }
-        if (x + radius == animationFrame.getTopLeft().getX()
-                + animationFrame.getFrameWidth() && v.getDx() < 0) {
-            ball.getVelocity().changeDirectionHorizontal();
-        }
-        if (y - radius == animationFrame.getTopLeft().getY() && v.getDy() > 0) {
-            ball.getVelocity().changeDirectionVertical();
-        }
-        if (y + radius == animationFrame.getTopLeft().getY()
-                + animationFrame.getFrameHeight() && v.getDy() < 0) {
-            ball.getVelocity().changeDirectionVertical();
+    private void moveNearVerticalLine(Point collisionPoint, Line trajectory, Line impactLine) throws Exception {
+        if(trajectory.start().getX() > collisionPoint.getX()) {
+            this.center = new Point(collisionPoint.getX() + DELTA, collisionPoint.getY());
+        } else {
+            this.center = new Point(collisionPoint.getX() - DELTA, collisionPoint.getY());
         }
     }
 
+    private void moveNearHorizontalLine(Point collisionPoint,
+                                        Line trajectory, Line impactLine) throws Exception {
+        if(trajectory.start().getY() > collisionPoint.getY()) {
+            this.center = new Point(collisionPoint.getX(),collisionPoint.getY() + DELTA);
+        } else {
+            this.center = new Point(collisionPoint.getX(),collisionPoint.getY() - DELTA);
+        }
+    }
+
+
+    //compute ball's trajectory... dah...
+    private Line computeBallTrajectory() throws Exception {
+        double endingPointXCoordinate = this.center.getX()
+                + this.getVelocity().getDx();
+        double endingPointYCoordinate = this.center.getY()
+                + this.getVelocity().getDy();
+        return (new Line(this.center,
+                new Point(endingPointXCoordinate,endingPointYCoordinate)));
+    }
+
+//    /**
+//     * will move the ball so that it will touch the edge input edge.
+//     *
+//     * @param edge string that tells which edge the ball will go to.
+//     * @param movementFrame the frame which limits the balls movement
+//     *                      possibilities to a certain area on the screen.
+//     * @throws Exception if frame's top left corner point has negative
+//     *                   coordinates.
+//     */
+//    private void moveToEdge(String edge, Frame movementFrame)
+//            throws Exception {
+//        //for code comprehension and readability.
+//        int leftEdge = (int) movementFrame.getTopLeft().getX();
+//        int rightEdge = (int) movementFrame.getTopLeft().getX()
+//                + movementFrame.getFrameWidth();
+//        int upperEdge = (int) movementFrame.getTopLeft().getY();
+//        int lowerEdge = (int) movementFrame.getTopLeft().getY()
+//                + movementFrame.getFrameHeight();
+//
+//        switch (edge) {
+//            case "up":
+//                this.center = new Point(this.center.getX(), upperEdge
+//                        + this.radius);
+//                return;
+//            case "down":
+//                this.center = new Point(this.center.getX(), lowerEdge
+//                        - this.radius);
+//                return;
+//            case "left":
+//                this.center = new Point(leftEdge + this.radius,
+//                        this.center.getY());
+//                return;
+//            case "right":
+//                this.center = new Point(rightEdge - this.radius,
+//                        this.center.getY());
+//                return;
+//            default:
+//                return;
+//        }
+//    }
+//
+//    /**
+//     * check if the ball is moving in a one dimentional movement. (up-down,
+//     * left-right).
+//     *
+//     * @return true if one of the speed components is zero.
+//     */
+//    private boolean isOneDimensinalMovement() {
+//        return (this.getVelocity().getDx() == 0
+//                ^ this.getVelocity().getDy() == 0);
+//    }
+//
+//    /**
+//     * check if the current move will get the ball out of the frame borders.
+//     *
+//     * @param speedComponet string that tells which movement to check:
+//     *                      horizontal or vertical movement.
+//     * @param movementFrame the frame which limits the balls movement
+//     *                      possibilities to a certain area on the screen.
+//     * @return 'true' if the current movement of the ball will move the ball
+//     *          outside the frame borders.
+//     */
+//    private boolean isOutOfBoundsMove(Frame movementFrame,
+//                                      String speedComponet) {
+//        //for code comprehension and readability.
+//        int leftEdge = (int) movementFrame.getTopLeft().getX();
+//        int rightEdge = (int) movementFrame.getTopLeft().getX()
+//                + movementFrame.getFrameWidth();
+//        int upperEdge = (int) movementFrame.getTopLeft().getY();
+//        int lowerEdge = (int) movementFrame.getTopLeft().getY()
+//                + movementFrame.getFrameHeight();
+//
+//        int dx = (int) this.getVelocity().getDx();
+//        int dy = (int) this.getVelocity().getDy();
+//
+//        if (speedComponet.equals("dx")) {
+//            if (dx < 0 && this.center.getX() - radius + dx < leftEdge) {
+//                return true;
+//            } else if (dx > 0 && this.center.getX() + radius + dx > rightEdge) {
+//                return true;
+//            }
+//        //y comp.
+//        } else {
+//            if (dy < 0 && this.center.getY() - radius + dy < upperEdge) {
+//                return true;
+//            } else if (dy > 0 && this.center.getY() + radius + dy > lowerEdge) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+//
+//
+//    /**
+//     * will check if a move is starting from one of the frame boeders.
+//     * preform the move, and will notify that the move happend.
+//     *
+//     * @param movementFrame the frame which limits the balls movement
+//     *                      possibilities to a certain area on the screen.
+//     * @return true if a ball moved from one of the frame edges. 'false'
+//     *         otherwise.
+//     */
+//    public boolean isInEdgeMove(Frame movementFrame) {
+//        //for code comprehension and readability.
+//        int leftEdge = (int) movementFrame.getTopLeft().getX();
+//        int rightEdge = (int) movementFrame.getTopLeft().getX() + movementFrame.getFrameWidth();
+//        int upperEdge = (int) movementFrame.getTopLeft().getY();
+//        int lowerEdge = (int) movementFrame.getTopLeft().getY() + movementFrame.getFrameHeight();
+//
+//        //indicator for having a ball in edge case.
+//        int indicator = 0;
+//
+//        //right edge
+//        if (this.getX() + this.radius == rightEdge) {
+//            if (this.velocity.getDx() > 0) {
+//                this.velocity.changeDirectionHorizontal();
+//            }
+//            indicator++;
+//        //left edge.
+//        } else if (this.getX() - this.radius == leftEdge) {
+//            if (this.velocity.getDx() < 0) {
+//                this.velocity.changeDirectionHorizontal();
+//            }
+//            indicator++;
+//        }
+//        //lower edge.
+//        if (this.getY() + this.radius == lowerEdge) {
+//            this.velocity.changeDirectionVertical();
+//            indicator++;
+//        //upper edge.
+//        } else if (this.getY() - this.radius == upperEdge) {
+//            this.velocity.changeDirectionVertical();
+//            indicator++;
+//        }
+//        return (indicator != 0);
+//
+//    }
+//
+//
+//
+//    /**
+//     * Will change the initial ball position so that the initial ball's position
+//     * will corresponds to the animation frame limitation.
+//     *
+//     * @param ball a ball object.
+//     * @param movementFrame the frame which limits the new inital position of
+//     *                      the ball.
+//     * @return a new ball object, with an initial position that corresponds to
+//     *         the given frame.
+//     * @throws Exception if ball's center point have negative coordinates.
+//     */
+//    public static Ball fixOutOfScreenInitPosition(Ball ball,
+//                                                  Frame movementFrame)
+//                                                  throws Exception {
+//        Random random = new Random();
+//        int width = movementFrame.getFrameWidth();
+//        int height = movementFrame.getFrameHeight();
+//        Point topLeft = movementFrame.getTopLeft();
+//
+//        //check for out of bounds.
+//        while (((ball.getX() - ball.getSize()) <= topLeft.getX())
+//                || ((ball.getX() + ball.getSize()) >= topLeft.getX() + width)
+//                || (ball.getY() - ball.getSize()) <= topLeft.getY()
+//                || (ball.getY() + ball.getSize()) >= topLeft.getY() + height) {
+//            //changing to a valid initial position.
+//            Point newInitPosition = new Point(random.nextInt(width) + 1
+//                    + topLeft.getX(), random.nextInt(height) + 1
+//                    + topLeft.getY());
+//            ball = new Ball(newInitPosition, ball.getSize(), Color.BLACK);
+//        }
+//        return ball;
+//    }
+//
+//
+//    /**
+//     * check if the ball is inside the frame.
+//     *
+//     * @param x ball's center point's x- coordinate.
+//     * @param y ball's center point's y- coordinate.
+//     * @param radius ball's radius.
+//     * @param animationFrame the frame which limits the balls movement
+//     *                      possibilities to a certain area on the screen.
+//     * @return true if the ball is in a valid position under the frame
+//     *         constraints, 'false' otherwise.
+//     */
+//    public static boolean isBallPositionIsValidInFrame(int x, int y, int radius,
+//                                                Frame animationFrame) {
+//        return !(x - radius < animationFrame.getTopLeft().getX()
+//                || x + radius > animationFrame.getTopLeft().getX()
+//                + animationFrame.getFrameWidth()
+//                || y - radius < animationFrame.getTopLeft().getY()
+//                || y + radius > animationFrame.getTopLeft().getY()
+//                + animationFrame.getFrameHeight());
+//    }
+//
+//    /**
+//     * Fixes the situation of a ball stuck to the edge of the screen.
+//     *
+//     * initial position of the ball and certain velocity components may cause
+//     * an animation of a ball stuck to an edge of the frame. the function will
+//     * change the direction so it will not happen.
+//     *
+//     * @param ball the ball being checked.
+//     * @param animationFrame the frame which the ball will be animated on.
+//     */
+//    public static void fixBallStuckInEdgeOfScreen(Ball ball,
+//                                                  Frame animationFrame) {
+//        //for code comprehension.
+//        int x = ball.getX();
+//        int y = ball.getY();
+//        Velocity v = ball.getVelocity();
+//        int radius = ball.getSize();
+//
+//        if (x - radius == animationFrame.getTopLeft().getX() && v.getDx() > 0) {
+//            ball.getVelocity().changeDirectionHorizontal();
+//        }
+//        if (x + radius == animationFrame.getTopLeft().getX()
+//                + animationFrame.getFrameWidth() && v.getDx() < 0) {
+//            ball.getVelocity().changeDirectionHorizontal();
+//        }
+//        if (y - radius == animationFrame.getTopLeft().getY() && v.getDy() > 0) {
+//            ball.getVelocity().changeDirectionVertical();
+//        }
+//        if (y + radius == animationFrame.getTopLeft().getY()
+//                + animationFrame.getFrameHeight() && v.getDy() < 0) {
+//            ball.getVelocity().changeDirectionVertical();
+//        }
+//    }
+//
 
 
     //Other Methods
@@ -389,14 +431,25 @@ public class Ball {
         System.out.println("ball color is: " + this.color);
     }
 
+    /**
+     * will draw a given ball onto an input surface.
+     *
+     * @param surface the surface which the ball will be drawn on.
+     */
+    public void drawOn(DrawSurface surface) {
+        surface.setColor(this.color);
+        surface.fillCircle((int)this.getX(),(int) this.getY(), this.radius);
+    }
+
+
     //getters
     /**
      * returns the Ball's center's point x-coordinate.
      *
      * @return the given Ball's center's point x-coordinate.
      */
-    public int getX() {
-        return (int) this.center.getX();
+    public double getX() {
+        return this.center.getX();
     }
 
     /**
@@ -404,8 +457,8 @@ public class Ball {
      *
      * @return the given Ball's center's point y-coordinate.
      */
-    public int getY() {
-        return (int) this.center.getY();
+    public double getY() {
+        return this.center.getY();
     }
 
     /**

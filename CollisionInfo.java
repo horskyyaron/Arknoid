@@ -18,4 +18,10 @@ public class CollisionInfo {
     public Collidable collisionObject() {
         return this.collisionObject;
     }
+
+    public Line getCollisionImpactLine() throws Exception {
+
+        return (this.collisionObject.getImpactLineFromCollisionPoint
+                (this.collisionPoint));
+    }
 }

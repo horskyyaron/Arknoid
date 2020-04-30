@@ -1,3 +1,7 @@
+import biuoop.DrawSurface;
+
+import java.awt.*;
+
 public class Block implements Collidable {
 
     private Rectangle block;
@@ -32,7 +36,7 @@ public class Block implements Collidable {
             newVelocity = currentVelocity;
         } else {
             //angular hit.
-            if (impactLine.isLineVertical()) {
+            if (impactLine.isVertical()) {
                 currentVelocity.applyVerticalSurfaceHit();
                 newVelocity = currentVelocity;
             } else {
@@ -44,6 +48,20 @@ public class Block implements Collidable {
         return newVelocity;
     }
 
+    /**
+     * draws frame onto the screen.
+     *
+     * @param surface the surface which the drawing of frames will be on.
+     */
+    @Override
+    public void Draw(DrawSurface surface) {
+        surface.setColor(Color.black);
+        surface.fillRectangle((int) this.block.getUpperLeft().getX(),
+                (int) this.block.getUpperLeft().getY(),
+                (int) this.block.getWidth(), (int) this.block.getHeight());
+    }
+
+    @Override
     public Line getImpactLineFromCollisionPoint(Point collisionPoint)
             throws Exception {
         //getting an array constructed of the block lines.
@@ -61,8 +79,10 @@ public class Block implements Collidable {
         return null;
     }
 
-
-
     //Block Methods.
+
+    public void drawBlock(DrawSurface surface) {
+
+    }
 
 }

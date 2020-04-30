@@ -206,13 +206,13 @@ public class Line {
             return (belongs(x,'x',l1) && belongs(x,'x',l2) && belongs(y,'y',l2));
             //of the form x=c
         } else if (l1.isParallelToY()) {
-            return (belongs(y,'y',l1) && belongs(y,'y',l2) && belongs(y,'x',l2));
+            return (belongs(y,'y',l1) && belongs(y,'y',l2) && belongs(x,'x',l2));
             //of the form y=c
         } else if (l2.isParallelToX()) {
             return (belongs(x,'x',l1) && belongs(x,'x',l2) && belongs(y,'y',l1));
             //of the form x=c
         } else if (l2.isParallelToY()) {
-            return (belongs(y,'y',l1) && belongs(y,'y',l2) && belongs(y,'x',l1));
+            return (belongs(y,'y',l1) && belongs(y,'y',l2) && belongs(x,'x',l1));
         } else {
             //check if the intersection point is within the lines range.
             return (belongs(x, 'x', l1) && belongs(x, 'x', l2) && belongs(y, 'y', l1)
@@ -365,11 +365,11 @@ public class Line {
                 || this.isIntersecting(recEdges[3]));
     }
 
-    public boolean isLineVertical() {
+    public boolean isVertical() {
         return (Double.compare(this.start.getX(), this.end.getX()) == 0);
     }
 
-    public boolean isLineHorizontal() {
+    public boolean isHorizontal() {
         return (Double.compare(this.start.getY(), this.end.getY()) == 0);
     }
 
