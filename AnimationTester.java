@@ -31,13 +31,13 @@ public class AnimationTester {
     private static void drawEdges(List<Collidable> gameEdges, DrawSurface surface) {
         for (Collidable c: gameEdges
              ) {
-            c.Draw(surface);
+            c.DrawOn(surface);
         }
     }
 
     private static void drawSomeCollidables(List<Collidable> collidablesArr, DrawSurface surface) {
         for (int i = 0; i < collidablesArr.size(); i++) {
-            collidablesArr.get(i).Draw(surface);
+            collidablesArr.get(i).DrawOn(surface);
         }
     }
 

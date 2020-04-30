@@ -2,7 +2,7 @@ import biuoop.DrawSurface;
 
 import java.awt.*;
 
-public class Block implements Collidable {
+public class Block implements Collidable, Sprite {
 
     private Rectangle block;
 
@@ -13,6 +13,20 @@ public class Block implements Collidable {
 
     public Block(Point upperLeft, double width, double height) throws Exception {
         this(new Rectangle(upperLeft,width,height));
+    }
+
+    //Sprite interface Methods
+    @Override
+    public void drawOn(DrawSurface surface) {
+        surface.setColor(Color.black);
+        surface.fillRectangle((int) this.block.getUpperLeft().getX(),
+                (int) this.block.getUpperLeft().getY(),
+                (int) this.block.getWidth(), (int) this.block.getHeight());
+    }
+
+    @Override
+    public void timePassed() {
+
     }
 
     //Collidable interface methods.
@@ -48,19 +62,6 @@ public class Block implements Collidable {
         return newVelocity;
     }
 
-    /**
-     * draws frame onto the screen.
-     *
-     * @param surface the surface which the drawing of frames will be on.
-     */
-    @Override
-    public void Draw(DrawSurface surface) {
-        surface.setColor(Color.black);
-        surface.fillRectangle((int) this.block.getUpperLeft().getX(),
-                (int) this.block.getUpperLeft().getY(),
-                (int) this.block.getWidth(), (int) this.block.getHeight());
-    }
-
     @Override
     public Line getImpactLineFromCollisionPoint(Point collisionPoint)
             throws Exception {
@@ -81,8 +82,5 @@ public class Block implements Collidable {
 
     //Block Methods.
 
-    public void drawBlock(DrawSurface surface) {
-
-    }
 
 }
