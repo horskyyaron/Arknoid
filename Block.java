@@ -5,10 +5,12 @@ import java.awt.*;
 public class Block implements Collidable, Sprite {
 
     private Rectangle block;
+    private java.awt.Color color;
 
     //constructors.
     public Block(Rectangle block) {
         this.block = block;
+        this.color = Color.black;
     }
 
     public Block(Point upperLeft, double width, double height) throws Exception {
@@ -18,10 +20,7 @@ public class Block implements Collidable, Sprite {
     //Sprite interface Methods
     @Override
     public void drawOn(DrawSurface surface) {
-        surface.setColor(Color.black);
-        surface.fillRectangle((int) this.block.getUpperLeft().getX(),
-                (int) this.block.getUpperLeft().getY(),
-                (int) this.block.getWidth(), (int) this.block.getHeight());
+        drawBlock(surface);
     }
 
     @Override
@@ -95,5 +94,21 @@ public class Block implements Collidable, Sprite {
 
     //Block Methods.
 
+    private void drawBlock(DrawSurface surface) {
+        surface.setColor(this.getColor());
+        surface.fillRectangle((int) this.block.getUpperLeft().getX(),
+                (int) this.block.getUpperLeft().getY(),
+                (int) this.block.getWidth(), (int) this.block.getHeight());
+    }
+
+    //getters.
+    private java.awt.Color getColor() {
+        return this.color;
+    }
+
+    //setters.
+    public void setColor(java.awt.Color color) {
+        this.color = color;
+    }
 
 }

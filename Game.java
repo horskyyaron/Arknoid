@@ -11,8 +11,8 @@ import java.util.Random;
 
 public class Game {
 
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 600;
+    private static final int WIDTH = 900;
+    private static final int HEIGHT = 700;
     //the thickness is set to be a percentage of the screen width.
     private static final double BORDER_THICKNESS_fACTOR = 0.04;
 
@@ -38,18 +38,14 @@ public class Game {
     private void initialize() throws Exception {
 
         this.gui = new GUI("GAME!", WIDTH,HEIGHT);
-        //generateGameBlocks();
+        generateGameBlocks();
         generateGameEdges();
         generateBall();
         generatePaddle();
 
     }
 
-    private void generatePaddle() throws Exception {
-        Paddle paddle = new Paddle(this.gui);
-        sprites.addSprite(paddle);
-        environment.addCollidable(paddle);
-    }
+
 
     // Run the game -- start the animation loop.
     public void run() throws Exception {
@@ -59,9 +55,6 @@ public class Game {
         int millisecondsPerFrame = 1000 / framesPerSecond;
 
         while (true) {
-            if(((Ball)sprites.getSprite(4)).getX() < getBorderThickness() + 4) {
-                int x= 5;
-            }
             long startTime = System.currentTimeMillis(); // timing
 
             DrawSurface d = this.gui.getDrawSurface();
@@ -97,29 +90,51 @@ public class Game {
         this.environment.addCollidableList((List<Collidable>)(List<?>)gameEdges);
 
     }
+
     private void generateBall() throws Exception {
         Ball ball = new Ball(200,200,5);
-        ball.setVelocity(0,7);
+        ball.setVelocity(12,7);
         ball.setGameEnvironment(this.environment);
 
         sprites.addSprite(ball);
     }
+
     private void generateGameBlocks() throws Exception {
         //Random for now.
-        Random random = new Random();
-        for (int i = 0; i < 15; i++) {
-            Block gameBlock = new Block(new Point(random.nextInt(WIDTH),
-                    random.nextInt(HEIGHT/2)),
-                    random.nextInt(WIDTH/8),
-                    random.nextInt(HEIGHT/4));
 
-            //adding to sprites and environment.
-            this.addCollidable(gameBlock);
-            this.addSprite(gameBlock);
+        double singleBlockWidth = getWIDTH()/20.0;
+        double singleBlockHeight = getHEIGHT() / 20.0;
+        Point firstRowFirstBlock = new Point(WIDTH - getBorderThickness() - singleBlockWidth , 5 * getBorderThickness());
+
+
+        for (int i = 0; i < 6; i++) {
+            Point firstBlock = new Point (firstRowFirstBlock.getX(),firstRowFirstBlock.getY() + i * singleBlockHeight);
+            generateBlockRow(firstBlock, singleBlockWidth, singleBlockHeight, 12 - i );
         }
 
     }
 
+    private void generateBlockRow(Point firstBlock, double singleBlockWidth, double singleBlockHeight, int blocksCounter) throws Exception {
+        if (blocksCounter == 0) {
+            return;
+        } else {
+            Block block = new Block(firstBlock, singleBlockWidth, singleBlockHeight);
+            this.sprites.addSprite(block);
+            this.environment.addCollidable(block);
+            generateBlockRow(new Point(firstBlock.getX() - singleBlockWidth,
+                    firstBlock.getY()), singleBlockWidth, singleBlockHeight,
+                    blocksCounter - 1);
+        }
+    }
+
+    private void generatePaddle() throws Exception {
+        Paddle paddle = new Paddle(this.gui);
+        sprites.addSprite(paddle);
+        environment.addCollidable(paddle);
+    }
+
+
+    //getters.
 
     public static int getWIDTH() {
         return WIDTH;

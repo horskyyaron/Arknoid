@@ -5,8 +5,11 @@ import biuoop.KeyboardSensor;
 import java.awt.*;
 
 public class Paddle implements Sprite, Collidable {
-    private final double PADDLE_SIZE_FACTOR = 0.3;
-    private final double PADDLE_SPEED = 5;
+
+    //Paddle specs to make it look good on screen.
+    private final double PADDLE_SIZE_FACTOR = 0.2;
+    private final double PADDLE_SPEED = Game.getWIDTH() * 0.01;
+
 
 
     private biuoop.KeyboardSensor keyboard;
@@ -31,36 +34,36 @@ public class Paddle implements Sprite, Collidable {
 
     }
 
-    public void moveLeft() throws Exception {
+    private void moveLeft() throws Exception {
         Point curUpperLeft = this.paddleBody.getUpperLeft();
-        double puddleWidth = this.paddleBody.getWidth();
-        double puddleHeight = this.paddleBody.getHeight();
+        double paddleWidth = this.paddleBody.getWidth();
+        double paddleHeight = this.paddleBody.getHeight();
 
-        //check if the puddle is in the edge of the game-play zone.
+        //check if the paddle is in the edge of the game-play zone.
         if(isNextMoveOutOfBounds(curUpperLeft.getX() - PADDLE_SPEED)) {
             //move to edge
             Point newUpperLeft = new Point(Game.getBorderThickness(), curUpperLeft.getY());
-            this.paddleBody = new Rectangle(newUpperLeft, puddleWidth, puddleHeight);
+            this.paddleBody = new Rectangle(newUpperLeft, paddleWidth, paddleHeight);
         } else {
             Point newUpperLeft = new Point(curUpperLeft.getX() - PADDLE_SPEED, curUpperLeft.getY());
-            this.paddleBody = new Rectangle(newUpperLeft, puddleWidth, puddleHeight);
+            this.paddleBody = new Rectangle(newUpperLeft, paddleWidth, paddleHeight);
         }
     }
 
-    public void moveRight() throws Exception {
+    private void moveRight() throws Exception {
 
         Point curUpperLeft = this.paddleBody.getUpperLeft();
-        double puddleWidth = this.paddleBody.getWidth();
-        double puddleHeight = this.paddleBody.getHeight();
+        double paddleWidth = this.paddleBody.getWidth();
+        double paddleHeight = this.paddleBody.getHeight();
 
 
         if(isNextMoveOutOfBounds(curUpperLeft.getX() + PADDLE_SPEED)) {
             //move to edge
-            Point newUpperLeft = new Point(Game.getWIDTH() - Game.getBorderThickness() - puddleWidth, curUpperLeft.getY());
-            this.paddleBody = new Rectangle(newUpperLeft, puddleWidth, puddleHeight);
+            Point newUpperLeft = new Point(Game.getWIDTH() - Game.getBorderThickness() - paddleWidth, curUpperLeft.getY());
+            this.paddleBody = new Rectangle(newUpperLeft, paddleWidth, paddleHeight);
         } else {
             Point newUpperLeft = new Point(curUpperLeft.getX() + PADDLE_SPEED, curUpperLeft.getY());
-            this.paddleBody = new Rectangle(newUpperLeft, puddleWidth, puddleHeight);
+            this.paddleBody = new Rectangle(newUpperLeft, paddleWidth, paddleHeight);
         }
 
     }
@@ -195,8 +198,7 @@ public class Paddle implements Sprite, Collidable {
     public double getPaddleWidth() {
         return this.paddleBody.getWidth();
     }
-    // Add this paddle to the game.
-    //public void addToGame(Game g);
+
 
 
 }
