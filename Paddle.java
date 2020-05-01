@@ -36,9 +36,17 @@ public class Paddle implements Sprite, Collidable {
         double puddleWidth = this.paddleBody.getWidth();
         double puddleHeight = this.paddleBody.getHeight();
 
-        Point newUpperLeft = new Point(curUpperLeft.getX() - 3, curUpperLeft.getY());
-        this.paddleBody = new Rectangle(newUpperLeft,puddleWidth,puddleHeight);
+        //check if the puddle is in the edge of the game-play zone.
+        if(isNextMoveOutOfBounds(curUpperLeft.getX() - PADDLE_SPEED)) {
+            //move to edge
+            Point newUpperLeft = new Point(Game.getBorderThickness(), curUpperLeft.getY());
+            this.paddleBody = new Rectangle(newUpperLeft, puddleWidth, puddleHeight);
+        } else {
+            Point newUpperLeft = new Point(curUpperLeft.getX() - PADDLE_SPEED, curUpperLeft.getY());
+            this.paddleBody = new Rectangle(newUpperLeft, puddleWidth, puddleHeight);
+        }
     }
+
     public void moveRight() throws Exception {
 
         Point curUpperLeft = this.paddleBody.getUpperLeft();
@@ -46,10 +54,28 @@ public class Paddle implements Sprite, Collidable {
         double puddleHeight = this.paddleBody.getHeight();
 
 
-        Point newUpperLeft = new Point(curUpperLeft.getX() + PADDLE_SPEED, curUpperLeft.getY());
-        this.paddleBody = new Rectangle(newUpperLeft,puddleWidth,puddleHeight);
+        if(isNextMoveOutOfBounds(curUpperLeft.getX() + PADDLE_SPEED)) {
+            //move to edge
+            Point newUpperLeft = new Point(Game.getWIDTH() - Game.getBorderThickness() - puddleWidth, curUpperLeft.getY());
+            this.paddleBody = new Rectangle(newUpperLeft, puddleWidth, puddleHeight);
+        } else {
+            Point newUpperLeft = new Point(curUpperLeft.getX() + PADDLE_SPEED, curUpperLeft.getY());
+            this.paddleBody = new Rectangle(newUpperLeft, puddleWidth, puddleHeight);
+        }
 
     }
+
+    private boolean isNextMoveOutOfBounds(double nextPositionOfUpperLeftXCoordinate) {
+        if(nextPositionOfUpperLeftXCoordinate < Game.getBorderThickness()) {
+            return true;
+        } else if (nextPositionOfUpperLeftXCoordinate + this.getPaddleWidth()
+                > Game.getWIDTH() - Game.getBorderThickness()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     // Sprite
     public void timePassed() throws Exception {
@@ -166,6 +192,9 @@ public class Paddle implements Sprite, Collidable {
         return b.getImpactLineFromCollisionPoint(collisionPoint);
     }
 
+    public double getPaddleWidth() {
+        return this.paddleBody.getWidth();
+    }
     // Add this paddle to the game.
     //public void addToGame(Game g);
 
