@@ -9,11 +9,15 @@ public class GameEnvironment {
 
     private static final double EPSILON = 0.0001;
     //fields
-    private List<Collidable> collidables = new ArrayList<>();
+    private List<Collidable> collidables;
 
     //constructor
     public GameEnvironment(List<Collidable> collidables) {
         this.collidables = collidables;
+    }
+
+    public GameEnvironment() {
+        this.collidables = new ArrayList<>();
     }
 
     // add the given collidable to the environment.
@@ -21,7 +25,7 @@ public class GameEnvironment {
         this.collidables.add(c);
     }
 
-    public void addListOfCollidables(List<Collidable> list) {
+    public void addCollidableList(List<Collidable> list) {
        this.collidables.addAll(list);
     }
 

@@ -1,6 +1,7 @@
 //ID: 204351670
 
 import java.awt.geom.Arc2D;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -127,6 +128,28 @@ public class Point {
                 * equation.getYCoefficient()
                 + equation.getFreeCoefficient() == 0);
     }
+
+    public boolean isAGameCorner() throws Exception {
+        int width = Game.getWIDTH();
+        int height = Game.getHEIGHT();
+        double thickness = Game.getBorderThicknessfactor() * width;
+
+        List<Point> cornerPoints = getGameCornerPoints(width,height,thickness);
+        return cornerPoints.contains(this);
+    }
+
+    //returning all the game screen corner points (the corners where the ball can move)
+    private List<Point> getGameCornerPoints(int width, int height, double thickness) throws Exception {
+        //calculating and adding to list all the corner points of the game screen (where the ball can move!).
+        List<Point> cornerPoints = new ArrayList<>();
+        cornerPoints.add(new Point(thickness,thickness));
+        cornerPoints.add(new Point(width - thickness, thickness));
+        cornerPoints.add(new Point(thickness,height - thickness));
+        cornerPoints.add(new Point(width - thickness, height -thickness));
+
+        return cornerPoints;
+    }
+
 
 //    /**
 //     //     * (Without limiting generality let b <= c).

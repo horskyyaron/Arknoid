@@ -6,7 +6,7 @@ public interface Collidable {
 
     Velocity hit(Point collisionPoint, Velocity currentVelocity) throws Exception;
 
-//    void DrawOn(DrawSurface surface);
+    void DrawOn(DrawSurface surface);
 
     Line getImpactLineFromCollisionPoint(Point collisionPoint) throws Exception;
 }

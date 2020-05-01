@@ -38,6 +38,11 @@ public class Block implements Collidable, Sprite {
     @Override
     public Velocity hit(Point collisionPoint, Velocity currentVelocity)
             throws Exception {
+        //in case the collision point is a game-play zone corner.
+        if(collisionPoint.isAGameCorner()) {
+            return new Velocity(currentVelocity.getDx() * (-1), currentVelocity.getDy() * (-1));
+        }
+
         double hitAngle = currentVelocity.getAngleFromDxDy();
         Line impactLine = getImpactLineFromCollisionPoint(collisionPoint);
         Velocity newVelocity;
@@ -60,6 +65,14 @@ public class Block implements Collidable, Sprite {
             }
         }
         return newVelocity;
+    }
+
+    @Override
+    public void DrawOn(DrawSurface surface) {
+        surface.setColor(Color.black);
+        surface.fillRectangle((int) this.block.getUpperLeft().getX(),
+                (int) this.block.getUpperLeft().getY(),
+                (int) this.block.getWidth(), (int) this.block.getHeight());
     }
 
     @Override
