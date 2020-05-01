@@ -2,9 +2,7 @@
 
 import java.util.Objects;
 
-import static java.lang.Math.cos;
-import static java.lang.Math.sin;
-import static java.lang.Math.abs;
+import static java.lang.Math.*;
 
 /**
  * Velocity specifies the change in position on the `x` and the `y` axes.
@@ -94,9 +92,11 @@ public class Velocity {
      * @param speed double, the ball's speed.
      * @return Velocity returns velocity according to a given angle and speed.
      */
-    public static Velocity fromAngleAndSpeed(double angle, double speed) {
+    public static Velocity getVelocityFromAngleAndSpeed(double angle, double speed) {
         double dx;
         double dy;
+        //converting degree to radians.
+        angle = toRadians(angle);
 
         //Trigonometry calculations
         if (angle >= 0 && angle <= 90) {
@@ -178,6 +178,9 @@ public class Velocity {
         return this.dy;
     }
 
+    public double getSpeed() {
+        return sqrt(pow(this.dx, 2) + pow(this.dy, 2));
+    }
 
     public Velocity applyFrontalHit() {
         //a vertical hit.

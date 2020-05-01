@@ -1,5 +1,7 @@
 //ID: 204351670
 
+import biuoop.DrawSurface;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -371,6 +373,11 @@ public class Line {
 
     public boolean isHorizontal() {
         return (Double.compare(this.start.getY(), this.end.getY()) == 0);
+    }
+
+    public void drawLine(DrawSurface surface) {
+        surface.drawLine((int) this.start.getX(), (int) this.start.getY(),
+                (int) this.end.getX(), (int) this.end.getY());
     }
 
 

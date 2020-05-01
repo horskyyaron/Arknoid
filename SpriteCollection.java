@@ -34,7 +34,7 @@ public class SpriteCollection {
     }
 
     // call drawOn(d) on all sprites.
-    public void drawAllOn(DrawSurface d) {
+    public void drawAllOn(DrawSurface d) throws Exception {
         for (Sprite s: this.spriteElements) {
             s.drawOn(d);
         }

@@ -38,10 +38,17 @@ public class Game {
     private void initialize() throws Exception {
 
         this.gui = new GUI("GAME!", WIDTH,HEIGHT);
-        generateGameBlocks();
+        //generateGameBlocks();
         generateGameEdges();
         generateBall();
+        generatePaddle();
 
+    }
+
+    private void generatePaddle() throws Exception {
+        Paddle paddle = new Paddle(this.gui);
+        sprites.addSprite(paddle);
+        environment.addCollidable(paddle);
     }
 
     // Run the game -- start the animation loop.
@@ -52,6 +59,9 @@ public class Game {
         int millisecondsPerFrame = 1000 / framesPerSecond;
 
         while (true) {
+            if(((Ball)sprites.getSprite(4)).getX() < getBorderThickness() + 4) {
+                int x= 5;
+            }
             long startTime = System.currentTimeMillis(); // timing
 
             DrawSurface d = this.gui.getDrawSurface();
@@ -68,7 +78,7 @@ public class Game {
         }
     }
 
-
+    //generating elemnts of the game and adding them to sprites and environemt.
     private void generateGameEdges() throws Exception {
         Double thickness = BORDER_THICKNESS_fACTOR * WIDTH;
         Block left = new Block(new Point(0,thickness), thickness, HEIGHT - thickness);
@@ -89,7 +99,7 @@ public class Game {
     }
     private void generateBall() throws Exception {
         Ball ball = new Ball(200,200,5);
-        ball.setVelocity(15,10);
+        ball.setVelocity(0,7);
         ball.setGameEnvironment(this.environment);
 
         sprites.addSprite(ball);
@@ -99,9 +109,9 @@ public class Game {
         Random random = new Random();
         for (int i = 0; i < 15; i++) {
             Block gameBlock = new Block(new Point(random.nextInt(WIDTH),
-                    random.nextInt(HEIGHT)),
+                    random.nextInt(HEIGHT/2)),
                     random.nextInt(WIDTH/8),
-                    random.nextInt(HEIGHT/2));
+                    random.nextInt(HEIGHT/4));
 
             //adding to sprites and environment.
             this.addCollidable(gameBlock);
@@ -109,6 +119,7 @@ public class Game {
         }
 
     }
+
 
     public static int getWIDTH() {
         return WIDTH;
@@ -120,6 +131,10 @@ public class Game {
 
     public static double getBorderThicknessfactor() {
         return BORDER_THICKNESS_fACTOR;
+    }
+
+    public static double getBorderThickness() {
+        return BORDER_THICKNESS_fACTOR * WIDTH;
     }
 
     //    private static void drawBlocks(List<Collidable> gameBlocks,DrawSurface surface) throws Exception {
