@@ -205,20 +205,20 @@ public class Line {
         //in case one of the line is parallel to axis:
         //of the form y=c
         if(l1.isParallelToX()) {
-            return (belongs(x,'x',l1) && belongs(x,'x',l2) && belongs(y,'y',l2));
+            return (belongsWithEdges(x,'x',l1) && belongsWithEdges(x,'x',l2) && belongsWithEdges(y,'y',l2));
             //of the form x=c
         } else if (l1.isParallelToY()) {
-            return (belongs(y,'y',l1) && belongs(y,'y',l2) && belongs(x,'x',l2));
+            return (belongsWithEdges(y,'y',l1) && belongsWithEdges(y,'y',l2) && belongsWithEdges(x,'x',l2));
             //of the form y=c
         } else if (l2.isParallelToX()) {
-            return (belongs(x,'x',l1) && belongs(x,'x',l2) && belongs(y,'y',l1));
+            return (belongsWithEdges(x,'x',l1) && belongsWithEdges(x,'x',l2) && belongsWithEdges(y,'y',l1));
             //of the form x=c
         } else if (l2.isParallelToY()) {
-            return (belongs(y,'y',l1) && belongs(y,'y',l2) && belongs(x,'x',l1));
+            return (belongsWithEdges(y,'y',l1) && belongsWithEdges(y,'y',l2) && belongsWithEdges(x,'x',l1));
         } else {
             //check if the intersection point is within the lines range.
-            return (belongs(x, 'x', l1) && belongs(x, 'x', l2) && belongs(y, 'y', l1)
-                    && belongs(y, 'y', l2));
+            return (belongsWithEdges(x, 'x', l1) && belongsWithEdges(x, 'x', l2) && belongsWithEdges(y, 'y', l1)
+                    && belongsWithEdges(y, 'y', l2));
         }
     }
 
