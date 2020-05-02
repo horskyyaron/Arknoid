@@ -91,14 +91,24 @@ public class Paddle implements Sprite, Collidable {
         }
     }
     public void drawOn(DrawSurface surface) throws Exception {
-        surface.setColor(Color.red);
+        drawPaddle(surface);
+    }
+
+    private void drawPaddle(DrawSurface surface) {
+        //frame
+        surface.setColor(Color.BLACK);
         surface.fillRectangle((int) this.paddleBody.getUpperLeft().getX(),
                 (int) this.paddleBody.getUpperLeft().getY(),
                 (int) this.paddleBody.getWidth(), (int) this.paddleBody.getHeight());
-        drawZones(surface);
+        //background color.
+        surface.setColor(Color.YELLOW);
+        surface.fillRectangle((int) this.paddleBody.getUpperLeft().getX() + 2,
+                (int) this.paddleBody.getUpperLeft().getY() + 2 ,
+                (int) this.paddleBody.getWidth() - 3 , (int) this.paddleBody.getHeight() - 3);
 
+        //for checking different zones collision areas. (Possible cheat :) )
+        //drawZones(surface);
     }
-
 
 
     // Collidable

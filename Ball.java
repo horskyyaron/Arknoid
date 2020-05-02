@@ -65,15 +65,15 @@ public class Ball implements Sprite {
     public Ball(Point center, int radius) {
         this.center = center;
         this.radius = radius;
-        //default color blue
-        this.color = Color.blue;
+        //default color white
+        this.color = Color.WHITE;
     }
 
     public Ball(int x, int y, int radius) throws Exception {
         this.center = new Point(x,y);
         this.radius = radius;
         //default color blue
-        this.color = Color.blue;
+        this.color = Color.white;
 
     }
 
@@ -86,6 +86,9 @@ public class Ball implements Sprite {
      */
     @Override
     public void drawOn(DrawSurface surface) {
+        //frame
+//        surface.setColor(Color.black);
+//        surface.fillCircle((int)this.getX(),(int) this.getY(), this.radius);
         surface.setColor(this.color);
         surface.fillCircle((int)this.getX(),(int) this.getY(), this.radius);
     }

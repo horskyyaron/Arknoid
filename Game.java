@@ -3,10 +3,8 @@ import biuoop.GUI;
 import biuoop.Sleeper;
 
 import java.awt.*;
-import java.awt.font.TextHitInfo;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.PrimitiveIterator;
 import java.util.Random;
 
 public class Game {
@@ -38,6 +36,7 @@ public class Game {
     private void initialize() throws Exception {
 
         this.gui = new GUI("GAME!", WIDTH,HEIGHT);
+        generateBackground();
         generateGameBlocks();
         generateGameEdges();
         generateBall();
@@ -72,12 +71,29 @@ public class Game {
     }
 
     //generating elemnts of the game and adding them to sprites and environemt.
+    private void generateBackground() throws Exception {
+        //in case we random color background.
+        //java.awt.Color backgroundColor = getRandomColor();
+        java.awt.Color color = new Color(0,0,102);
+        Block background = new Block(new Point(0, 0), WIDTH, HEIGHT,
+                color);
+        sprites.addSprite(background);
+    }
+
     private void generateGameEdges() throws Exception {
         Double thickness = BORDER_THICKNESS_fACTOR * WIDTH;
-        Block left = new Block(new Point(0,thickness), thickness, HEIGHT - thickness);
-        Block up = new Block(new Point(0,0),WIDTH,thickness);
-        Block right = new Block(new Point(WIDTH - thickness,thickness),thickness,HEIGHT - thickness);
-        Block down = new Block(new Point(thickness,HEIGHT - thickness),WIDTH - 2 * thickness, thickness);
+
+        //in case we random color background.
+        //java.awt.Color backgroundColor = getRandomColor();
+
+        java.awt.Color color = Color.gray;
+        Block left = new Block(new Point(0, thickness), thickness,
+                HEIGHT - thickness,color);
+        Block up = new Block(new Point(0, 0), WIDTH, thickness, color);
+        Block right = new Block(new Point(WIDTH - thickness, thickness),
+                thickness, HEIGHT - thickness, color);
+        Block down = new Block(new Point(thickness, HEIGHT - thickness),
+                WIDTH - 2 * thickness, thickness,color);
 
         List<Block> gameEdges = new ArrayList<>();
         gameEdges.add(left);
@@ -100,8 +116,8 @@ public class Game {
     }
 
     private void generateGameBlocks() throws Exception {
-        //Random for now.
 
+        //the blocks size will be determined by the screen size.
         double singleBlockWidth = getWIDTH()/20.0;
         double singleBlockHeight = getHEIGHT() / 20.0;
         Point firstRowFirstBlock = new Point(WIDTH - getBorderThickness() - singleBlockWidth , 5 * getBorderThickness());
@@ -109,21 +125,27 @@ public class Game {
 
         for (int i = 0; i < 6; i++) {
             Point firstBlock = new Point (firstRowFirstBlock.getX(),firstRowFirstBlock.getY() + i * singleBlockHeight);
-            generateBlockRow(firstBlock, singleBlockWidth, singleBlockHeight, 12 - i );
+            generateBlockRow(firstBlock, singleBlockWidth, singleBlockHeight, 12 - i, getRandomColor());
         }
 
     }
 
-    private void generateBlockRow(Point firstBlock, double singleBlockWidth, double singleBlockHeight, int blocksCounter) throws Exception {
+    private void generateBlockRow(Point firstBlock,
+                                  double singleBlockWidth,
+                                  double singleBlockHeight, int blocksCounter,
+                                  java.awt.Color color) throws Exception {
+
         if (blocksCounter == 0) {
             return;
         } else {
             Block block = new Block(firstBlock, singleBlockWidth, singleBlockHeight);
+            block.setColor(color);
             this.sprites.addSprite(block);
             this.environment.addCollidable(block);
+            //recursively generating blocks in the left direction.
             generateBlockRow(new Point(firstBlock.getX() - singleBlockWidth,
                     firstBlock.getY()), singleBlockWidth, singleBlockHeight,
-                    blocksCounter - 1);
+                    blocksCounter - 1, color);
         }
     }
 
@@ -131,6 +153,14 @@ public class Game {
         Paddle paddle = new Paddle(this.gui);
         sprites.addSprite(paddle);
         environment.addCollidable(paddle);
+    }
+
+    public java.awt.Color getRandomColor() {
+        Random random = new Random();
+        int r = random.nextInt(255) + 1;
+        int g = random.nextInt(255) + 1;
+        int b = random.nextInt(255) + 1;
+        return new Color(r, g, b);
     }
 
 
@@ -152,24 +182,9 @@ public class Game {
         return BORDER_THICKNESS_fACTOR * WIDTH;
     }
 
-    //    private static void drawBlocks(List<Collidable> gameBlocks,DrawSurface surface) throws Exception {
-//
-//        //drawing the collidables.
-//        for (int i = 0; i < gameBlocks.size(); i++) {
-//            gameBlocks.get(i).DrawOn(surface);
-//        }
-//    }
-//
-//    private static void drawEdges(List<Collidable> gameEdges, DrawSurface surface) {
-//        for (Collidable c: gameEdges
-//        ) {
-//            c.DrawOn(surface);
-//        }
-//    }
-//
-//    private static void drawBall(Ball ball, DrawSurface surface) {
-//        ball.drawOn(surface);
-//    }
+
+
+    //other methods
 
     public static void main(String[] args) throws Exception {
         Game game = new Game();

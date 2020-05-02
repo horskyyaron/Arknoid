@@ -1,6 +1,7 @@
 import biuoop.DrawSurface;
 
 import java.awt.*;
+import java.util.Random;
 
 public class Block implements Collidable, Sprite {
 
@@ -13,8 +14,15 @@ public class Block implements Collidable, Sprite {
         this.color = Color.black;
     }
 
-    public Block(Point upperLeft, double width, double height) throws Exception {
+    public Block(Point upperLeft, double width, double height)
+            throws Exception {
         this(new Rectangle(upperLeft,width,height));
+    }
+
+    public Block(Point upperLeft, double width, double height,
+                 java.awt.Color color) throws Exception {
+        this.block = new Rectangle(upperLeft,width,height);
+        this.color = color;
     }
 
     //Sprite interface Methods
@@ -95,10 +103,16 @@ public class Block implements Collidable, Sprite {
     //Block Methods.
 
     private void drawBlock(DrawSurface surface) {
-        surface.setColor(this.getColor());
+        //frame
+        surface.setColor(Color.black);
         surface.fillRectangle((int) this.block.getUpperLeft().getX(),
                 (int) this.block.getUpperLeft().getY(),
                 (int) this.block.getWidth(), (int) this.block.getHeight());
+        //Block background color.
+        surface.setColor(this.color);
+        surface.fillRectangle((int) this.block.getUpperLeft().getX() + 1,
+                (int) this.block.getUpperLeft().getY() - 1,
+                (int) this.block.getWidth() - 2, (int) this.block.getHeight() - 2);
     }
 
     //getters.
@@ -110,5 +124,6 @@ public class Block implements Collidable, Sprite {
     public void setColor(java.awt.Color color) {
         this.color = color;
     }
+
 
 }
