@@ -2,17 +2,25 @@ import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.Sleeper;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static java.lang.Math.abs;
+
 public class Game {
 
+    //screen size.
     private static final int WIDTH = 900;
     private static final int HEIGHT = 700;
     //the thickness is set to be a percentage of the screen width.
     private static final double BORDER_THICKNESS_fACTOR = 0.04;
+    //number of balls in game (Clients requirment)
+    private static final int BALLS_IN_GAME_INITIAL = 2;
+    //Ball Max and Min speed:
+    private static final int MAX_SPEED = 15;
+    private static final int MIN_SPEED = -15;
 
     private SpriteCollection sprites;
     private GameEnvironment environment;
@@ -39,7 +47,7 @@ public class Game {
         generateBackground();
         generateGameBlocks();
         generateGameEdges();
-        generateBall();
+        generateBalls();
         generatePaddle();
 
     }
@@ -104,12 +112,26 @@ public class Game {
 
     }
 
-    private void generateBall() throws Exception {
-        Ball ball = new Ball(WIDTH / 2, (int) (HEIGHT * 0.7), 5);
-        ball.setVelocity(12,7);
-        ball.setGameEnvironment(this.environment);
+    private void generateBalls() throws Exception {
+        List<Ball> gameBalls = generateRandomBalls();
+        for (int i = 0; i < gameBalls.size(); i++) {
+            gameBalls.get(i).addToGame(this);
+        }
+    }
 
-        ball.addToGame(this);
+    private List<Ball> generateRandomBalls() throws Exception {
+        Random random = new Random();
+        List<Ball> ballsList = new ArrayList<>();
+        for (int i = 0; i < BALLS_IN_GAME_INITIAL; i++) {
+            Ball ball = new Ball(WIDTH / 2, (int) (HEIGHT * 0.7), 5);
+            //ball velocity is a random number between the maximum and the
+            // minimum speed constants.
+            ball.setVelocity(random.nextInt(MAX_SPEED + abs(MIN_SPEED)) + MIN_SPEED,
+                    random.nextInt(MAX_SPEED + abs(MIN_SPEED)) + MIN_SPEED);
+            ball.setGameEnvironment(this.environment);
+            ballsList.add(ball);
+        }
+        return ballsList;
     }
 
     private void generateGameBlocks() throws Exception {
