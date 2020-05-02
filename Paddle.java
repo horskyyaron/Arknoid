@@ -210,5 +210,8 @@ public class Paddle implements Sprite, Collidable {
     }
 
 
-
+    public void addToGame(Game game) {
+        game.addSprite(this);
+        game.addCollidable(this);
+    }
 }

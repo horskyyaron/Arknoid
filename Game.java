@@ -75,13 +75,14 @@ public class Game {
         //in case we random color background.
         //java.awt.Color backgroundColor = getRandomColor();
         java.awt.Color color = new Color(0,0,102);
-        Block background = new Block(new Point(0, 0), WIDTH, HEIGHT,
+        Block backgroundBlock = new Block(new Point(0, 0), WIDTH, HEIGHT,
                 color);
-        sprites.addSprite(background);
+
+        backgroundBlock.addToGame(this);
     }
 
     private void generateGameEdges() throws Exception {
-        Double thickness = BORDER_THICKNESS_fACTOR * WIDTH;
+        Double thickness = getBorderThickness();
 
         //in case we random color background.
         //java.awt.Color backgroundColor = getRandomColor();
@@ -95,31 +96,27 @@ public class Game {
         Block down = new Block(new Point(thickness, HEIGHT - thickness),
                 WIDTH - 2 * thickness, thickness,color);
 
-        List<Block> gameEdges = new ArrayList<>();
-        gameEdges.add(left);
-        gameEdges.add(up);
-        gameEdges.add(right);
-        gameEdges.add(down);
-
-        //casting block list to Sprite list using wildcard '?'.
-        this.sprites.addSpritesList((List<Sprite>)(List<?>)gameEdges);
-        this.environment.addCollidableList((List<Collidable>)(List<?>)gameEdges);
+        //adding to game.
+        left.addToGame(this);
+        up.addToGame(this);
+        right.addToGame(this);
+        down.addToGame(this);
 
     }
 
     private void generateBall() throws Exception {
-        Ball ball = new Ball(200,200,5);
+        Ball ball = new Ball(WIDTH / 2, (int) (HEIGHT * 0.7), 5);
         ball.setVelocity(12,7);
         ball.setGameEnvironment(this.environment);
 
-        sprites.addSprite(ball);
+        ball.addToGame(this);
     }
 
     private void generateGameBlocks() throws Exception {
 
         //the blocks size will be determined by the screen size.
-        double singleBlockWidth = getWIDTH()/20.0;
-        double singleBlockHeight = getHEIGHT() / 20.0;
+        double singleBlockWidth = getWIDTH() / 16.0;
+        double singleBlockHeight = getHEIGHT() / 22.0;
         Point firstRowFirstBlock = new Point(WIDTH - getBorderThickness() - singleBlockWidth , 5 * getBorderThickness());
 
 
@@ -140,8 +137,7 @@ public class Game {
         } else {
             Block block = new Block(firstBlock, singleBlockWidth, singleBlockHeight);
             block.setColor(color);
-            this.sprites.addSprite(block);
-            this.environment.addCollidable(block);
+            block.addToGame(this);
             //recursively generating blocks in the left direction.
             generateBlockRow(new Point(firstBlock.getX() - singleBlockWidth,
                     firstBlock.getY()), singleBlockWidth, singleBlockHeight,
@@ -151,8 +147,7 @@ public class Game {
 
     private void generatePaddle() throws Exception {
         Paddle paddle = new Paddle(this.gui);
-        sprites.addSprite(paddle);
-        environment.addCollidable(paddle);
+        paddle.addToGame(this);
     }
 
     public java.awt.Color getRandomColor() {

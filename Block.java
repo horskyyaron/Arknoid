@@ -126,4 +126,8 @@ public class Block implements Collidable, Sprite {
     }
 
 
+    public void addToGame(Game game) {
+        game.addSprite(this);
+        game.addCollidable(this);
+    }
 }
