@@ -5,7 +5,8 @@ import biuoop.DrawSurface;
 import java.util.List;
 import java.util.Objects;
 
-import static java.lang.Math.*;
+import static java.lang.Math.min;
+import static java.lang.Math.max;
 
 /**
  * Line class supports methods that their goal is to represent a Line in 2D
@@ -19,7 +20,7 @@ public class Line {
 
     /**
      * contructor function
-     * <p>
+     *
      * constructor of the 'Line' object.
      * a Line object has two components: a starting point (Point object)
      * and an ending point (Point object).
@@ -38,7 +39,7 @@ public class Line {
 
     /**
      * contructor function 2.
-     * <p>
+     *
      * constructor of the 'Line' object.
      * A line is constructed from 2 points in space which are four coordinates.
      * starting point: x and y coordinate. and ending point x and y coordinates.
@@ -119,19 +120,21 @@ public class Line {
             } else {
                 //check if intersection is within the lines range.
                 Point intersection = system.getSystemSolution();
-                if(intersection == null) {
+                if (intersection == null) {
                     return false;
                     //check if the intersection point, is one of the lines base
                     // points.
-                } else if (isIntersectionPointABasePoint(intersection,this,other)) {
+                } else if (isIntersectionPointABasePoint(intersection, this, other)) {
                     //if the intersection belongs to a line, check if it's also
                     // in the second line range.
-                    if(this.isPointALinesBasePoint(intersection)) {
-                        return (belongsWithEdges(intersection.getX(),'x',other)
-                                && belongsWithEdges(intersection.getY(),'y',other));
+                    if (this.isPointALinesBasePoint(intersection)) {
+                        return (belongsWithEdges(intersection.getX(), 'x',
+                                other)
+                                && belongsWithEdges(intersection.getY(), 'y',
+                                other));
                     } else {
-                        return (belongs(intersection.getX(),'x',this)
-                                && belongs(intersection.getY(),'y',this));
+                        return (belongs(intersection.getX(), 'x', this)
+                                && belongs(intersection.getY(), 'y', this));
                     }
                 } else {
                     return (isIntersectionPointInLinesRange(intersection, system));
@@ -152,11 +155,11 @@ public class Line {
      * @throws Exception if one of the lines have points with negative
      *                   coordinates.
      */
-    public Point intersectionWith (Line other) throws Exception {
+    public Point intersectionWith(Line other) throws Exception {
 
-        if(this.isIntersecting(other)) {
+        if (this.isIntersecting(other)) {
             //if one mutual base point.
-            if(this.hasOneMutualBasePoint(other)) {
+            if (this.hasOneMutualBasePoint(other)) {
                 return this.getMutualBasePoint(other);
             }
             //if no mutual base point.
@@ -168,11 +171,31 @@ public class Line {
         }
     }
 
-    //tell if a point is a start\end point of a given line.
+
+    /**
+     * tells if a point is a base point of the given line.
+     *
+     * base point - either the starting or the ending point of a line.
+     *
+     * @param point the point being checked for being a base point.
+     * @return 'true' if the input point is a base point in the given line.
+     */
     private boolean isPointALinesBasePoint(Point point) {
         return (point.equals(this.start) || point.equals(this.end));
     }
 
+    /**
+     * tells if an intersection point is a base point of either two input lines.
+     *
+     * base point - either the starting or the ending point of a line.
+     *
+     * @param intersection the intersection point being checked for being a
+     *                     base point in one of the lines.
+     * @param line a Line object.
+     * @param other another Line object.
+     * @return 'true' if the input point is a base point in either on of the two
+     *          input lines.
+     */
     private boolean isIntersectionPointABasePoint(Point intersection, Line line, Line other) {
         return (intersection.equals(line.start)
                 || intersection.equals(line.end)
@@ -180,6 +203,16 @@ public class Line {
                 || intersection.equals(other.start));
     }
 
+    /**
+     * tells if an intersection point is in the lines range, and not in their
+     * continuation.
+     *
+     * @param intersection the intersection point being checked for being a
+     *                     base point in one of the lines.
+     * @param system system of two line equations.
+     * @return 'true' if the intersection point is within the lines range.
+     *          'false' therwise.
+     */
     private boolean isIntersectionPointInLinesRange(Point intersection,
                                                     LinearSystemOfEquation system) {
 
@@ -191,30 +224,34 @@ public class Line {
         Line l2 = system.getEquation2().getLine();
 
         //in case the two lines are parallel
-        if(l1.isParallel() && l2.isParallel()) {
-            if(l1.isParallelToX()) {
+        if (l1.isParallel() && l2.isParallel()) {
+            if (l1.isParallelToX()) {
                 //l2 is parallel to y.
-                return (belongsWithEdges(intersection.getX(),'x',l1)
-                        && belongsWithEdges(intersection.getY(),'y',l2));
+                return (belongsWithEdges(intersection.getX(), 'x', l1)
+                        && belongsWithEdges(intersection.getY(), 'y', l2));
             } else {
                 //l1 is parallel to y-axis and l2 is parallel to x-axis.
-                return (belongsWithEdges(intersection.getX(),'x',l2)
-                        && belongsWithEdges(intersection.getY(),'y',l1));
+                return (belongsWithEdges(intersection.getX(), 'x', l2)
+                        && belongsWithEdges(intersection.getY(), 'y', l1));
             }
         }
         //in case one of the line is parallel to axis:
         //of the form y=c
-        if(l1.isParallelToX()) {
-            return (belongsWithEdges(x,'x',l1) && belongsWithEdges(x,'x',l2) && belongsWithEdges(y,'y',l2));
+        if (l1.isParallelToX()) {
+            return (belongsWithEdges(x, 'x', l1) && belongsWithEdges(x, 'x', l2)
+                    && belongsWithEdges(y, 'y', l2));
             //of the form x=c
         } else if (l1.isParallelToY()) {
-            return (belongsWithEdges(y,'y',l1) && belongsWithEdges(y,'y',l2) && belongsWithEdges(x,'x',l2));
+            return (belongsWithEdges(y, 'y', l1) && belongsWithEdges(y, 'y', l2)
+                    && belongsWithEdges(x, 'x', l2));
             //of the form y=c
         } else if (l2.isParallelToX()) {
-            return (belongsWithEdges(x,'x',l1) && belongsWithEdges(x,'x',l2) && belongsWithEdges(y,'y',l1));
+            return (belongsWithEdges(x, 'x', l1) && belongsWithEdges(x, 'x', l2)
+                    && belongsWithEdges(y, 'y', l1));
             //of the form x=c
         } else if (l2.isParallelToY()) {
-            return (belongsWithEdges(y,'y',l1) && belongsWithEdges(y,'y',l2) && belongsWithEdges(x,'x',l1));
+            return (belongsWithEdges(y, 'y', l1) && belongsWithEdges(y, 'y', l2)
+                    && belongsWithEdges(x, 'x', l1));
         } else {
             //check if the intersection point is within the lines range.
             return (belongsWithEdges(x, 'x', l1) && belongsWithEdges(x, 'x', l2) && belongsWithEdges(y, 'y', l1)
@@ -222,20 +259,52 @@ public class Line {
         }
     }
 
+    /**
+     * tells if the given line is parallel to the x-axis.
+     *
+     * meaning, of the form y = c, when c is some constant number.
+     *
+     * @return 'true' if the line is parallel to the x-axis. 'false' otherwise.
+     */
     private boolean isParallelToX() {
         LineEquation equation = new LineEquation(this);
         //if of the form y=c
         return (equation.getXCoefficient() == 0);
     }
+
+    /**
+     * tells if the given line is parallel to the y-axis.
+     *
+     * meaning, of the form x = c, when c is some constant number.
+     *
+     * @return 'true' if the line is parallel to the y-axis. 'false' otherwise.
+     */
     private boolean isParallelToY() {
         LineEquation equation = new LineEquation(this);
         //if of the form x=c
         return (equation.getYCoefficient() == 0);
     }
+
+    /**
+     * tells if the given line is parallel to one of the axes.
+     *
+     * @return 'true' if the line is parallel to on the axes.
+     */
     private boolean isParallel() {
         return (this.isParallelToX() || this.isParallelToY());
     }
 
+    /**
+     * check if two lines can be a continua of each another.
+     *
+     * the case when line1 is from points A->B and line2 is from point B->C
+     * and they have the same slope.
+     *
+     * @param other the input line.
+     * @return 'true' the given line and the input ine are a continua of one
+     *          another.
+     * @throws Exception if one of the lines point have negative coordinates.
+     */
     private boolean checkContinuingLines(Line other) throws Exception {
         //same line
         if (this.equals(other)) {
@@ -250,8 +319,17 @@ public class Line {
         return false;
     }
 
+    /**
+     * check if a base point is a valid intersection point, meaning,
+     * that both lines continue each other with same slope.
+     *
+     * @param other the input line.
+     * @param mutualBasePoint the mutual base point.
+     * @return 'true' if the mutual base point is a valid intersection point
+     *          of the given line and the input line. 'false' otherwise.
+     */
     private boolean isBasePointValidForContinuingLineCase(Line other,
-                                                          Point mutualBasePoint) {
+                                                      Point mutualBasePoint) {
         //getting the non mutual points in each of the lines.
         Point lineNonMutualPoint, otherLineNonMutualPoint;
         if (this.start.equals(mutualBasePoint)) {
@@ -267,44 +345,73 @@ public class Line {
 
         //checks if the non mutual base point, is within the other line's range,
         // therefore one line is a sub-line of the other.
-        if (belongs(lineNonMutualPoint.getX(),'x',other)
-                && belongs(lineNonMutualPoint.getY(),'y',other)) {
-            return false;
-        } else if (belongs(otherLineNonMutualPoint.getX(),'x',this)
-                && belongs(otherLineNonMutualPoint.getY(),'y',this)) {
+        if (belongs(lineNonMutualPoint.getX(), 'x', other)
+                && belongs(lineNonMutualPoint.getY(), 'y', other)) {
             return false;
         } else {
-            return true;
+            return !belongs(otherLineNonMutualPoint.getX(), 'x', this)
+                    || !belongs(otherLineNonMutualPoint.getY(), 'y', this);
         }
     }
+
+    /**
+     * will return the mutual base point of the given line and the input
+     * line.
+     *
+     * @param other input line.
+     * @return the mutual base point if the given line and the input line.
+     *          if the lines don't have a mutual base point, the function will
+     *          return null.
+     */
     private Point getMutualBasePoint(Line other) {
         if (this.start.equals(other.start) && !this.end.equals(other.end)) {
             return this.start;
-        } else if (this.start.equals(other.end) && !this.end.equals(other.start)) {
+        } else if (this.start.equals(other.end)
+                && !this.end.equals(other.start)) {
             return this.start;
-        } else if (this.end.equals(other.end) && !this.start.equals(other.start)) {
+        } else if (this.end.equals(other.end)
+                && !this.start.equals(other.start)) {
             return this.end;
-        } else if (this.end.equals(other.start) && !this.start.equals(other.end)) {
+        } else if (this.end.equals(other.start)
+                && !this.start.equals(other.end)) {
             return this.end;
         }
         return null;
     }
 
+    /**
+     * check if the given line and the input line has one mutual base point.
+     *
+     * @param other the input line.
+     * @return 'true' if the lines have one mutual base point. 'false'
+     *          otherwise.
+     */
     private boolean hasOneMutualBasePoint(Line other) {
         if (this.start.equals(other.start) && !this.end.equals(other.end)) {
             return true;
-        } else if (this.start.equals(other.end) && !this.end.equals(other.start)) {
+        } else if (this.start.equals(other.end)
+                && !this.end.equals(other.start)) {
             return true;
-        } else if (this.end.equals(other.end) && !this.start.equals(other.start)) {
-            return true;
-        } else if (this.end.equals(other.start) && !this.start.equals(other.end)) {
+        } else if (this.end.equals(other.end)
+                && !this.start.equals(other.start)) {
             return true;
         } else {
-            return false;
+            return this.end.equals(other.start)
+                    && !this.start.equals(other.end);
         }
     }
 
-    public boolean belongs(double coordinate,char axis, Line line) {
+    /**
+     * check if the input coordinate value is within the input line range in
+     * the input axis. (not including the edges of the line)
+     *
+     * @param coordinate the coordinate value.
+     * @param axis the axis being checked.
+     * @param line the input line.
+     * @return 'true' if the coordinate value is within the range of the input
+     *          line on the input axis.
+     */
+    public boolean belongs(double coordinate, char axis, Line line) {
         double a, b;
         switch (axis) {
             case 'y':
@@ -320,25 +427,41 @@ public class Line {
         }
     }
 
-    private boolean belongsWithEdges(double coordinate,char axis, Line line) {
+    /**
+     * check if the input coordinate value is within the input line range in
+     * the input axis. (including the edges of the line)
+     *
+     * @param coordinate the coordinate value.
+     * @param axis the axis being checked.
+     * @param line the input line.
+     * @return 'true' if the coordinate value is within the range of the input
+     *          line on the input axis.
+     */
+    private boolean belongsWithEdges(double coordinate, char axis, Line line) {
         switch (axis) {
             case 'x':
-                return belongs(coordinate,axis,line)
-                        || Double.compare(coordinate,line.start.getX()) == 0
-                        || Double.compare(coordinate,line.end.getX()) == 0;
+                return belongs(coordinate, axis, line)
+                        || Double.compare(coordinate, line.start.getX()) == 0
+                        || Double.compare(coordinate, line.end.getX()) == 0;
             case 'y':
-                return belongs(coordinate,axis,line)
-                        || Double.compare(coordinate,line.start.getY()) == 0
-                        || Double.compare(coordinate,line.end.getY()) == 0;
+                return belongs(coordinate, axis, line)
+                        || Double.compare(coordinate, line.start.getY()) == 0
+                        || Double.compare(coordinate, line.end.getY()) == 0;
             default:
                 return false;
         }
     }
 
+    /**
+     * calculating and returning the given line slope.
+     *
+     * @return given line's slope.
+     */
     public double getSlope() {
         //if line is parallel, return 0;
-        if(Double.compare(this.start().getX(), this.end().getX()) == 0 ||
-            (Double.compare(this.start().getY(), this.end().getY()) == 0)) {
+        if (Double.compare(this.start().getX(), this.end().getX()) == 0
+                || (Double.compare(this.start().getY(),
+                this.end().getY()) == 0)) {
             return 0;
         } else {
             //calculating line slope from two point equation.
@@ -347,6 +470,16 @@ public class Line {
         }
     }
 
+    /**
+     * will calculate the intersection points with an input rectangle, and will
+     * return the closets intersection point to the starting point of the given
+     * line.
+     *
+     * @param rect the input rectangle.
+     * @return the closest intersection point to the starting point of the given
+     *         line.
+     * @throws Exception if in intersection point of negative coordinates.
+     */
     public Point closestIntersectionToStartOfLine(Rectangle rect)
             throws Exception {
         //check if line is intersecting with given rectangle.
@@ -355,26 +488,53 @@ public class Line {
         } else {
             List<Point> intersectionPointsWithRec =
                     rect.getIntersectionPoints(this);
-            return this.start.getClosetsFromPointList(intersectionPointsWithRec);
+            return this.start.getClosetsFromPointList(
+                    intersectionPointsWithRec);
             }
     }
 
-    private boolean isIntersectingWithRec(Rectangle r) throws Exception {
-        Line[] recEdges = r.getRectangleToLinesArray();
+    /**
+     * check if the given line is intersection with the input rectangle.
+     *
+     * @param rect the input rectangle.
+     * @return 'true' if the line intersects with the input rectangle.
+     * @throws Exception if in intersection point of negative coordinates.
+     */
+    private boolean isIntersectingWithRec(Rectangle rect) throws Exception {
+        Line[] recEdges = rect.getRectangleToLinesArray();
         return (this.isIntersecting(recEdges[0])
                 || this.isIntersecting(recEdges[1])
                 || this.isIntersecting(recEdges[2])
                 || this.isIntersecting(recEdges[3]));
     }
 
+    /**
+     * checks if the given line is a vertical line.
+     *
+     * meaning of the form: x = c.
+     *
+     * @return 'true' if the line is parallel to y axis.
+     */
     public boolean isVertical() {
-        return (Double.compare(this.start.getX(), this.end.getX()) == 0);
+        return this.isParallelToY();
     }
 
+    /**
+     * checks if the given line is a horizontal line.
+     *
+     * meaning of the form: y = c.
+     *
+     * @return 'true' if the line is parallel to x axis.
+     */
     public boolean isHorizontal() {
-        return (Double.compare(this.start.getY(), this.end.getY()) == 0);
+        return this.isParallelToX();
     }
 
+    /**
+     * will draw line on the input DrawSurface object.
+     *
+     * @param surface the input surface.
+     */
     public void drawLine(DrawSurface surface) {
         surface.drawLine((int) this.start.getX(), (int) this.start.getY(),
                 (int) this.end.getX(), (int) this.end.getY());

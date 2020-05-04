@@ -17,7 +17,7 @@ public class Game {
 
     //the thickness is set to be a percentage of the screen width.
     private static final double BORDER_THICKNESS_fACTOR = 0.04;
-    //number of balls in game (Clients requirment)
+    //number of balls in game (Clients requirements)
     private static final int BALLS_IN_GAME_INITIAL = 2;
     //Ball Max and Min speed:
     private static final int MAX_SPEED = 12;
