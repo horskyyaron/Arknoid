@@ -1,10 +1,8 @@
 //ID: 204351670
 
 import biuoop.DrawSurface;
-
 import java.util.List;
 import java.util.Objects;
-
 import static java.lang.Math.min;
 import static java.lang.Math.max;
 

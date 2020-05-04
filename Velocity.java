@@ -2,12 +2,7 @@
 
 import java.util.Objects;
 
-import static java.lang.Math.cos;
-import static java.lang.Math.sin;
-import static java.lang.Math.abs;
-import static java.lang.Math.pow;
-import static java.lang.Math.toRadians;
-import static java.lang.Math.sqrt;
+import static java.lang.Math.*;
 
 
 /**
@@ -150,23 +145,38 @@ public class Velocity {
             return 0;
         } else if (this.dx > 0) {
             if (this.dy > 0) {
-                return (int) (HelpFunctions.shiftTan(this.dx, this.dy) + 90);
+                return (int) (shiftTan(this.dx, this.dy) + 90);
             } else {
-                return (int) (90 - HelpFunctions.shiftTan(abs(this.dy),
+                return (int) (90 - shiftTan(abs(this.dy),
                         this.dx));
             }
         } else if (this.dx < 0) {
             if (this.dy > 0) {
-                return (int) (270 - HelpFunctions.shiftTan(abs(this.dx),
+                return (int) (270 - shiftTan(abs(this.dx),
                         this.dy));
             } else {
-                return (int) (270 + HelpFunctions.shiftTan(abs(this.dx),
+                return (int) (270 + shiftTan(abs(this.dx),
                         abs(this.dy)));
             }
         } else {
             return 0;
         }
-}
+    }
+
+    /**
+     * calculates: SHIFT-TAN(y/x) as in the calculator.
+     *
+     * @param x double
+     * @param y double
+     * @return double the result of the operation.
+     */
+    private static double shiftTan(double x, double y) {
+        double hypotenuse = sqrt(x * x + y * y);
+        //get angle in radians.
+        double angle = Math.acos(x / hypotenuse);
+        //convert to degress.
+        return angle * 180 / PI;
+    }
 
     /**
      * returns the speed in the x-axis direction. (dx)
