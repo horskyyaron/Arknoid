@@ -1,11 +1,10 @@
 //ID: 204351670
 
-import java.awt.geom.Arc2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import static java.lang.Math.*;
+import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
 
 /**
  * Point class supports methods that their goal is to represent a point in 2D
@@ -13,6 +12,7 @@ import static java.lang.Math.*;
  */
 public class Point {
 
+    //fields.
     private double x;
     private double y;
 
@@ -70,7 +70,7 @@ public class Point {
 
     /**
      * check if two Points are the same.
-     * <p>
+     *
      * meaning:
      * if the x-coordinate of a given point is equal to the
      * x-coordinate of the other point. and that the
@@ -82,7 +82,7 @@ public class Point {
      */
     @Override
     public boolean equals(Object obj) {
-        if(this == obj) {
+        if (this == obj) {
             return true;
         }
         if (obj == null) {
@@ -90,8 +90,8 @@ public class Point {
         }
         if (obj instanceof Point) {
             Point test = (Point) obj;
-            if(Double.compare(test.x,this.x) == 0
-                    && Double.compare(test.y,this.y) == 0) {
+            if (Double.compare(test.x, this.x) == 0
+                    && Double.compare(test.y, this.y) == 0) {
                 return true;
             }
         }
@@ -103,17 +103,27 @@ public class Point {
         return Objects.hash(x, y);
     }
 
+    /**
+     * return the closest point, from the input intersection points list,
+     * to a given point.
+     *
+     * @param intersectionPointsList list of intersection points.
+     * @return the closest point to a given point.
+     */
     public Point getClosetsFromPointList(List<Point> intersectionPointsList) {
-        if(intersectionPointsList.isEmpty()) {
+        //if no intersection points.
+        if (intersectionPointsList.isEmpty()) {
             return null;
         } else {
-
+            //setting minumum distance.
             int indexOfClosestPoint = 0;
             double minDistance = this.distance(intersectionPointsList.get(0));
 
+            //get the minimal distance out of all the points in the list.
             for (int i = 1; i < intersectionPointsList.size(); i++) {
                 if (minDistance > this.distance(intersectionPointsList.get(i))) {
                     minDistance = this.distance(intersectionPointsList.get(i));
+                    //remembering the index of the closest point.
                     indexOfClosestPoint = i;
                 }
             }
@@ -122,49 +132,65 @@ public class Point {
 
     }
 
-    //check's if the point satisfying the line equation.
+    /**
+     * check if given point, satisfies the input Line Equation object.
+     *
+     * The line equation is ax + by + c = 0.
+     * satisfying the equation means that if we enter the x and y coordinates
+     * of the point instead of the x and y in the equation, the equation will
+     * hold.
+     *
+     * @param equation Line Equation object.
+     * @return 'true' if the point is satisfying the line equation, 'false'
+     *          otherwise.
+     */
     public boolean isSatisfying(LineEquation equation) {
         return (this.x * equation.getXCoefficient() + this.y
                 * equation.getYCoefficient()
                 + equation.getFreeCoefficient() == 0);
     }
 
+    /**
+     * check if given point is a corner point of the game-play zone.
+     *
+     * @return 'true' if given point is a corner point of the game-play zone.
+     *          'false' otherwise.
+     * @throws Exception if one of the corner points, for some reason,
+     *                   have negative coordinates.
+     */
     public boolean isAGameCorner() throws Exception {
-        int width = Game.getWIDTH();
-        int height = Game.getHEIGHT();
-        double thickness = Game.getBorderThicknessfactor() * width;
-
-        List<Point> cornerPoints = getGameCornerPoints(width,height,thickness);
+        //getting the game-play zone corner points.
+        List<Point> cornerPoints = getGameCornerPoints(Game.getWIDTH(),
+                Game.getHEIGHT(), Game.getBorderThickness());
+        //check if given point is one of the corner points.
         return cornerPoints.contains(this);
     }
 
-    //returning all the game screen corner points (the corners where the ball can move)
-    private List<Point> getGameCornerPoints(int width, int height, double thickness) throws Exception {
-        //calculating and adding to list all the corner points of the game screen (where the ball can move!).
+    /**
+     * the function will return a list of corner points based on input of screen
+     * width, height and thickness of the screen borders.
+     *
+     * @param width screen width.
+     * @param height screen height.
+     * @param thickness screen border thickness.
+     * @return corner points (of the game-play zone, where the ball can move)
+     *         list.
+     * @throws Exception if one of the points has negative values.
+     */
+    private List<Point> getGameCornerPoints(int width, int height,
+                                            double thickness) throws Exception {
+        //calculating and adding all the corner points of the game-play zone
+        // to a list.
         List<Point> cornerPoints = new ArrayList<>();
-        cornerPoints.add(new Point(thickness,thickness));
+        //upper left corner.
+        cornerPoints.add(new Point(thickness, thickness));
+        //upper right corner.
         cornerPoints.add(new Point(width - thickness, thickness));
-        cornerPoints.add(new Point(thickness,height - thickness));
-        cornerPoints.add(new Point(width - thickness, height -thickness));
+        //bottom left corner.
+        cornerPoints.add(new Point(thickness, height - thickness));
+        //bottom right corner.
+        cornerPoints.add(new Point(width - thickness, height - thickness));
 
         return cornerPoints;
     }
-
-
-//    /**
-//     //     * (Without limiting generality let b <= c).
-//     //     * check if a double value 'a' belongs in the section (b,c) of double
-//     //     * values.
-//     //     *
-//     //     * @param a double variable.
-//     //     * @param b double variable.
-//     //     * @param c double variable.
-//     //     * @return true, if a is in (b,c) and 'false' otherwise.
-//     //     */
-//    private static boolean belongs(double a, double b, double c) {
-//        if (a < max(b, c) && a > min(b, c)) {
-//            return true;
-//        }
-//        return false;
-//    }
 }

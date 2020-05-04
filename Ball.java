@@ -266,16 +266,6 @@ public class Ball implements Sprite {
         this.color = new Color(r, g, b);
     }
 
-    /**
-     * will prints ball's information. testing purposes.
-     */
-    public void printBall() {
-        System.out.println("ball center point: (" + this.getX() + ","
-                + this.getY() + ")");
-        System.out.println("ball radius is: " + this.getSize());
-        System.out.println("ball color is: " + this.color);
-    }
-
     public void setGameEnvironment(GameEnvironment environment) {
         this.gameEnvironment = environment;
     }

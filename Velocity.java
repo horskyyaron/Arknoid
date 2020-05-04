@@ -2,7 +2,13 @@
 
 import java.util.Objects;
 
-import static java.lang.Math.*;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
+import static java.lang.Math.abs;
+import static java.lang.Math.pow;
+import static java.lang.Math.toRadians;
+import static java.lang.Math.sqrt;
+
 
 /**
  * Velocity specifies the change in position on the `x` and the `y` axes.
@@ -13,10 +19,12 @@ public class Velocity {
     //Declaring constants of min and max velocity.
     public static final int MIM_SPEED = 1;
     public static final int MAX_SPEED = 50;
-    private static final int FIRST_QUDRANT = 1;
-    private static final int SECOND_QUDRANT = 2;
-    private static final int THIRD_QUDRANT = 3;
-    private static final int FOURTH_QUDRANT = 4;
+
+    //the different quadrants of the screen.
+    private static final int FIRST_QUADRANT = 1;
+    private static final int SECOND_QUADRANT = 2;
+    private static final int THIRD_QUADRANT = 3;
+    private static final int FOURTH_QUADRANT = 4;
 
     //fields. each is a change in position in the x (horizontal direction)
     // and y (vertical direction) axis accordingly.
@@ -178,13 +186,26 @@ public class Velocity {
         return this.dy;
     }
 
+    /**
+     * returns the speed of the ball.
+     * (size of the vector which is constructed from horizontal speed (dx)  and
+     * vertical speed (dy))
+     *
+     * @return speed size.
+     */
     public double getSpeed() {
         return sqrt(pow(this.dx, 2) + pow(this.dy, 2));
     }
 
+    /**
+     * The function will return a new velocity which it's components are
+     * opposites.
+     *
+     * @return the new velocity.
+     */
     public Velocity applyFrontalHit() {
         //a vertical hit.
-        if(this.dx == 0) {
+        if (this.dx == 0) {
             this.changeDirectionVertical();
         } else {
             //a horizontal hit
@@ -193,36 +214,63 @@ public class Velocity {
         return this;
     }
 
+    /**
+     * The function will flip the given velocity horizontal component.
+     */
     public void applyVerticalSurfaceHit() {
         this.changeDirectionHorizontal();
     }
 
+    /**
+     * The function will will return ths angle quadrant.
+     *
+     * e.g. it the ball's velocity is to the upper left (0-90 degree) the function
+     * will return 1 (first quadrant)
+     *
+     * @return the ball's velocity quadrant.
+     */
     private int getAngleQuadrant() {
         double angle = this.getAngleFromDxDy();
-        if(angle > 0 && angle < 90) {
-            return FIRST_QUDRANT;
+        if (angle > 0 && angle < 90) {
+            return FIRST_QUADRANT;
         } else if (angle > 90 && angle < 180) {
-            return SECOND_QUDRANT;
+            return SECOND_QUADRANT;
         } else if (angle > 180 && angle < 270) {
-            return THIRD_QUDRANT;
+            return THIRD_QUADRANT;
         } else {
-            return FOURTH_QUDRANT;
+            return FOURTH_QUADRANT;
         }
     }
 
+    /**
+     * The function will flip the given velocity vertical component.
+     */
     public void applyHorizontalSurfaceHit() {
         this.changeDirectionVertical();
     }
 
+    /**
+     * Will compare given velocity to another object.
+     *
+     * @param obj the object being compared with given velocity.
+     * @return 'true' if the other object is a Velocity object with same
+     *          horizontal and vertical components. 'false' otherwise.
+     */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (this == obj) { return true; }
+        if (obj == null || getClass() != obj.getClass()) { return false; }
         Velocity velocity = (Velocity) obj;
-        return Double.compare(velocity.dx, dx) == 0 &&
-                Double.compare(velocity.dy, dy) == 0;
+        return Double.compare(velocity.dx, dx) == 0
+                && Double.compare(velocity.dy, dy) == 0;
     }
 
+    /*
+
+    looking online, i found that override hashCode function should not have
+    documentation, plus checkstyle didn't raise error so i leave it as is.
+    https://stackoverflow.com/questions/24355424/should-i-document-overriden-hashcode-and-tostring
+    */
     @Override
     public int hashCode() {
         return Objects.hash(dx, dy);

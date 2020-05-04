@@ -12,15 +12,16 @@ import static java.lang.Math.abs;
 public class Game {
 
     //screen size.
-    private static final int WIDTH = 900;
-    private static final int HEIGHT = 700;
+    private static final int WIDTH = 800;
+    private static final int HEIGHT = 600;
+
     //the thickness is set to be a percentage of the screen width.
     private static final double BORDER_THICKNESS_fACTOR = 0.04;
     //number of balls in game (Clients requirment)
     private static final int BALLS_IN_GAME_INITIAL = 2;
     //Ball Max and Min speed:
-    private static final int MAX_SPEED = 15;
-    private static final int MIN_SPEED = -15;
+    private static final int MAX_SPEED = 12;
+    private static final int MIN_SPEED = -12;
 
     private SpriteCollection sprites;
     private GameEnvironment environment;
@@ -41,7 +42,7 @@ public class Game {
 
     // Initialize a new game: create the Blocks and Ball (and Paddle)
     // and add them to the game.
-    private void initialize() throws Exception {
+    public void initialize() throws Exception {
 
         this.gui = new GUI("GAME!", WIDTH,HEIGHT);
         generateBackground();
@@ -51,7 +52,6 @@ public class Game {
         generatePaddle();
 
     }
-
 
 
     // Run the game -- start the animation loop.
@@ -191,21 +191,7 @@ public class Game {
         return HEIGHT;
     }
 
-    public static double getBorderThicknessfactor() {
-        return BORDER_THICKNESS_fACTOR;
-    }
-
     public static double getBorderThickness() {
         return BORDER_THICKNESS_fACTOR * WIDTH;
-    }
-
-
-
-    //other methods
-
-    public static void main(String[] args) throws Exception {
-        Game game = new Game();
-        game.initialize();
-        game.run();
     }
 }
