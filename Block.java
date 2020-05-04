@@ -74,13 +74,6 @@ public class Block implements Collidable, Sprite {
         return newVelocity;
     }
 
-    @Override
-    public void DrawOn(DrawSurface surface) {
-        surface.setColor(Color.black);
-        surface.fillRectangle((int) this.block.getUpperLeft().getX(),
-                (int) this.block.getUpperLeft().getY(),
-                (int) this.block.getWidth(), (int) this.block.getHeight());
-    }
 
     @Override
     public Line getImpactLineFromCollisionPoint(Point collisionPoint)

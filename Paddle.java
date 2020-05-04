@@ -12,9 +12,9 @@ import java.awt.Color;
 public class Paddle implements Sprite, Collidable {
 
     //Paddle specs (Constants) to make it look good on screen.
-    private final double PADDLE_SIZE_FACTOR = 0.2;
-    private final double PADDLE_HEIGHT_FACTOR = 0.03;
-    private final double PADDLE_SPEED = Game.getWIDTH() * 0.01;
+    private static final double PADDLE_SIZE_FACTOR = 0.2;
+    private static final double PADDLE_HEIGHT_FACTOR = 0.03;
+    private static final double PADDLE_SPEED = Game.getWIDTH() * 0.01;
 
 
     //fields.
@@ -51,7 +51,7 @@ public class Paddle implements Sprite, Collidable {
         double paddleWidth = PADDLE_SIZE_FACTOR * Game.getWIDTH();
         double paddleHeight = PADDLE_HEIGHT_FACTOR * Game.getHEIGHT();
         //calculating and creating the paddle top left corner point.
-        double rectUpperLeftXCord = Game.getWIDTH()/2.0 - paddleWidth/2.0;
+        double rectUpperLeftXCord = Game.getWIDTH() / 2.0 - paddleWidth / 2.0;
         double rectUpperLeftYCord = Game.getHEIGHT()
                 - Game.getBorderThickness() - paddleHeight;
         Point rectUpperLeft = new Point(rectUpperLeftXCord, rectUpperLeftYCord);
@@ -76,7 +76,7 @@ public class Paddle implements Sprite, Collidable {
         double paddleHeight = this.paddleBody.getHeight();
 
         //check if the paddle is in the edge of the game-play zone.
-        if(isNextMoveOutOfBounds(curUpperLeft.getX() - PADDLE_SPEED)) {
+        if (isNextMoveOutOfBounds(curUpperLeft.getX() - PADDLE_SPEED)) {
             //move to edge
             Point newUpperLeft = new Point(Game.getBorderThickness(), curUpperLeft.getY());
             this.paddleBody = new Rectangle(newUpperLeft, paddleWidth, paddleHeight);
@@ -103,14 +103,19 @@ public class Paddle implements Sprite, Collidable {
         double paddleHeight = this.paddleBody.getHeight();
 
 
-        if(isNextMoveOutOfBounds(curUpperLeft.getX() + PADDLE_SPEED)) {
+        if (isNextMoveOutOfBounds(curUpperLeft.getX() + PADDLE_SPEED)) {
             //move to edge
-            Point newUpperLeft = new Point(Game.getWIDTH() - Game.getBorderThickness() - paddleWidth, curUpperLeft.getY());
-            this.paddleBody = new Rectangle(newUpperLeft, paddleWidth, paddleHeight);
+            Point newUpperLeft = new Point(Game.getWIDTH()
+                    - Game.getBorderThickness() - paddleWidth,
+                    curUpperLeft.getY());
+            this.paddleBody = new Rectangle(newUpperLeft, paddleWidth,
+                    paddleHeight);
         } else {
             //move to the right.
-            Point newUpperLeft = new Point(curUpperLeft.getX() + PADDLE_SPEED, curUpperLeft.getY());
-            this.paddleBody = new Rectangle(newUpperLeft, paddleWidth, paddleHeight);
+            Point newUpperLeft = new Point(curUpperLeft.getX() + PADDLE_SPEED,
+                    curUpperLeft.getY());
+            this.paddleBody = new Rectangle(newUpperLeft, paddleWidth,
+                    paddleHeight);
         }
 
     }
@@ -118,20 +123,20 @@ public class Paddle implements Sprite, Collidable {
     /**
      * check if the next move, will move the paddle out of bounds.
      *
+     * @param nextPositionOfUpperLeftXCoordinate the next position of the x
+     *                                           coordinate ot the upper left
+     *                                           corner of the paddle.
      * @return 'true' if the next move gets out of bounds, meaning, anywhere in
      *          the border area and outwards, 'false' otherwise.
      */
     private boolean isNextMoveOutOfBounds(double nextPositionOfUpperLeftXCoordinate) {
         //out of game-play zone to the right.
-        if(nextPositionOfUpperLeftXCoordinate < Game.getBorderThickness()) {
+        if (nextPositionOfUpperLeftXCoordinate < Game.getBorderThickness()) {
             return true;
             //out of game-play zone to the left.
-        } else if (nextPositionOfUpperLeftXCoordinate + this.getPaddleWidth()
-                > Game.getWIDTH() - Game.getBorderThickness()) {
-            return true;
         } else {
-            //legal move.
-            return false;
+            return nextPositionOfUpperLeftXCoordinate + this.getPaddleWidth()
+                > Game.getWIDTH() - Game.getBorderThickness();
         }
     }
 
@@ -145,30 +150,35 @@ public class Paddle implements Sprite, Collidable {
         //calculating each zone width.
         double zoneSize = this.paddleBody.getWidth() / 5.0;
 
-        //getting each zone starting point (the left border of the zone).
-        double zone1 = this.paddleBody.getUpperLeft().getX();
-        double zone2 = this.paddleBody.getUpperLeft().getX() + zoneSize;
-        double zone3 = this.paddleBody.getUpperLeft().getX() + 2 * zoneSize;
-        double zone4 = this.paddleBody.getUpperLeft().getX() + 3 * zoneSize;
-        double zone5 = this.paddleBody.getUpperLeft().getX() + 4 * zoneSize;
+        double[] zones = getDifferentZoneLeftMargins();
 
         //returning which zone got hit.
-        if(collisionPoint.getX() >= zone1 && collisionPoint.getX() < zone2) {
+        if (collisionPoint.getX() >= zones[0]
+                && collisionPoint.getX() < zones[1]) {
             return 1;
-        } else if (collisionPoint.getX() >= zone2 && collisionPoint.getX() < zone3) {
+        } else if (collisionPoint.getX() >= zones[1]
+                && collisionPoint.getX() < zones[2]) {
             return 2;
-        } else if (collisionPoint.getX() >= zone3 && collisionPoint.getX() < zone4) {
+        } else if (collisionPoint.getX() >= zones[2]
+                && collisionPoint.getX() < zones[3]) {
             return 3;
-        } else if (collisionPoint.getX() >= zone4 && collisionPoint.getX() < zone5) {
+        } else if (collisionPoint.getX() >= zones[3]
+                && collisionPoint.getX() < zones[4]) {
             return 4;
-        } else if (collisionPoint.getX() >= zone5 && collisionPoint.getX() <= zone5 + zoneSize) {
+        } else if (collisionPoint.getX() >= zones[4]
+                && collisionPoint.getX() <= zones[4] + zoneSize) {
             return 5;
         } else {
             return 0;
         }
     }
 
-    private double[] getDifferentZoneMargins() {
+    /**
+     * getting the x coordinates of the different zones.
+     *
+     * @return the different zones x coordinates in a double array.
+     */
+    private double[] getDifferentZoneLeftMargins() {
         double[] zones = new double[5];
 
         //calculating each zone width.
@@ -190,21 +200,20 @@ public class Paddle implements Sprite, Collidable {
     private void drawZones(DrawSurface surface) throws Exception {
         surface.setColor(Color.black);
         double zoneSize = this.paddleBody.getWidth() / 5.0;
+        double[] zones = new double[5];
+        zones = getDifferentZoneLeftMargins();
 
-        double zone1 = this.paddleBody.getUpperLeft().getX();
-        double zone2 = this.paddleBody.getUpperLeft().getX() + zoneSize;
-        double zone3 = this.paddleBody.getUpperLeft().getX() + 2 * zoneSize;
-        double zone4 = this.paddleBody.getUpperLeft().getX() + 3 * zoneSize;
-        double zone5 = this.paddleBody.getUpperLeft().getX() + 4 * zoneSize;
+        //readabillty.
 
         double yDown = this.paddleBody.getUpperLeft().getY() + this.paddleBody.getHeight();
         double yUp = this.paddleBody.getUpperLeft().getY();
-        Line z1 = new Line(zone1,yDown,zone1,yUp);
-        Line z2 = new Line(zone2,yDown,zone2,yUp);
-        Line z3 = new Line(zone3,yDown,zone3,yUp);
-        Line z4 = new Line(zone4,yDown,zone4,yUp);
-        Line z5 = new Line(zone5,yDown,zone5,yUp);
+        Line z1 = new Line(zones[0], yDown, zones[0], yUp);
+        Line z2 = new Line(zones[1], yDown, zones[1], yUp);
+        Line z3 = new Line(zones[2], yDown, zones[2], yUp);
+        Line z4 = new Line(zones[3], yDown, zones[3], yUp);
+        Line z5 = new Line(zones[4], yDown, zones[4], yUp);
 
+        //drawing zones borders.
         z1.drawLine(surface);
         z2.drawLine(surface);
         z3.drawLine(surface);
@@ -212,11 +221,23 @@ public class Paddle implements Sprite, Collidable {
         z5.drawLine(surface);
     }
 
+    /**
+     * the function will return the paddle width.
+     *
+     * @return the paddle width.
+     */
     public double getPaddleWidth() {
         return this.paddleBody.getWidth();
     }
 
 
+    /**
+     * the function will add the given paddle to the game Collidable
+     * and Sprites lists.
+     *
+     * @param game class object that holds all of the game component,
+     *             paddle included.
+     */
     public void addToGame(Game game) {
         game.addSprite(this);
         game.addCollidable(this);
@@ -260,31 +281,24 @@ public class Paddle implements Sprite, Collidable {
     public Velocity hit(Point collisionPoint, Velocity currentVelocity) {
 
         double speed = currentVelocity.getSpeed();
-//        double angle = currentVelocity.getAngleFromDxDy();
 
+        //changing the ball's velocity angle based on collision zone in the
+        // paddle.
         switch (getPaddleCollisionZone(collisionPoint)) {
             case 1:
-                return Velocity.getVelocityFromAngleAndSpeed(300,speed);
+                return Velocity.getVelocityFromAngleAndSpeed(300, speed);
             case 2:
-                return Velocity.getVelocityFromAngleAndSpeed(330,speed);
+                return Velocity.getVelocityFromAngleAndSpeed(330, speed);
             case 3:
                 return new Velocity(currentVelocity.getDx(),
                         currentVelocity.getDy() * (-1));
             case 4:
-                return Velocity.getVelocityFromAngleAndSpeed(30,speed);
+                return Velocity.getVelocityFromAngleAndSpeed(30, speed);
             case 5:
-                return Velocity.getVelocityFromAngleAndSpeed(60,speed);
+                return Velocity.getVelocityFromAngleAndSpeed(60, speed);
             default:
-                return new Velocity(0,0);
+                return new Velocity(0, 0);
         }
-    }
-
-    @Override
-    public void DrawOn(DrawSurface surface) {
-        surface.setColor(Color.YELLOW);
-        surface.fillRectangle((int) this.paddleBody.getUpperLeft().getX(),
-                (int) this.paddleBody.getUpperLeft().getY(),
-                (int) this.paddleBody.getWidth(), (int) this.paddleBody.getHeight());
     }
 
     @Override
