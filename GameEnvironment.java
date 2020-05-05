@@ -70,7 +70,6 @@ public class GameEnvironment {
         List<Point> trajectoryCollisionPoints = new LinkedList<>();
         List<Collidable> collidablesInTrajectory = new LinkedList<>();
 
-
         //getting all "closests" collision points from all the collidables
         // in the trajectory line.
         for (Collidable c: collidables) {

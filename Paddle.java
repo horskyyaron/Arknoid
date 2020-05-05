@@ -14,12 +14,11 @@ public class Paddle implements Sprite, Collidable {
     //Paddle specs (Constants) to make it look good on screen.
     private static final double PADDLE_SIZE_FACTOR = 0.2;
     private static final double PADDLE_HEIGHT_FACTOR = 0.03;
-    private static final double PADDLE_SPEED = Game.getWIDTH() * 0.01;
+    private static final double PADDLE_SPEED = Game.getWIDTH() * 0.015;
 
 
     //fields.
     private biuoop.KeyboardSensor keyboard;
-    private GUI gui;
     private Rectangle paddleBody;
 
     /**
@@ -30,10 +29,8 @@ public class Paddle implements Sprite, Collidable {
      *                   has negative values.
      */
     public Paddle(GUI gui) throws Exception {
-        this.gui = gui;
         this.keyboard = gui.getKeyboardSensor();
         this.paddleBody = buildPaddle();
-
     }
 
     //Paddle methods.

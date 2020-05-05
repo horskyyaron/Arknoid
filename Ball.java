@@ -169,7 +169,6 @@ public class Ball implements Sprite {
         this.color = color;
     }
 
-    //Ball's Methods
     public void moveOneStep() throws Exception {
         Line trajectory = computeBallTrajectory();
         if(gameEnvironment.getClosestCollision(trajectory) == null) {
@@ -251,7 +250,7 @@ public class Ball implements Sprite {
         double endingPointYCoordinate = this.center.getY()
                 + this.getVelocity().getDy();
         return (new Line(this.center,
-                new Point(endingPointXCoordinate,endingPointYCoordinate)));
+                new Point(endingPointXCoordinate, endingPointYCoordinate)));
     }
 
     //Other Methods
