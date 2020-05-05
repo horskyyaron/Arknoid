@@ -52,11 +52,8 @@ public class SpriteCollection {
     /**
      * the function will notify all the Sprites objects in the collection that
      * time has passed.
-     *
-     * @throws Exception if one of Sprites that has Point object in it, will
-     *                   have negative values in one of the points.
      */
-    public void notifyAllTimePassed() throws Exception {
+    public void notifyAllTimePassed() {
         for (Sprite s: this.spriteElements) {
             s.timePassed();
         }
@@ -66,13 +63,11 @@ public class SpriteCollection {
      * the function will draw all the Sprites objects in the collection on the
      * input surface.
      *
-     * @param surface the surface that the Sprites will be drawn on.
-     * @throws Exception if one of Sprites that has Point object in it, will
-     *                   have negative values in one of the points.
+     * @param d the surface that the Sprites will be drawn on.
      */
-    public void drawAllOn(DrawSurface surface) throws Exception {
+    public void drawAllOn(DrawSurface d) {
         for (Sprite s: this.spriteElements) {
-            s.drawOn(surface);
+            s.drawOn(d);
         }
     }
 

@@ -66,9 +66,8 @@ public class Velocity {
      *           a change took place.
      * @return Point, a Point object which represents the new position of the
      *         ball.
-     * @throws Exception when getting negative coordinates.
      */
-    public Point applyToPoint(Point p) throws Exception {
+    public Point applyToPoint(Point p) {
         return (new Point(p.getX() + this.dx, p.getY() + this.dy));
     }
 

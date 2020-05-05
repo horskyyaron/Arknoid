@@ -13,17 +13,11 @@ public interface Sprite {
      * function that draws a sprite on a given surface.
      *
      * @param d the surface that the sprite will be drawn on.
-     * @throws Exception if a Sprite a has Point object component in it,
-     *                   and the point will have negative values.
      */
-    void drawOn(DrawSurface d) throws Exception;
+    void drawOn(DrawSurface d);
 
     /**
      * function that notify a sprite that time has passed.
-     *
-     * @throws Exception if a Sprite a has Point object component in it,
-     *                   and the point will have negative values after time
-     *                   passed.
      */
-    void timePassed() throws Exception;
+    void timePassed();
 }

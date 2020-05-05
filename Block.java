@@ -29,11 +29,8 @@ public class Block implements Collidable, Sprite {
      * @param upperLeft the block's upper left corner point.
      * @param width the block's width.
      * @param height the block's height.
-     * @throws Exception if the upper left point object input has negative
-     *                   coordinates.
      */
-    public Block(Point upperLeft, double width, double height)
-            throws Exception {
+    public Block(Point upperLeft, double width, double height) {
         this(new Rectangle(upperLeft, width, height));
     }
 
@@ -44,11 +41,9 @@ public class Block implements Collidable, Sprite {
      * @param width the block's width.
      * @param height the block's height.
      * @param color the block's color.
-     * @throws Exception if the upper left point object input has negative
-     *                   coordinates.
      */
     public Block(Point upperLeft, double width, double height,
-                 java.awt.Color color) throws Exception {
+                 java.awt.Color color) {
         this.block = new Rectangle(upperLeft, width, height);
         this.color = color;
     }
@@ -71,8 +66,7 @@ public class Block implements Collidable, Sprite {
     }
 
     @Override
-    public Velocity hit(Point collisionPoint, Velocity currentVelocity)
-            throws Exception {
+    public Velocity hit(Point collisionPoint, Velocity currentVelocity) {
         //in case the collision point is a game-play zone corner.
         if (collisionPoint.isAGameCorner()) {
             return new Velocity(currentVelocity.getDx() * (-1),
@@ -105,8 +99,7 @@ public class Block implements Collidable, Sprite {
 
 
     @Override
-    public Line getImpactLineFromCollisionPoint(Point collisionPoint)
-            throws Exception {
+    public Line getImpactLineFromCollisionPoint(Point collisionPoint) {
         //getting an array constructed of the block lines.
         Line[] blockEdges = this.block.getRectangleToLinesArray();
         LineEquation lineEquation;

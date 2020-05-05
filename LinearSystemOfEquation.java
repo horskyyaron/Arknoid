@@ -61,10 +61,8 @@ public class LinearSystemOfEquation {
      *
      * @return a Point object with x and y coordinates which are the system
      *         solution.
-     * @throws Exception if the the solution has negative values (and somehow
-     *                   passed the conditions).
      */
-    private Point calculateSolution() throws Exception {
+    private Point calculateSolution() {
         double systemDeterminant = getSystemDeterminant();
         //[c1,c2] is the solution vector in the system.
         double c1 = equation1.getFreeCoefficient() * (-1);
@@ -147,10 +145,8 @@ public class LinearSystemOfEquation {
      *
      * @return the system solution. a Point object with x and y - the system
      *         solution.
-     * @throws Exception if the system solution, a Point object, has negative
-     *                   values.
      */
-    public Point getSystemSolution() throws Exception {
+    public Point getSystemSolution() {
         return calculateSolution();
     }
 }

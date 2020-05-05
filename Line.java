@@ -25,12 +25,8 @@ public class Line {
      *
      * @param a Point a.
      * @param b Point b.
-     * @throws Exception when getting negative coordinates.
      */
-    public Line(Point a, Point b) throws Exception {
-        if (a.getX() < 0 || a.getY() < 0 || b.getX() < 0 || b.getY() < 0) {
-            throw new Exception("Points cannot have negative coordinates!");
-        }
+    public Line(Point a, Point b) {
         this.start = a;
         this.end = b;
     }
@@ -46,12 +42,8 @@ public class Line {
      * @param y1 y-coordinate of starting point.
      * @param x2 x-coordinate of ending point.
      * @param y2 y-coordinate of ending point.
-     * @throws Exception when getting negative coordinates.
      */
-    public Line(double x1, double y1, double x2, double y2) throws Exception {
-        if (x1 < 0 || y1 < 0 || x2 < 0 || y2 < 0) {
-            throw new Exception("Points cannot have negative coordinates!");
-        }
+    public Line(double x1, double y1, double x2, double y2) {
         this.start = new Point(x1, y1);
         this.end = new Point(x2, y2);
     }
@@ -74,9 +66,8 @@ public class Line {
      * returns the middle point of a line.
      *
      * @return Point, Line's middle point.
-     * @throws Exception when getting negative coordinates for the new Point.
      */
-    public Point middle() throws Exception {
+    public Point middle() {
         return new Point((start.getX() + end.getX()) / 2,
                 (start.getY() + end.getY()) / 2);
     }
@@ -104,10 +95,8 @@ public class Line {
      *
      * @param other the other line being checked for intersection point.
      * @return true, if lines are intersecting, 'false' otherwise.
-     * @throws Exception if one of the lines have points with negative
-     *                   coordinates.
      */
-    public boolean isIntersecting(Line other) throws Exception {
+    public boolean isIntersecting(Line other) {
         LinearSystemOfEquation system = new LinearSystemOfEquation(this, other);
         //check if the system have one unique solution.
         if (system.getIsSystemSolutionUnique()) {
@@ -150,10 +139,8 @@ public class Line {
      * @param other the other line which is being checked for the intersection
      *              point.
      * @return Point, the intersection point of the two lines.
-     * @throws Exception if one of the lines have points with negative
-     *                   coordinates.
      */
-    public Point intersectionWith(Line other) throws Exception {
+    public Point intersectionWith(Line other) {
 
         if (this.isIntersecting(other)) {
             //if one mutual base point.
@@ -301,9 +288,8 @@ public class Line {
      * @param other the input line.
      * @return 'true' the given line and the input ine are a continua of one
      *          another.
-     * @throws Exception if one of the lines point have negative coordinates.
      */
-    private boolean checkContinuingLines(Line other) throws Exception {
+    private boolean checkContinuingLines(Line other) {
         //same line
         if (this.equals(other)) {
             return false;
@@ -476,10 +462,8 @@ public class Line {
      * @param rect the input rectangle.
      * @return the closest intersection point to the starting point of the given
      *         line.
-     * @throws Exception if in intersection point of negative coordinates.
      */
-    public Point closestIntersectionToStartOfLine(Rectangle rect)
-            throws Exception {
+    public Point closestIntersectionToStartOfLine(Rectangle rect) {
         //check if line is intersecting with given rectangle.
         if (!this.isIntersectingWithRec(rect)) {
             return null;
@@ -496,9 +480,8 @@ public class Line {
      *
      * @param rect the input rectangle.
      * @return 'true' if the line intersects with the input rectangle.
-     * @throws Exception if in intersection point of negative coordinates.
      */
-    private boolean isIntersectingWithRec(Rectangle rect) throws Exception {
+    private boolean isIntersectingWithRec(Rectangle rect) {
         Line[] recEdges = rect.getRectangleToLinesArray();
         return (this.isIntersecting(recEdges[0])
                 || this.isIntersecting(recEdges[1])

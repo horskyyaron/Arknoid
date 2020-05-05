@@ -62,10 +62,8 @@ public class GameEnvironment {
      *
      * @param trajectory the input line represents the ball trajectory.
      * @return the information on the closest collision. a CollisionInfo object.
-     * @throws Exception if the collision point coordinates have negative
-     *                   values.
      */
-    public CollisionInfo getClosestCollision(Line trajectory) throws Exception {
+    public CollisionInfo getClosestCollision(Line trajectory) {
 
         List<Point> trajectoryCollisionPoints = new LinkedList<>();
         List<Collidable> collidablesInTrajectory = new LinkedList<>();
@@ -118,11 +116,9 @@ public class GameEnvironment {
      * @param collidableStrucked the Collidable object that is intersecting with
      *                           trajectory.
      * @return the correct collision point with Collidable object.
-     * @throws Exception if the collision point has negative coordinate values.
      */
     private Point updateCollisionPointFix(Point closestCollisionPoint,
-                                          Collidable collidableStrucked)
-                                          throws Exception {
+                                          Collidable collidableStrucked) {
         //the rectangle that got hit.
         Rectangle r = collidableStrucked.getCollisionRectangle();
 

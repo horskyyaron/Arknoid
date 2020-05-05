@@ -45,11 +45,14 @@ public class CollisionInfo {
      * then returns that line.
      *
      * @return the line which is involved in the collision.
-     * @throws Exception if the collision point has a negative coordinate.
      */
-    public Line getCollisionImpactLine() throws Exception {
-
-        return (this.collisionObject.getImpactLineFromCollisionPoint(this.
-                collisionPoint));
+    public Line getCollisionImpactLine() {
+        try {
+            return (this.collisionObject.getImpactLineFromCollisionPoint(this.
+                    collisionPoint));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

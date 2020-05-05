@@ -22,11 +22,11 @@ public class Point {
      *
      * @param x x-coordinate.
      * @param y y-coordinate.
-     * @throws Exception when getting negative coordinates.
+     * @throws IllegalArgumentException when getting negative coordinates.
      */
-    public Point(double x, double y) throws Exception {
+    public Point(double x, double y) throws IllegalArgumentException {
         if (x < 0 || y < 0) {
-            throw new Exception("a point on screen cannot have "
+            throw new IllegalArgumentException("a point on screen cannot have "
                     + "negative coordinates");
         } else {
             this.x = x;
@@ -155,10 +155,8 @@ public class Point {
      *
      * @return 'true' if given point is a corner point of the game-play zone.
      *          'false' otherwise.
-     * @throws Exception if one of the corner points, for some reason,
-     *                   have negative coordinates.
      */
-    public boolean isAGameCorner() throws Exception {
+    public boolean isAGameCorner() {
         //getting the game-play zone corner points.
         List<Point> cornerPoints = getGameCornerPoints(Game.getWIDTH(),
                 Game.getHEIGHT(), Game.getBorderThickness());
@@ -175,10 +173,9 @@ public class Point {
      * @param thickness screen border thickness.
      * @return corner points (of the game-play zone, where the ball can move)
      *         list.
-     * @throws Exception if one of the points has negative values.
      */
     private List<Point> getGameCornerPoints(int width, int height,
-                                            double thickness) throws Exception {
+                                            double thickness) {
         //calculating and adding all the corner points of the game-play zone
         // to a list.
         List<Point> cornerPoints = new ArrayList<>();

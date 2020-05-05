@@ -29,7 +29,7 @@ public class Game {
     private static final double BORDER_THICKNESS_FACTOR = 0.04;
 
     //number of balls in game.
-    private static final int BALLS_IN_GAME_INITIAL = 2;
+    private static final int BALLS_IN_GAME_INITIAL = 10;
 
     //Ball Max and Min speed:
     private static final int MAX_SPEED = 10;
@@ -108,11 +108,8 @@ public class Game {
      *
      * Generating: background block, blocks, game borders, balls and paddle.
      * and adding them to the game.
-     *
-     * @throws Exception if in one of the generating of the game objects, a
-     *                   Point object will receive negative coordinates.
      */
-    public void initialize() throws Exception {
+    public void initialize() {
 
         this.gui = new GUI("GAME!", WIDTH, HEIGHT);
         generateBackground();
@@ -125,11 +122,8 @@ public class Game {
 
     /**
      * Run the game -- start the animation loop.
-     *
-     * @throws Exception if one of the game object will have a point with
-     *                   negative coordinates.
      */
-    public void run() throws Exception {
+    public void run() {
 
         Sleeper sleeper = new Sleeper();
         int framesPerSecond = 60;
@@ -156,11 +150,8 @@ public class Game {
     //generating elemnts of the game and adding them to sprites and environemt.
     /**
      * Generating the background block and adding it to game.
-     *
-     * @throws Exception if a background block corner point have negative
-     *                   coorinates.
      */
-    private void generateBackground() throws Exception {
+    private void generateBackground() {
         //in case we random color background.
         //java.awt.Color backgroundColor = getRandomColor();
         java.awt.Color color = BACKGROUND_COLOR;
@@ -176,11 +167,8 @@ public class Game {
      * Generating the game borders and adding them to game.
      *
      * the game borders will set the game-play zone, where the ball can move.
-     *
-     * @throws Exception if one of the border block has a point with negative
-     *                   coordinates.
      */
-    private void generateGameBorders() throws Exception {
+    private void generateGameBorders() {
         Double thickness = getBorderThickness();
 
         //in case we random color background.
@@ -209,13 +197,16 @@ public class Game {
      *
      * the balls starting location is set to be in the middle, below the blocks.
      * their speed is randomly chosen.
-     *
-     * @throws Exception if one of balls generated, has a center point with
-     *                   negative coordinates.
      */
-    private void generateBalls() throws Exception {
+    private void generateBalls() {
+        List<Ball> gameBalls = new ArrayList<>();
         //generating balls.
-        List<Ball> gameBalls = generateRandomBalls();
+        try {
+            gameBalls = generateRandomBalls();
+        } catch (Exception e) {
+            System.out.println("balls cannot have speed grater than the "
+                    + "screen width ot height.");
+        }
 
         //adding balls to game.
         for (int i = 0; i < gameBalls.size(); i++) {
@@ -228,8 +219,8 @@ public class Game {
      * objects created.
      *
      * @return list of Ball objects. (the game balls).
-     * @throws Exception if one of balls generated, has a center point with
-     *                   negative coordinates.
+     * @throws Exception if the ball's speed is bigger then the screen width
+     *          or height.
      */
     private List<Ball> generateRandomBalls() throws Exception {
         Random random = new Random();
@@ -262,11 +253,8 @@ public class Game {
 
     /**
      * Generating game blocks.
-     *
-     * @throws Exception if one of the blocks generated, has a corner point with
-     *                   negative coordinates.
      */
-    private void generateGameBlocks() throws Exception {
+    private void generateGameBlocks() {
         Point firstRowFirstBlock = new Point(WIDTH - getBorderThickness()
                 - BLOCK_WIDTH , TOP_BLOCK_ROW_HEIGHT);
 
@@ -291,13 +279,11 @@ public class Game {
      * @param blocksCounter counter of the remaining blocks to be printed in
      *                      the row.
      * @param color the blocks color in the current row.
-     * @throws Exception if one of the blocks generated, has a corner point with
-     *                   negative coordinates.
      */
     private void generateBlockRow(Point firstBlock,
                                   double singleBlockWidth,
                                   double singleBlockHeight, int blocksCounter,
-                                  java.awt.Color color) throws Exception {
+                                  java.awt.Color color) {
 
         if (blocksCounter <= 0) {
             return;
@@ -316,11 +302,8 @@ public class Game {
 
     /**
      * Generating the game paddle and adding it to game.
-     *
-     * @throws Exception if one the paddle body generated, a rectangle, has a
-     *                   corner point with negative coordinates.
      */
-    private void generatePaddle() throws Exception {
+    private void generatePaddle() {
         Paddle paddle = new Paddle(this.gui);
         paddle.addToGame(this);
     }

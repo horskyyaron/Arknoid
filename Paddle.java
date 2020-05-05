@@ -25,10 +25,8 @@ public class Paddle implements Sprite, Collidable {
      * constructor of the 'Paddle' object.
      *
      * @param gui the game Gui.
-     * @throws Exception if the paddle is somehow constructed with points that
-     *                   has negative values.
      */
-    public Paddle(GUI gui) throws Exception {
+    public Paddle(GUI gui) {
         this.keyboard = gui.getKeyboardSensor();
         this.paddleBody = buildPaddle();
     }
@@ -39,10 +37,8 @@ public class Paddle implements Sprite, Collidable {
      * the function builds the paddle body - a rectangle.
      *
      * @return a Rectangle object, which is the paddle body.
-     * @throws Exception if the the paddle rectangle gets a point with negative
-     *                   coordinates.
      */
-    private Rectangle buildPaddle() throws Exception {
+    private Rectangle buildPaddle() {
         //calculating the width and height of the paddle based on the size
         // factors.
         double paddleWidth = PADDLE_SIZE_FACTOR * Game.getWIDTH();
@@ -62,11 +58,8 @@ public class Paddle implements Sprite, Collidable {
      *
      * The movement is created by changing the given paddle body, which is
      * a rectangle, to a new rectangle at the new location to the left.
-     *
-     * @throws Exception if the the paddle moves to a point which has negative
-     *                   coordinates.
      */
-    private void moveLeft() throws Exception {
+    private void moveLeft() {
         //for readability.
         Point curUpperLeft = this.paddleBody.getUpperLeft();
         double paddleWidth = this.paddleBody.getWidth();
@@ -89,11 +82,8 @@ public class Paddle implements Sprite, Collidable {
      *
      * The movement is created by changing the given paddle body, which is
      * a rectangle, to a new rectangle at the new location to the right.
-     *
-     * @throws Exception if the the paddle moves to a point which has negative
-     *                   coordinates.
      */
-    private void moveRight() throws Exception {
+    private void moveRight() {
 
         Point curUpperLeft = this.paddleBody.getUpperLeft();
         double paddleWidth = this.paddleBody.getWidth();
@@ -191,10 +181,8 @@ public class Paddle implements Sprite, Collidable {
      * draws the different zone margins on the paddle.
      *
      * @param surface the surface which holds all the drawing.
-     * @throws Exception if somehow one of the points of the different zones
-     *                   have negative coordinates.
      */
-    private void drawZones(DrawSurface surface) throws Exception {
+    private void drawZones(DrawSurface surface) {
         surface.setColor(Color.black);
         double zoneSize = this.paddleBody.getWidth() / 5.0;
         double[] zones = new double[5];
@@ -242,7 +230,7 @@ public class Paddle implements Sprite, Collidable {
 
     // Sprite Interface methods.
     @Override
-    public void timePassed() throws Exception {
+    public void timePassed() {
         if (this.keyboard.isPressed(KeyboardSensor.RIGHT_KEY)) {
             moveRight();
         } else if (this.keyboard.isPressed(KeyboardSensor.LEFT_KEY)) {
@@ -251,8 +239,9 @@ public class Paddle implements Sprite, Collidable {
             return;
         }
     }
+
     @Override
-    public void drawOn(DrawSurface d) throws Exception {
+    public void drawOn(DrawSurface d) {
         //frame
         d.setColor(Color.black);
         d.fillRectangle((int) this.paddleBody.getUpperLeft().getX(),
@@ -301,7 +290,7 @@ public class Paddle implements Sprite, Collidable {
     }
 
     @Override
-    public Line getImpactLineFromCollisionPoint(Point collisionPoint) throws Exception {
+    public Line getImpactLineFromCollisionPoint(Point collisionPoint) {
         //creating a block with the same specs as the paddle body to
         // use Block's function.
         Block b = new Block(this.paddleBody);

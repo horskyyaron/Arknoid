@@ -22,9 +22,8 @@ public interface Collidable {
      * @param collisionPoint the collision point.
      * @param currentVelocity the velocity of the striking object.
      * @return the new velocity for the hitting object.
-     * @throws Exception if the collision point has negative coordinates values.
      */
-    Velocity hit(Point collisionPoint, Velocity currentVelocity) throws Exception;
+    Velocity hit(Point collisionPoint, Velocity currentVelocity);
 
     /**
      * calculate which of the given Collidable's lines was a part of the
@@ -32,7 +31,6 @@ public interface Collidable {
      *
      * @param collisionPoint the collision point.
      * @return the line which is involved in the collision.
-     * @throws Exception if the collision point has a negative coordinate.
      */
-    Line getImpactLineFromCollisionPoint(Point collisionPoint) throws Exception;
+    Line getImpactLineFromCollisionPoint(Point collisionPoint);
 }

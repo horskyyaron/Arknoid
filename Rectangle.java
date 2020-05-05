@@ -21,14 +21,12 @@ public class Rectangle {
      *                frame.
      * @param width holds the rectangle width.
      * @param height holds the rectangle height.
-     * @throws Exception if top left rectangle corner point gets negative
-     *                   coordinates values.
      */
-    public Rectangle(Point upperLeft, double width, double height)
-            throws Exception {
-        if (width < 0 || height < 0) {
-            throw new Exception("can't have negative value for width or "
-                    + "height");
+    public Rectangle(Point upperLeft, double width, double height) {
+        if (width < 0 || width > Game.getWIDTH() || height < 0
+                || height > Game.getHEIGHT()) {
+            throw new IllegalArgumentException("can't have a rectangle with"
+                    + "negative height or width or negative height or width.");
         } else {
             this.upperLeft = upperLeft;
             this.width = width;
@@ -70,11 +68,8 @@ public class Rectangle {
      *            with the given rectangle.
      * @return Point object list which holds the intersection points with the
      *         line.
-     * @throws Exception if the line has Points components with negative
-     *         coordinates.
      */
-    public java.util.List<Point> intersectionPoints(Line line)
-            throws Exception {
+    public java.util.List<Point> intersectionPoints(Line line) {
         //getting an array of the rectangle Lines.
         Line[] rectangleEdges = rectangleToLinesArray();
         java.util.List<Point> pointList = new LinkedList<>();
@@ -100,10 +95,8 @@ public class Rectangle {
      * creates an array of lines, which compose the rectangle's frame.
      *
      * @return Line array of the rectangles edges.
-     * @throws Exception if one of the line has Points components with negative
-     *         coordinates.
      */
-    private Line[] rectangleToLinesArray() throws Exception {
+    private Line[] rectangleToLinesArray() {
         Point[] rectangleEdgePoints = rectangleToEdgePointsArray();
         Line[] lines = new Line[4];
 
@@ -122,10 +115,8 @@ public class Rectangle {
      * points.
      *
      * @return Point array of the rectangle's frame corners.
-     * @throws Exception if one of the line has Points components with negative
-     *         coordinates.
      */
-    private Point[] rectangleToEdgePointsArray() throws Exception {
+    private Point[] rectangleToEdgePointsArray() {
         Point upperLeftCorner = this.upperLeft;
         Point upperRightCorner = new Point(upperLeftCorner.getX() + this.width,
                 upperLeftCorner.getY());
@@ -149,10 +140,8 @@ public class Rectangle {
      * returns rectangle's corner points array.
      *
      * @return Point array of the rectangle's frame corners.
-     * @throws Exception if one of the line has Points components with negative
-     *         coordinates.
      */
-    public Point[] getRectangleToEdgePointsArray() throws Exception {
+    public Point[] getRectangleToEdgePointsArray() {
         return rectangleToEdgePointsArray();
     }
 
@@ -160,10 +149,8 @@ public class Rectangle {
      * returns rectangle's edges, Line array.
      *
      * @return Line array of the rectangles edges.
-     * @throws Exception if one of the line has Points components with negative
-     *         coordinates.
      */
-    public Line[] getRectangleToLinesArray() throws Exception {
+    public Line[] getRectangleToLinesArray() {
         return rectangleToLinesArray();
     }
 
@@ -174,11 +161,8 @@ public class Rectangle {
      *             points with rectangle.
      * @return Point object list which holds the intersection points with the
      *         line.
-     * @throws Exception if the line has Points components with negative
-     *         coordinates.
      */
-    public java.util.List<Point> getIntersectionPoints(Line line)
-            throws Exception {
+    public java.util.List<Point> getIntersectionPoints(Line line) {
         return intersectionPoints(line);
     }
 
