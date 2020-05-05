@@ -10,7 +10,7 @@ import java.util.Random;
 public class Ball implements Sprite {
     //Constants
     //for get near collision point.
-    private static double DELTA = 0.1;
+    private static final double DELTA = 0.1;
 
     //fields.
     private Point center;
@@ -21,13 +21,13 @@ public class Ball implements Sprite {
 
     //Constructors
     /**
-     * contructor function
+     * constructor function
      *
      * constructor of the 'Ball' object.
      * a Ball object has three components: a center point (Point object), a
      * radius and background color.
      *
-     * @param center the ball center point on screen..
+     * @param center the ball center point on screen.
      * @param radius the ball's radius.
      * @param color the ball's color.
      * @throws Exception if the point representing the center of the ball has
@@ -45,11 +45,7 @@ public class Ball implements Sprite {
     }
 
     /**
-     * contructor function2
-     *
-     * constructor of the 'Ball' object.
-     * a Ball object has four components: a center point x-coordinate, a center
-     * point y-coordinate, a radius and a background color.
+     * constructor function.
      *
      * @param x the ball center point's x-coordinate.
      * @param y the ball center point's y-coordinate.
@@ -62,6 +58,12 @@ public class Ball implements Sprite {
         this(new Point(x, y), radius, color);
     }
 
+    /**
+     * constructor function.
+     *
+     * @param center the ball's center point.
+     * @param radius the ball's radius.
+     */
     public Ball(Point center, int radius) {
         this.center = center;
         this.radius = radius;
@@ -69,28 +71,31 @@ public class Ball implements Sprite {
         this.color = Color.WHITE;
     }
 
+    /**
+     * constructor function.
+     *
+     * @param x the ball center point's x-coordinate.
+     * @param y the ball center point's y-coordinate.
+     * @param radius the ball's radius.
+     * @throws Exception if ball center point has negative coordinates.
+     */
     public Ball(int x, int y, int radius) throws Exception {
-        this.center = new Point(x,y);
+        this.center = new Point(x, y);
         this.radius = radius;
-        //default color blue
-        this.color = Color.white;
+        //default color white
+        this.color = Color.WHITE;
 
     }
 
     //Sprite Interface Methods
 
-    /**
-     * will draw a given ball onto an input surface.
-     *
-     * @param surface the surface which the ball will be drawn on.
-     */
     @Override
     public void drawOn(DrawSurface surface) {
         //frame
 //        surface.setColor(Color.black);
 //        surface.fillCircle((int)this.getX(),(int) this.getY(), this.radius);
         surface.setColor(this.color);
-        surface.fillCircle((int)this.getX(),(int) this.getY(), this.radius);
+        surface.fillCircle((int) this.getX(), (int) this.getY(), this.radius);
     }
 
     @Override
@@ -165,18 +170,30 @@ public class Ball implements Sprite {
         this.velocity = new Velocity(dx, dy);
     }
 
-    public void setColor(java.awt.Color color) {
-        this.color = color;
+    /**
+     * will set ball's color to the input color.
+     *
+     * @param newColor the input color.
+     */
+    public void setColor(java.awt.Color newColor) {
+        this.color = newColor;
     }
 
+    /**
+     * will preform a movement of the ball, by updating the ball's center point.
+     *
+     * @throws Exception if trying to move ball to a point with negative
+     *                   coordinates.
+     */
     public void moveOneStep() throws Exception {
         Line trajectory = computeBallTrajectory();
-        if(gameEnvironment.getClosestCollision(trajectory) == null) {
+        //check if a collision occurred.
+        if (gameEnvironment.getClosestCollision(trajectory) == null) {
             //no collision, move to end of trajectory.
             this.center = this.getVelocity().applyToPoint(this.center);
         } else {
-            //there was a hit with collidable
-            //get information about the collision.
+            //there was a hit with collidable, get information about the
+            // collision.
             CollisionInfo collisionInfo =
                     gameEnvironment.getClosestCollision(trajectory);
             //move ball.
@@ -189,61 +206,116 @@ public class Ball implements Sprite {
         }
     }
 
+    /**
+     * will move ball's center very close to the collision point.
+     *
+     * @param collisionPoint the collision point.
+     * @param trajectory the ball's trajectory.
+     * @param impactLine the line the ball is hitting.
+     * @throws Exception if trying to move ball to a point with negative
+     *                   coordinates.
+     */
     private void moveNearCollisionPoint(Point collisionPoint,
                                         Line trajectory, Line impactLine)
             throws Exception {
-        if(collisionPoint.isAGameCorner()) {
+        //if the collision point is a corner.
+        if (collisionPoint.isAGameCorner()) {
             moveNearCorner(collisionPoint);
         }
-        if(impactLine.isHorizontal()) {
-            //check horizontal impact stuff.
-            moveNearHorizontalLine(collisionPoint, trajectory,impactLine);
+        //if it' not a corner.
+        if (impactLine.isHorizontal()) {
+            moveNearHorizontalLine(collisionPoint, trajectory);
         } else {
-            //check vertical impact stuff.
-            moveNearVerticalLine(collisionPoint, trajectory,impactLine);
+            moveNearVerticalLine(collisionPoint, trajectory);
         }
 
     }
 
+    /**
+     * will move ball's center very close to game corner.
+     *
+     * @param cornerPoint the game corner point.
+     * @throws Exception if trying to move ball to a point with negative
+     *                   coordinates.
+     */
     private void moveNearCorner(Point cornerPoint) throws Exception {
-        //check which corner point is the collision point, move ball center so that it will be inside game-play zone.
-        //check if it's in the left part of the game-play zone.
-        if(cornerPoint.getX() < (double) Game.getWIDTH()/2) {
-            //check if't the lower or upper corner in the left side of the game-play zone.
-            if(cornerPoint.getY() < (double) Game.getHEIGHT()/2) {
-                this.center = new Point(cornerPoint.getX() + DELTA, cornerPoint.getY() + DELTA);
+        /*
+
+        check which corner point is the collision point, move ball center so
+        that it will be inside game-play zone.
+
+        check if it's in the left part of the game-play zone.
+         */
+        if (cornerPoint.getX() < (double) Game.getWIDTH() / 2) {
+            //check if't the lower or upper corner in the left side of the
+            // game-play zone.
+            if (cornerPoint.getY() < (double) Game.getHEIGHT() / 2) {
+                this.center = new Point(cornerPoint.getX() + DELTA,
+                        cornerPoint.getY() + DELTA);
             } else {
-                this.center = new Point(cornerPoint.getX() + DELTA, cornerPoint.getY() - DELTA);
+                this.center = new Point(cornerPoint.getX() + DELTA,
+                        cornerPoint.getY() - DELTA);
             }
         } else {
-            //right size of game-play zone.
-            //check if't the lower or upper corner in the right side of the game-play zone.
-            if(cornerPoint.getY() < (double) Game.getHEIGHT()/2) {
-                this.center = new Point(cornerPoint.getX() - DELTA, cornerPoint.getY() + DELTA);
+            //check if't the lower or upper corner in the right side of the
+            // game-play zone.
+            if (cornerPoint.getY() < (double) Game.getHEIGHT() / 2) {
+                this.center = new Point(cornerPoint.getX() - DELTA,
+                        cornerPoint.getY() + DELTA);
             } else {
-                this.center = new Point(cornerPoint.getX() - DELTA, cornerPoint.getY() - DELTA);
+                this.center = new Point(cornerPoint.getX() - DELTA,
+                        cornerPoint.getY() - DELTA);
             }
         }
     }
 
-    private void moveNearVerticalLine(Point collisionPoint, Line trajectory, Line impactLine) throws Exception {
-        if(trajectory.start().getX() > collisionPoint.getX()) {
+    /**
+     * will move ball's center very close to a vertical line.
+     *
+     * @param collisionPoint the collision point.
+     * @param trajectory the ball's trajectory.
+     * @throws Exception if trying to move ball to a point with negative
+     *                   coordinates.
+     */
+    private void moveNearVerticalLine(Point collisionPoint, Line trajectory)
+            throws Exception {
+        if (trajectory.start().getX() > collisionPoint.getX()) {
             this.center = new Point(collisionPoint.getX() + DELTA, collisionPoint.getY());
         } else {
             this.center = new Point(collisionPoint.getX() - DELTA, collisionPoint.getY());
         }
     }
 
+    /**
+     * will move ball's center very close to a horizontal line.
+     *
+     * @param collisionPoint the collision point.
+     * @param trajectory the ball's trajectory.
+     * @throws Exception if trying to move ball to a point with negative
+     *                   coordinates.
+     */
     private void moveNearHorizontalLine(Point collisionPoint,
-                                        Line trajectory, Line impactLine) throws Exception {
-        if(trajectory.start().getY() > collisionPoint.getY()) {
-            this.center = new Point(collisionPoint.getX(),collisionPoint.getY() + DELTA);
+                                        Line trajectory) throws Exception {
+        if (trajectory.start().getY() > collisionPoint.getY()) {
+            this.center = new Point(collisionPoint.getX(),
+                    collisionPoint.getY() + DELTA);
         } else {
-            this.center = new Point(collisionPoint.getX(),collisionPoint.getY() - DELTA);
+            this.center = new Point(collisionPoint.getX(),
+                    collisionPoint.getY() - DELTA);
         }
     }
 
-    //compute ball's trajectory... dah...
+    /**
+     * will compute and return the ball's trajectory.
+     *
+     * a Line object represented by the ball current position as the starting
+     * point and the it's next position as it's ending point, based on it's
+     * velocity.
+     *
+     * @throws Exception if ball's trajectory has a point with negative
+     *                   coordinates values.
+     * @return ball's trajectory represented as a Line object.
+     */
     private Line computeBallTrajectory() throws Exception {
         double endingPointXCoordinate = this.center.getX()
                 + this.getVelocity().getDx();
@@ -253,7 +325,6 @@ public class Ball implements Sprite {
                 new Point(endingPointXCoordinate, endingPointYCoordinate)));
     }
 
-    //Other Methods
     /**
      * will change the ball's color to a random RGB color.
      */
@@ -265,10 +336,24 @@ public class Ball implements Sprite {
         this.color = new Color(r, g, b);
     }
 
+    /**
+     * will add the GameEnvironment object to ball's field.
+     *
+     * the ball must know about other objects in the game, that is why
+     * we're adding GameEnvironment object to ball's field.
+     *
+     * @param environment the GameEnvironment object being added to the ball
+     *                    fields.
+     */
     public void setGameEnvironment(GameEnvironment environment) {
         this.gameEnvironment = environment;
     }
 
+    /**
+     * the function will add the Ball object to the input game.
+     *
+     * @param game the game which the ball will be a part of.
+     */
     public void addToGame(Game game) {
         game.addSprite(this);
     }
