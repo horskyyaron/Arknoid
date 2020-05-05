@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import static java.lang.Double.min;
 import static java.lang.Math.abs;
 
 /**
@@ -27,7 +29,7 @@ public class Game {
     private static final double BORDER_THICKNESS_FACTOR = 0.04;
 
     //number of balls in game.
-    private static final int BALLS_IN_GAME_INITIAL = 10;
+    private static final int BALLS_IN_GAME_INITIAL = 2;
 
     //Ball Max and Min speed:
     private static final int MAX_SPEED = 10;
@@ -35,10 +37,12 @@ public class Game {
 
     //the blocks size will be determined by the screen size.
     private static final double BLOCK_WIDTH =  getWIDTH() / 16.0;
-    private static final double BLOCK_HEIGHT = getHEIGHT() / 22.0;
+    private static final double BLOCK_HEIGHT = getHEIGHT() / 22.2;
 
     //number of blocks in the first row of blocks.
     private static final int BLOCKS_IN_TOP_ROW = 12;
+    private static final int NUMBER_OF_BLOCKS_ROW = 6;
+
 
     //Block top row height in proportion to the border thickness.
     private static final double TOP_BLOCK_ROW_HEIGHT = 5.2
@@ -244,6 +248,11 @@ public class Game {
                                 + MIN_SPEED, random.nextInt(MAX_SPEED
                                 + abs(MIN_SPEED)) + MIN_SPEED);
             }
+            //in case of speed higher than the screen size.
+            if (ball.getVelocity().getSpeed() > min(getWIDTH(), getHEIGHT())) {
+                throw new Exception("speed cannot be greater than screen "
+                        + "width or height!!!");
+            }
             //adding the game environment to ball's data.
             ball.setGameEnvironment(this.environment);
             ballsList.add(ball);
@@ -262,7 +271,7 @@ public class Game {
                 - BLOCK_WIDTH , TOP_BLOCK_ROW_HEIGHT);
 
         //generating each row separately.
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < NUMBER_OF_BLOCKS_ROW; i++) {
             //each row first block is a one BLOCK_HIGHET lower on the sreen.
             Point firstBlock = new Point(firstRowFirstBlock.getX(),
                     firstRowFirstBlock.getY() + i * BLOCK_HEIGHT);
@@ -290,7 +299,7 @@ public class Game {
                                   double singleBlockHeight, int blocksCounter,
                                   java.awt.Color color) throws Exception {
 
-        if (blocksCounter == 0) {
+        if (blocksCounter <= 0) {
             return;
         } else {
             //creating the block and adding it to game.

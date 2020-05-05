@@ -131,14 +131,14 @@ public class Block implements Collidable, Sprite {
      */
     private void drawBlock(DrawSurface surface) {
         //frame
-        surface.setColor(Color.black);
+        surface.setColor(Color.BLACK);
         surface.fillRectangle((int) this.block.getUpperLeft().getX(),
                 (int) this.block.getUpperLeft().getY(),
                 (int) this.block.getWidth(), (int) this.block.getHeight());
         //Block background color.
         surface.setColor(this.color);
         surface.fillRectangle((int) this.block.getUpperLeft().getX() + 1,
-                (int) this.block.getUpperLeft().getY() - 1,
+                (int) this.block.getUpperLeft().getY() + 1,
                 (int) this.block.getWidth() - 2,
                 (int) this.block.getHeight() - 2);
     }

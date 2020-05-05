@@ -50,7 +50,7 @@ public class Paddle implements Sprite, Collidable {
         //calculating and creating the paddle top left corner point.
         double rectUpperLeftXCord = Game.getWIDTH() / 2.0 - paddleWidth / 2.0;
         double rectUpperLeftYCord = Game.getHEIGHT()
-                - Game.getBorderThickness() - paddleHeight;
+                - Game.getBorderThickness() - paddleHeight - 1;
         Point rectUpperLeft = new Point(rectUpperLeftXCord, rectUpperLeftYCord);
 
         return new Rectangle(rectUpperLeft, paddleWidth, paddleHeight);
@@ -232,12 +232,12 @@ public class Paddle implements Sprite, Collidable {
      * the function will add the given paddle to the game Collidable
      * and Sprites lists.
      *
-     * @param game class object that holds all of the game component,
+     * @param g class object that holds all of the game component,
      *             paddle included.
      */
-    public void addToGame(Game game) {
-        game.addSprite(this);
-        game.addCollidable(this);
+    public void addToGame(Game g) {
+        g.addSprite(this);
+        g.addCollidable(this);
     }
 
     // Sprite Interface methods.
@@ -252,17 +252,19 @@ public class Paddle implements Sprite, Collidable {
         }
     }
     @Override
-    public void drawOn(DrawSurface surface) throws Exception {
+    public void drawOn(DrawSurface d) throws Exception {
         //frame
-        surface.setColor(Color.BLACK);
-        surface.fillRectangle((int) this.paddleBody.getUpperLeft().getX(),
+        d.setColor(Color.black);
+        d.fillRectangle((int) this.paddleBody.getUpperLeft().getX(),
                 (int) this.paddleBody.getUpperLeft().getY(),
-                (int) this.paddleBody.getWidth(), (int) this.paddleBody.getHeight());
+                (int) this.paddleBody.getWidth(),
+                (int) this.paddleBody.getHeight());
         //background color.
-        surface.setColor(Color.YELLOW);
-        surface.fillRectangle((int) this.paddleBody.getUpperLeft().getX() + 2,
-                (int) this.paddleBody.getUpperLeft().getY() + 2 ,
-                (int) this.paddleBody.getWidth() - 3 , (int) this.paddleBody.getHeight() - 3);
+        d.setColor(Color.YELLOW);
+        d.fillRectangle((int) this.paddleBody.getUpperLeft().getX() + 1,
+                (int) this.paddleBody.getUpperLeft().getY() + 1 ,
+                (int) this.paddleBody.getWidth() - 2 ,
+                (int) this.paddleBody.getHeight() - 2);
 
         //for checking different zones collision areas. (Possible cheat :) )
         //drawZones(surface);
