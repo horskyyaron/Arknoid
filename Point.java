@@ -22,9 +22,8 @@ public class Point {
      *
      * @param x x-coordinate.
      * @param y y-coordinate.
-     * @throws IllegalArgumentException when getting negative coordinates.
      */
-    public Point(double x, double y) throws IllegalArgumentException {
+    public Point(double x, double y) {
         if (x < 0 || y < 0) {
             throw new IllegalArgumentException("a point on screen cannot have "
                     + "negative coordinates");

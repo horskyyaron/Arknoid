@@ -29,7 +29,7 @@ public class Game {
     private static final double BORDER_THICKNESS_FACTOR = 0.04;
 
     //number of balls in game.
-    private static final int BALLS_IN_GAME_INITIAL = 10;
+    private static final int BALLS_IN_GAME_INITIAL = 2;
 
     //Ball Max and Min speed:
     private static final int MAX_SPEED = 10;
