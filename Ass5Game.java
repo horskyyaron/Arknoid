@@ -1,4 +1,6 @@
-package execution;//ID: 204351670
+//ID: 204351670
+
+import execution.Game;
 
 /**
  * Ass3Game class will initialize and run Arkanoid game.

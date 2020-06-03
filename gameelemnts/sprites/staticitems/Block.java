@@ -1,4 +1,6 @@
-package gameelemnts.sprites.staticitems;//ID: 204351670
+//ID: 204351670
+
+package gameelemnts.sprites.staticitems;
 
 import biuoop.DrawSurface;
 import gameelemnts.HitListener;
@@ -16,7 +18,6 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-//import java.util.Random;
 
 
 /**
@@ -183,6 +184,11 @@ public class Block implements Collidable, Sprite, HitNotifier {
         game.addCollidable(this);
     }
 
+    /**
+     * the function will remove the block object from the input game.
+     *
+     * @param game the game which the block will be a part of.
+     */
     public void removeFromGame(Game game) {
         game.removeSprite(this);
         game.removeCollidable(this);
@@ -198,6 +204,11 @@ public class Block implements Collidable, Sprite, HitNotifier {
         this.hitListeners.remove(hl);
     }
 
+    /**
+     * the function will notify all the listners assigned to the block that a hit has occurred.
+     *
+     * @param hitter the ball which stroked the block.
+     */
     private void notifyHit(Ball hitter) {
         // Make a copy of the hitListeners before iterating over them.
         List<HitListener> listeners = new ArrayList<HitListener>(this.hitListeners);

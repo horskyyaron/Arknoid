@@ -1,7 +1,8 @@
-package gameelemnts.sprites;//ID: 204351670
+//ID: 204351670
+
+package gameelemnts.sprites;
 
 import biuoop.DrawSurface;
-import gameelemnts.HitListener;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -90,6 +91,11 @@ public class SpriteCollection {
         return this.spriteElements.get(index);
     }
 
+    /**
+     * the function will return sprite list.
+     *
+     * @return the sprite list (the sprite collection)
+     */
     public List<Sprite> getSpriteElements() {
         return spriteElements;
     }

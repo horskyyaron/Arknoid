@@ -1,3 +1,5 @@
+//ID: 204351670
+
 package execution.listeners;
 
 import execution.Game;
@@ -5,21 +7,28 @@ import gameelemnts.HitListener;
 import gameelemnts.sprites.movingitems.ball.Ball;
 import gameelemnts.sprites.staticitems.Block;
 
-// a BlockRemover is in charge of removing blocks from the game, as well as keeping count
-// of the number of blocks that remain.
+/**
+ * BlockRemover is a class that supports methods that will keep track of the number of blocks
+ * in the game, and will remove them when needed.
+ */
 public class BlockRemover implements HitListener {
+
+    //fields
     private Game game;
     private Counter remainingBlocks;
 
-    //removed blocks = remaining blocks.
+    /**
+     * Instantiates a new Block remover.
+     *
+     * @param game          the game
+     * @param removedBlocks the removed blocks
+     */
     public BlockRemover(Game game, Counter removedBlocks) {
         this.game = game;
         this.remainingBlocks = removedBlocks;
     }
 
-    // Blocks that are hit should be removed
-    // from the game. Remember to remove this listener from the block
-    // that is being removed from the game.
+
     @Override
     public void hitEvent(Block beingHit, Ball hitter) {
         //updating the remaining blocks counter

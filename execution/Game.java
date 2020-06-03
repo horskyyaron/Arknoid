@@ -1,4 +1,6 @@
-package execution;//ID: 204351670
+//ID: 204351670
+
+package execution;
 
 import biuoop.DrawSurface;
 import biuoop.GUI;
@@ -28,7 +30,7 @@ import static java.lang.Math.abs;
  * execution.Game class supports methods that their goal is to represent the game of
  * Arkanoid. The methods will create the game objects, and will animate the
  * movement of the objects.
- *
+ * <p>
  * the constants representing the border thickness, the ball's minimum and max
  * speed are randomly chosen so that the animation will look good.
  */
@@ -42,7 +44,7 @@ public class Game {
     private static final double BORDER_THICKNESS_FACTOR = 0.04;
 
     //number of balls in game.
-    private static final int BALLS_IN_GAME_INITIAL = 150;
+    private static final int BALLS_IN_GAME_INITIAL = 3;
 
     //gameelemnts.sprites.movingitems.ball.Ball Max and Min speed:
     private static final int MAX_SPEED = 10;
@@ -94,8 +96,8 @@ public class Game {
 
     /**
      * constructor of the 'execution.Game' object.
-     *
-     * will create a new gameelemnts.sprites.Sprite collection and a new execution.Game environment for the
+     * <p>
+     * will create a new game elemnts.sprites.Sprite collection and a new execution.Game environment for the
      * game.
      */
     public Game() {
@@ -115,8 +117,10 @@ public class Game {
     public void addCollidable(Collidable c) {
         this.environment.getCollidables().add(c);
     }
+
     /**
-     * will add an input gameelemnts.sprites.Sprite into 'gameelemnts.sprites' field (a gameelemnts.sprites.SpriteCollection object).
+     * will add an input gameelemnts.sprites.Sprite into 'gameelemnts.sprites' field
+     * (a gameelemnts.sprites.SpriteCollection object).
      *
      * @param s input gameelemnts.sprites.Sprite object
      */
@@ -126,7 +130,7 @@ public class Game {
 
     /**
      * Initialize a new game:
-     *
+     * <p>
      * Generating: background block, blocks, game borders, balls and paddle.
      * and adding them to the game.
      */
@@ -141,9 +145,14 @@ public class Game {
         generateScoreIndicator(this.score);
     }
 
-    private void generateScoreIndicator(Counter score) {
+    /**
+     * Generating the score indicator.
+     *
+     * @param currentScore the game score.
+     */
+    private void generateScoreIndicator(Counter currentScore) {
         //creating score indicator
-        ScoreIndicator scoreIndicator = new ScoreIndicator(score);
+        ScoreIndicator scoreIndicator = new ScoreIndicator(currentScore);
         //adding to sprite collection
         this.sprites.addSprite(scoreIndicator);
     }
@@ -160,7 +169,7 @@ public class Game {
         //animation loop.
         while (true) {
             //All blocks destroyed. end game.
-            if(this.remainingBlocksCounter.getValue() == 0) {
+            if (this.remainingBlocksCounter.getValue() == 0) {
                 //get bonus points
                 this.score.increase(GAME_WON_BONUS);
 
@@ -184,7 +193,7 @@ public class Game {
             }
 
             //All balls went to death-region. (out of bounds). lost. end game.
-            if(this.remainingBallsCounter.getValue() == 0) {
+            if (this.remainingBallsCounter.getValue() == 0) {
                 this.gui.close();
                 return;
             }
@@ -336,7 +345,7 @@ public class Game {
                     firstRowFirstBlock.getY() + i * BLOCK_HEIGHT);
             //each row will have one block less than the row above it.
             generateBlockRow(firstBlock, BLOCK_WIDTH, BLOCK_HEIGHT,
-                    BLOCKS_IN_TOP_ROW - i, getRandomColor(), blockRemover,scoreTrackingListener);
+                    BLOCKS_IN_TOP_ROW - i, getRandomColor(), blockRemover, scoreTrackingListener);
         }
 
     }
@@ -350,6 +359,8 @@ public class Game {
      * @param blocksCounter counter of the remaining blocks to be printed in
      *                      the row.
      * @param color the blocks color in the current row.
+     * @param blockRemover the listener that will be added to each block
+     * @param scoreTrackingListener the listener that will keep score, which will be added to each clock.
      */
     private void generateBlockRow(Point firstBlock,
                                   double singleBlockWidth,
@@ -376,7 +387,7 @@ public class Game {
             //recursively generating blocks in the left direction.
             generateBlockRow(new Point(firstBlock.getX() - singleBlockWidth,
                     firstBlock.getY()), singleBlockWidth, singleBlockHeight,
-                    blocksCounter - 1, color, blockRemover,scoreTrackingListener);
+                    blocksCounter - 1, color, blockRemover, scoreTrackingListener);
         }
     }
 
@@ -431,14 +442,29 @@ public class Game {
         return BORDER_THICKNESS_FACTOR * WIDTH;
     }
 
+    /**
+     * Remove collidable.
+     *
+     * @param c the c
+     */
     public void removeCollidable(Collidable c) {
         this.environment.getCollidables().remove(c);
     }
 
+    /**
+     * Remove sprite.
+     *
+     * @param s the s
+     */
     public void removeSprite(Sprite s) {
         this.sprites.getSpriteElements().remove(s);
     }
 
+    /**
+     * Gets score.
+     *
+     * @return the score
+     */
     public int getScore() {
         return this.score.getValue();
     }

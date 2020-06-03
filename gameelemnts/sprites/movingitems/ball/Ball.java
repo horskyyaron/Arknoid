@@ -1,16 +1,16 @@
-package gameelemnts.sprites.movingitems.ball;//ID: 204351670
+//ID: 204351670
+
+package gameelemnts.sprites.movingitems.ball;
+
 import biuoop.DrawSurface;
 import execution.Game;
 import execution.GameEnvironment;
-import gameelemnts.HitListener;
-import gameelemnts.HitNotifier;
 import geometry.line.Line;
 import geometry.Point;
 import gameelemnts.sprites.Sprite;
 import gameelemnts.collidables.CollisionInfo;
 
 import java.awt.Color;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -35,9 +35,8 @@ public class Ball implements Sprite {
     /**
      * constructor function
      *
-     * constructor of the 'gameelemnts.sprites.movingitems.ball.Ball' object.
-     * a gameelemnts.sprites.movingitems.ball.Ball object has three components: a center point (geometry.Point object), a
-     * radius and background color.
+     * constructor of the ball object.
+     * a Ball object has three components: a center point a radius and background color.
      *
      * @param center the ball center point on screen.
      * @param radius the ball's radius.
@@ -353,7 +352,7 @@ public class Ball implements Sprite {
     }
 
     /**
-     * the function will add the gameelemnts.sprites.movingitems.ball.Ball object to the input game.
+     * the function will add the Ball object to the input game.
      *
      * @param game the game which the ball will be a part of.
      */
@@ -361,6 +360,11 @@ public class Ball implements Sprite {
         game.addSprite(this);
     }
 
+    /**
+     * the function will remove the Ball object from the input game.
+     *
+     * @param g the game which the ball will be a part of.
+     */
     public void removeFromGame(Game g) {
         g.removeSprite(this);
     }

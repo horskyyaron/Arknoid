@@ -1,9 +1,11 @@
-package gameelemnts.sprites;//ID: 204351670
+//ID: 204351670
+
+package gameelemnts.sprites;
 
 import biuoop.DrawSurface;
 
 /**
- * gameelemnts.sprites.Sprite object is an object that's being drawn to screen, and can be notified
+ * Sprite object is an object that's being drawn to screen, and can be notified
  * that time has passed.
  */
 public interface Sprite {

@@ -1,5 +1,6 @@
-package geometry.line;//ID: 204351670
+//ID: 204351670
 
+package geometry.line;
 
 /**
  * geometry.line.LineEquation class supports methods that their goal is to represent the line

@@ -1,4 +1,6 @@
-package geometry;//ID: 204351670
+//ID: 204351670
+
+package geometry;
 
 import execution.Game;
 import geometry.line.LineEquation;

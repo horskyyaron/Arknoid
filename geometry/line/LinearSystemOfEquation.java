@@ -1,4 +1,6 @@
-package geometry.line;//ID: 204351670
+//ID: 204351670
+
+package geometry.line;
 
 import geometry.Point;
 

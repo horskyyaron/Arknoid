@@ -1,4 +1,6 @@
-package gameelemnts.sprites.movingitems;//204351670
+//204351670
+
+package gameelemnts.sprites.movingitems;
 
 import biuoop.DrawSurface;
 import biuoop.GUI;

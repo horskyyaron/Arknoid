@@ -1,4 +1,6 @@
-package gameelemnts.collidables;//ID: 204351670
+//ID: 204351670
+
+package gameelemnts.collidables;
 
 import geometry.line.Line;
 import geometry.Point;

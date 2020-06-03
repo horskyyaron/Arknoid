@@ -1,4 +1,6 @@
-package gameelemnts.collidables;//ID: 204351670
+//ID: 204351670
+
+package gameelemnts.collidables;
 
 import gameelemnts.sprites.movingitems.ball.Ball;
 import geometry.line.Line;
@@ -25,6 +27,7 @@ public interface Collidable {
      * the function will calculate new velocity for the striking object that
      * hit the given gameelemnts.collidables.Collidable.
      *
+     * @param hitter the ball that strikes the block.
      * @param collisionPoint the collision point.
      * @param currentVelocity the velocity of the striking object.
      * @return the new velocity for the hitting object.

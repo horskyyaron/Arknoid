@@ -1,20 +1,32 @@
+//ID: 204351670
+
 package execution.listeners;
 
-import execution.Game;
 import gameelemnts.HitListener;
 import gameelemnts.sprites.movingitems.ball.Ball;
 import gameelemnts.sprites.staticitems.Block;
-import gameelemnts.sprites.staticitems.ScoreIndicator;
 
+/**
+ * ScoreTrackingListener is a class that supports methods that will keep track of the game score,
+ * will update the score whenever a block is removed.
+ */
 public class ScoreTrackingListener implements HitListener {
-    private final int BLOCK_POINTS = 5;
+    //block points.
+    private static final int BLOCK_POINTS = 5;
 
+    //fields.
     private Counter currentScore;
 
+    /**
+     * Instantiates a new Score tracking listener.
+     *
+     * @param scoreCounter the score counter
+     */
     public ScoreTrackingListener(Counter scoreCounter) {
         this.currentScore = scoreCounter;
     }
 
+    @Override
     public void hitEvent(Block beingHit, Ball hitter) {
         //update score
        currentScore.increase(BLOCK_POINTS);
@@ -22,6 +34,11 @@ public class ScoreTrackingListener implements HitListener {
        beingHit.removeHitListener(this);
     }
 
+    /**
+     * Gets current score.
+     *
+     * @return the current score
+     */
     public Counter getCurrentScore() {
         return currentScore;
     }

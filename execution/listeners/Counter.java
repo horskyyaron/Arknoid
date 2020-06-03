@@ -1,23 +1,45 @@
+//ID: 204351670
+
 package execution.listeners;
 
+/**
+ * A basic counter. support methods of increasing and decreasing the counter value, and returning the value.
+ */
 public class Counter {
 
-    //field.
+    //fields.
     private int value;
 
+    /**
+     * Instantiates a new Counter.
+     */
     public Counter() {
         this.value = 0;
     }
 
-    // add number to current count.
+    /**
+     * Increase the counter value.
+     *
+     * @param number current counter value.
+     */
     public void increase(int number) {
         this.value = this.value + number;
     };
-    // subtract number from current count.
+
+    /**
+     * Decrease the counter value.
+     *
+     * @param number current counter value.
+     */
     public void decrease(int number) {
         this.value = this.value - number;
     }
-    // get current count.
+
+    /**
+     * returns the counter value.
+     *
+     * @return counter value.
+     */
     public int getValue() {
         return this.value;
     }

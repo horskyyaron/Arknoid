@@ -1,3 +1,5 @@
+//ID: 204351670
+
 package gameelemnts.sprites.staticitems;
 
 import biuoop.DrawSurface;
@@ -6,36 +8,37 @@ import execution.listeners.Counter;
 import gameelemnts.sprites.Sprite;
 import java.awt.Color;
 
+/**
+ * ScoreIndicator is an object that will keep the game score,
+ * will support method that will draw it onto the screen.
+ */
 public class ScoreIndicator implements Sprite {
-    //const.
+    //Font size.
     private static final int FONT_SIZE = 15;
 
     //fields
     private Counter score;
 
-    //constructor.
+    /**
+     * Instantiates a new Score indicator.
+     *
+     * @param scoreCounter the score counter
+     */
     public ScoreIndicator(Counter scoreCounter) {
         this.score = scoreCounter;
     }
 
-    /**
-     * function that draws a sprite on a given surface.
-     *
-     * @param d the surface that the sprite will be drawn on.
-     */
     @Override
     public void drawOn(DrawSurface d) {
         d.setColor(Color.BLACK);
-        d.drawText(Game.getWIDTH()/2, ((int)Game.getBorderThickness()/2),
+        //will draw the score text onto the input surface.
+        d.drawText(Game.getWIDTH() / 2, ((int) Game.getBorderThickness() / 2),
                 "Score:" + this.score.getValue(), FONT_SIZE);
     }
 
-    /**
-     * function that notify a sprite that time has passed.
-     */
     @Override
     public void timePassed() {
-        //do nothing.
+        //empty function. does nothing.
     }
 
 }
