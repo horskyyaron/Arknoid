@@ -80,4 +80,8 @@ public class SpriteCollection {
     public Sprite getSprite(int index) {
         return this.spriteElements.get(index);
     }
+
+    public List<Sprite> getSpriteElements() {
+        return spriteElements;
+    }
 }

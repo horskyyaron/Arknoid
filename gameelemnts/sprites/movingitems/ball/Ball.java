@@ -214,7 +214,7 @@ public class Ball implements Sprite {
 
             //update the collidable object about the hit.
             this.setVelocity(collisionInfo.collisionObject().
-                    hit(collisionInfo.collisionPoint(), this.getVelocity()));
+                    hit(this, collisionInfo.collisionPoint(), this.getVelocity()));
         }
     }
 

@@ -1,5 +1,6 @@
 package gameelemnts.collidables;//ID: 204351670
 
+import gameelemnts.sprites.movingitems.ball.Ball;
 import geometry.line.Line;
 import geometry.Point;
 import geometry.Rectangle;
@@ -28,7 +29,7 @@ public interface Collidable {
      * @param currentVelocity the velocity of the striking object.
      * @return the new velocity for the hitting object.
      */
-    Velocity hit(Point collisionPoint, Velocity currentVelocity);
+    Velocity hit(Ball hitter, Point collisionPoint, Velocity currentVelocity);
 
     /**
      * calculate which of the given gameelemnts.collidables.Collidable's lines was a part of the

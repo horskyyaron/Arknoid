@@ -5,6 +5,7 @@ import biuoop.GUI;
 import biuoop.KeyboardSensor;
 import gameelemnts.collidables.Collidable;
 import execution.Game;
+import gameelemnts.sprites.movingitems.ball.Ball;
 import geometry.line.Line;
 import geometry.Point;
 import geometry.Rectangle;
@@ -275,7 +276,7 @@ public class Paddle implements Sprite, Collidable {
     }
 
     @Override
-    public Velocity hit(Point collisionPoint, Velocity currentVelocity) {
+    public Velocity hit(Ball hitter, Point collisionPoint, Velocity currentVelocity) {
 
         double speed = currentVelocity.getSpeed();
 

@@ -81,6 +81,7 @@ public class Game {
     private SpriteCollection sprites;
     private GameEnvironment environment;
     private GUI gui;
+    private Counter remainingBlocksCounter;
 
     /**
      * constructor of the 'execution.Game' object.
@@ -91,6 +92,7 @@ public class Game {
     public Game() {
         this.sprites = new SpriteCollection();
         this.environment = new GameEnvironment();
+        this.remainingBlocksCounter = new Counter();
     }
 
     /**
@@ -145,6 +147,10 @@ public class Game {
             this.sprites.drawAllOn(d);
             gui.show(d);
             this.sprites.notifyAllTimePassed();
+
+            if(this.remainingBlocksCounter.getValue() == 55) {
+                int x=5;
+            }
 
             // timing
             long usedTime = System.currentTimeMillis() - startTime;
@@ -266,6 +272,9 @@ public class Game {
         Point firstRowFirstBlock = new Point(WIDTH - getBorderThickness()
                 - BLOCK_WIDTH , TOP_BLOCK_ROW_HEIGHT);
 
+        //creating the block remover.
+        BlockRemover blockRemover = new BlockRemover(this, this.remainingBlocksCounter);
+
         //generating each row separately.
         for (int i = 0; i < NUMBER_OF_BLOCKS_ROW; i++) {
             //each row first block is a one BLOCK_HIGHET lower on the sreen.
@@ -273,7 +282,7 @@ public class Game {
                     firstRowFirstBlock.getY() + i * BLOCK_HEIGHT);
             //each row will have one block less than the row above it.
             generateBlockRow(firstBlock, BLOCK_WIDTH, BLOCK_HEIGHT,
-                    BLOCKS_IN_TOP_ROW - i, getRandomColor());
+                    BLOCKS_IN_TOP_ROW - i, getRandomColor(), blockRemover);
         }
 
     }
@@ -291,7 +300,7 @@ public class Game {
     private void generateBlockRow(Point firstBlock,
                                   double singleBlockWidth,
                                   double singleBlockHeight, int blocksCounter,
-                                  java.awt.Color color) {
+                                  java.awt.Color color, BlockRemover blockRemover) {
 
         if (blocksCounter <= 0) {
             return;
@@ -301,10 +310,16 @@ public class Game {
                     singleBlockHeight);
             block.setColor(color);
             block.addToGame(this);
+
+            //updating the number of blocks in the game:
+            this.remainingBlocksCounter.increase(1);
+            //adding block remover as a listner.
+            block.addHitListener(blockRemover);
+
             //recursively generating blocks in the left direction.
             generateBlockRow(new Point(firstBlock.getX() - singleBlockWidth,
                     firstBlock.getY()), singleBlockWidth, singleBlockHeight,
-                    blocksCounter - 1, color);
+                    blocksCounter - 1, color, blockRemover);
         }
     }
 
@@ -357,5 +372,13 @@ public class Game {
      */
     public static double getBorderThickness() {
         return BORDER_THICKNESS_FACTOR * WIDTH;
+    }
+
+    public void removeCollidable(Collidable c) {
+        this.environment.getCollidables().remove(c);
+    }
+
+    public void removeSprite(Sprite s) {
+        this.sprites.getSpriteElements().remove(s);
     }
 }

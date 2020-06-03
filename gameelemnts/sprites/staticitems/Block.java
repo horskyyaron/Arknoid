@@ -1,26 +1,33 @@
 package gameelemnts.sprites.staticitems;//ID: 204351670
 
 import biuoop.DrawSurface;
+import gameelemnts.HitListener;
+import gameelemnts.HitNotifier;
 import gameelemnts.collidables.Collidable;
 import execution.Game;
+import gameelemnts.sprites.movingitems.ball.Ball;
 import geometry.line.Line;
 import geometry.line.LineEquation;
 import geometry.Point;
 import geometry.Rectangle;
 import gameelemnts.sprites.movingitems.ball.Velocity;
 import gameelemnts.sprites.Sprite;
-
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 //import java.util.Random;
+
 
 /**
  * gameelemnts.sprites.staticitems.Block class supports methods that their goal is to represent a block in the
  * Arkanoid game.
  */
-public class Block implements Collidable, Sprite {
+public class Block implements Collidable, Sprite, HitNotifier {
     //fields.
     private Rectangle block;
     private java.awt.Color color;
+    private List<HitListener> hitListeners;
 
     /**
      * constructor of the 'gameelemnts.sprites.staticitems.Block' object.
@@ -30,6 +37,7 @@ public class Block implements Collidable, Sprite {
     public Block(Rectangle rect) {
         this.block = rect;
         this.color = Color.black;
+        this.hitListeners = new LinkedList<>();
     }
 
     /**
@@ -55,6 +63,7 @@ public class Block implements Collidable, Sprite {
                  java.awt.Color color) {
         this.block = new Rectangle(upperLeft, width, height);
         this.color = color;
+        this.hitListeners = new LinkedList<>();
     }
 
     //gameelemnts.sprites.Sprite interface Methods
@@ -75,7 +84,7 @@ public class Block implements Collidable, Sprite {
     }
 
     @Override
-    public Velocity hit(Point collisionPoint, Velocity currentVelocity) {
+    public Velocity hit(Ball hitter, Point collisionPoint, Velocity currentVelocity) {
         //in case the collision point is a game-play zone corner.
         if (collisionPoint.isAGameCorner()) {
             return new Velocity(currentVelocity.getDx() * (-1),
@@ -103,6 +112,7 @@ public class Block implements Collidable, Sprite {
                 newVelocity = currentVelocity;
             }
         }
+        this.notifyHit(hitter);
         return newVelocity;
     }
 
@@ -150,7 +160,7 @@ public class Block implements Collidable, Sprite {
      *
      * @return the block's color.
      */
-    private java.awt.Color getColor() {
+    public java.awt.Color getColor() {
         return this.color;
     }
 
@@ -172,4 +182,29 @@ public class Block implements Collidable, Sprite {
         game.addSprite(this);
         game.addCollidable(this);
     }
+
+    public void removeFromGame(Game game) {
+        game.removeSprite(this);
+        game.removeCollidable(this);
+    }
+
+    @Override
+    public void addHitListener(HitListener hl) {
+        this.hitListeners.add(hl);
+    }
+
+    @Override
+    public void removeHitListener(HitListener hl) {
+        this.hitListeners.remove(hl);
+    }
+
+    private void notifyHit(Ball hitter) {
+        // Make a copy of the hitListeners before iterating over them.
+        List<HitListener> listeners = new ArrayList<HitListener>(this.hitListeners);
+        // Notify all listeners about a hit event:
+        for (HitListener hl : listeners) {
+            hl.hitEvent(this, hitter);
+        }
+    }
+
 }
