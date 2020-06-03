@@ -1,4 +1,7 @@
-//ID: 204351670
+package geometry;//ID: 204351670
+
+import execution.Game;
+import geometry.line.LineEquation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +10,7 @@ import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 
 /**
- * Point class supports methods that their goal is to represent a point in 2D
+ * geometry.Point class supports methods that their goal is to represent a point in 2D
  * space (XY plane).
  */
 public class Point {
@@ -17,8 +20,8 @@ public class Point {
     private double y;
 
     /**
-     * constructor of the 'Point' object.
-     * a Point object has two fields: x- coordinate and y- coordinate.
+     * constructor of the 'geometry.Point' object.
+     * a geometry.Point object has two fields: x- coordinate and y- coordinate.
      *
      * @param x x-coordinate.
      * @param y y-coordinate.
@@ -34,32 +37,32 @@ public class Point {
     }
 
     /**
-     * returns the x-coordinate of a Point object.
+     * returns the x-coordinate of a geometry.Point object.
      *
-     * @return double, returns the x-coordinate of the Point.
+     * @return double, returns the x-coordinate of the geometry.Point.
      */
     public double getX() {
         return this.x;
     }
 
     /**
-     * returns the y-coordinate of a Point object.
+     * returns the y-coordinate of a geometry.Point object.
      *
-     * @return double, returns the y-coordinate of the Point.
+     * @return double, returns the y-coordinate of the geometry.Point.
      */
     public double getY() {
         return this.y;
     }
 
     /**
-     * returns the distance between a given Point object to another.
+     * returns the distance between a given geometry.Point object to another.
      * <p>
      * using the formula from geometry of calculating distance between two
      * points in space: let there be two points: a = (x1,y1), b = (x2,y2)
      * the distance between a and b is:
      * sqrt((y2-y1)^2 + (x2-x1)^2).
      *
-     * @param other another Point Object.
+     * @param other another geometry.Point Object.
      * @return double, returns the distance between the two Points objects.
      */
     public double distance(Point other) {
@@ -76,7 +79,7 @@ public class Point {
      * y-coordinate of a given point equals to the y-coordinate
      * of the other point.
      *
-     * @param obj another Point Object.
+     * @param obj another geometry.Point Object.
      * @return 'true', if points are the same (as mentioned in the description)
      */
     @Override
@@ -132,14 +135,14 @@ public class Point {
     }
 
     /**
-     * check if given point, satisfies the input Line Equation object.
+     * check if given point, satisfies the input geometry.line.Line Equation object.
      *
      * The line equation is ax + by + c = 0.
      * satisfying the equation means that if we enter the x and y coordinates
      * of the point instead of the x and y in the equation, the equation will
      * hold.
      *
-     * @param equation Line Equation object.
+     * @param equation geometry.line.Line Equation object.
      * @return 'true' if the point is satisfying the line equation, 'false'
      *          otherwise.
      */

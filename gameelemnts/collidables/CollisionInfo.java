@@ -1,7 +1,10 @@
-//ID: 204351670
+package gameelemnts.collidables;//ID: 204351670
+
+import geometry.line.Line;
+import geometry.Point;
 
 /**
- * CollisionInfo class supports methods that their goal is to represent
+ * gameelemnts.collidables.CollisionInfo class supports methods that their goal is to represent
  * a collision that happen in the game.
  */
 public class CollisionInfo {
@@ -11,10 +14,10 @@ public class CollisionInfo {
     private Collidable collisionObject;
 
     /**
-     * constructor of the 'CollisionInfo' object.
+     * constructor of the 'gameelemnts.collidables.CollisionInfo' object.
      *
      * @param collisionPoint the point which the collision took place in.
-     * @param collisionObject the Collidable object that is involved with the
+     * @param collisionObject the gameelemnts.collidables.Collidable object that is involved with the
      *                        collision.
      */
     public CollisionInfo(Point collisionPoint, Collidable collisionObject) {
@@ -32,16 +35,16 @@ public class CollisionInfo {
     }
 
     /**
-     * returns the Collidable object that is involved in the collision..
+     * returns the gameelemnts.collidables.Collidable object that is involved in the collision..
      *
-     * @return the Collidable object that is involved in the collision..
+     * @return the gameelemnts.collidables.Collidable object that is involved in the collision..
      */
     public Collidable collisionObject() {
         return this.collisionObject;
     }
 
     /**
-     * calculate which of the Collidable's lines was a part of the collision,
+     * calculate which of the gameelemnts.collidables.Collidable's lines was a part of the collision,
      * then returns that line.
      *
      * @return the line which is involved in the collision.

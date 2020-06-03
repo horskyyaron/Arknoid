@@ -1,7 +1,9 @@
-//ID: 204351670
+package geometry.line;//ID: 204351670
+
+import geometry.Point;
 
 /**
- * LinearSystemOfEquation class supports methods that their goal is to
+ * geometry.line.LinearSystemOfEquation class supports methods that their goal is to
  * represent the a linear system of equations. checking if a system has a
  * single solution or no solution ay all.
  * will calculate a system solution using Linear algebra, with cramer's rule.
@@ -16,7 +18,7 @@ public class LinearSystemOfEquation {
     private LineEquation equation2;
 
     /**
-     * constructor of the 'LinearSystemOfEquation' object.
+     * constructor of the 'geometry.line.LinearSystemOfEquation' object.
      *
      * @param l1 the first line that is being represented by  a line equation.
      * @param l2 the second line that is being representer by a line equation
@@ -59,7 +61,7 @@ public class LinearSystemOfEquation {
      *
      * cramer's rule - https://en.wikipedia.org/wiki/Cramer%27s_rule
      *
-     * @return a Point object with x and y coordinates which are the system
+     * @return a geometry.Point object with x and y coordinates which are the system
      *         solution.
      */
     private Point calculateSolution() {
@@ -143,7 +145,7 @@ public class LinearSystemOfEquation {
     /**
      * the function will return the system solution.
      *
-     * @return the system solution. a Point object with x and y - the system
+     * @return the system solution. a geometry.Point object with x and y - the system
      *         solution.
      */
     public Point getSystemSolution() {

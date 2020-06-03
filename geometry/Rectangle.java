@@ -1,10 +1,14 @@
 //ID: 204351670
+package geometry;
+
+import execution.Game;
+import geometry.line.Line;
 
 import java.util.LinkedList;
 import java.util.Objects;
 
 /**
- * Rectangle class supports methods that their goal is to represent a certain
+ * geometry.Rectangle class supports methods that their goal is to represent a certain
  * rectangle on screen.
  */
 public class Rectangle {
@@ -15,9 +19,9 @@ public class Rectangle {
     private double height;
 
     /**
-     * constructor of the 'Rectangle' object.
+     * constructor of the 'geometry.Rectangle' object.
      *
-     * @param upperLeft a Point object which will be the top left corner of the
+     * @param upperLeft a geometry.Point object which will be the top left corner of the
      *                frame.
      * @param width holds the rectangle width.
      * @param height holds the rectangle height.
@@ -35,7 +39,7 @@ public class Rectangle {
     }
 
     /**
-     * returns the top left corner of the rectangle (Point object).
+     * returns the top left corner of the rectangle (geometry.Point object).
      *
      * @return the given rectangle top left corner point.
      */
@@ -64,9 +68,9 @@ public class Rectangle {
     /**
      * returns the intersection points of given rectangle with input line.
      *
-     * @param line the Line object which is being checked for intersetion points
+     * @param line the geometry.line.Line object which is being checked for intersetion points
      *            with the given rectangle.
-     * @return Point object list which holds the intersection points with the
+     * @return geometry.Point object list which holds the intersection points with the
      *         line.
      */
     public java.util.List<Point> intersectionPoints(Line line) {
@@ -94,7 +98,7 @@ public class Rectangle {
     /**
      * creates an array of lines, which compose the rectangle's frame.
      *
-     * @return Line array of the rectangles edges.
+     * @return geometry.line.Line array of the rectangles edges.
      */
     private Line[] rectangleToLinesArray() {
         Point[] rectangleEdgePoints = rectangleToEdgePointsArray();
@@ -114,7 +118,7 @@ public class Rectangle {
      * creates an array of Points, which compose the rectangle's frame corners
      * points.
      *
-     * @return Point array of the rectangle's frame corners.
+     * @return geometry.Point array of the rectangle's frame corners.
      */
     private Point[] rectangleToEdgePointsArray() {
         Point upperLeftCorner = this.upperLeft;
@@ -139,16 +143,16 @@ public class Rectangle {
     /**
      * returns rectangle's corner points array.
      *
-     * @return Point array of the rectangle's frame corners.
+     * @return geometry.Point array of the rectangle's frame corners.
      */
     public Point[] getRectangleToEdgePointsArray() {
         return rectangleToEdgePointsArray();
     }
 
     /**
-     * returns rectangle's edges, Line array.
+     * returns rectangle's edges, geometry.line.Line array.
      *
-     * @return Line array of the rectangles edges.
+     * @return geometry.line.Line array of the rectangles edges.
      */
     public Line[] getRectangleToLinesArray() {
         return rectangleToLinesArray();
@@ -157,9 +161,9 @@ public class Rectangle {
     /**
      * returns the intersection points of given rectangle with input line.
      *
-     * @param line the Line object which is being checked for intersection
+     * @param line the geometry.line.Line object which is being checked for intersection
      *             points with rectangle.
-     * @return Point object list which holds the intersection points with the
+     * @return geometry.Point object list which holds the intersection points with the
      *         line.
      */
     public java.util.List<Point> getIntersectionPoints(Line line) {

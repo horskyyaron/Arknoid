@@ -1,11 +1,20 @@
-//ID: 204351670
+package gameelemnts.sprites.staticitems;//ID: 204351670
 
 import biuoop.DrawSurface;
+import gameelemnts.collidables.Collidable;
+import execution.Game;
+import geometry.line.Line;
+import geometry.line.LineEquation;
+import geometry.Point;
+import geometry.Rectangle;
+import gameelemnts.sprites.movingitems.ball.Velocity;
+import gameelemnts.sprites.Sprite;
+
 import java.awt.Color;
 //import java.util.Random;
 
 /**
- * Block class supports methods that their goal is to represent a block in the
+ * gameelemnts.sprites.staticitems.Block class supports methods that their goal is to represent a block in the
  * Arkanoid game.
  */
 public class Block implements Collidable, Sprite {
@@ -14,7 +23,7 @@ public class Block implements Collidable, Sprite {
     private java.awt.Color color;
 
     /**
-     * constructor of the 'Block' object.
+     * constructor of the 'gameelemnts.sprites.staticitems.Block' object.
      *
      * @param rect the block rectangle.
      */
@@ -24,7 +33,7 @@ public class Block implements Collidable, Sprite {
     }
 
     /**
-     * constructor of the 'Block' object.
+     * constructor of the 'gameelemnts.sprites.staticitems.Block' object.
      *
      * @param upperLeft the block's upper left corner point.
      * @param width the block's width.
@@ -35,7 +44,7 @@ public class Block implements Collidable, Sprite {
     }
 
     /**
-     * constructor of the 'Block' object.
+     * constructor of the 'gameelemnts.sprites.staticitems.Block' object.
      *
      * @param upperLeft the block's upper left corner point.
      * @param width the block's width.
@@ -48,7 +57,7 @@ public class Block implements Collidable, Sprite {
         this.color = color;
     }
 
-    //Sprite interface Methods
+    //gameelemnts.sprites.Sprite interface Methods
     @Override
     public void drawOn(DrawSurface surface) {
         drawBlock(surface);
@@ -59,7 +68,7 @@ public class Block implements Collidable, Sprite {
 
     }
 
-    //Collidable interface methods.
+    //gameelemnts.collidables.Collidable interface methods.
     @Override
     public Rectangle getCollisionRectangle() {
         return this.block;
@@ -115,7 +124,7 @@ public class Block implements Collidable, Sprite {
         return null;
     }
 
-    //Block Methods.
+    //gameelemnts.sprites.staticitems.Block Methods.
 
     /**
      * the function will draw the given block onto input surface.
@@ -128,7 +137,7 @@ public class Block implements Collidable, Sprite {
         surface.fillRectangle((int) this.block.getUpperLeft().getX(),
                 (int) this.block.getUpperLeft().getY(),
                 (int) this.block.getWidth(), (int) this.block.getHeight());
-        //Block background color.
+        //gameelemnts.sprites.staticitems.Block background color.
         surface.setColor(this.color);
         surface.fillRectangle((int) this.block.getUpperLeft().getX() + 1,
                 (int) this.block.getUpperLeft().getY() + 1,

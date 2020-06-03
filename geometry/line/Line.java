@@ -1,13 +1,17 @@
 //ID: 204351670
+package geometry.line;
 
 import biuoop.DrawSurface;
+import geometry.Point;
+import geometry.Rectangle;
+
 import java.util.List;
 import java.util.Objects;
 import static java.lang.Math.min;
 import static java.lang.Math.max;
 
 /**
- * Line class supports methods that their goal is to represent a Line in 2D
+ * geometry.line.Line class supports methods that their goal is to represent a geometry.line.Line in 2D
  * space (XY plane).
  */
 public class Line {
@@ -19,12 +23,12 @@ public class Line {
     /**
      * contructor function
      *
-     * constructor of the 'Line' object.
-     * a Line object has two components: a starting point (Point object)
-     * and an ending point (Point object).
+     * constructor of the 'geometry.line.Line' object.
+     * a geometry.line.Line object has two components: a starting point (geometry.Point object)
+     * and an ending point (geometry.Point object).
      *
-     * @param a Point a.
-     * @param b Point b.
+     * @param a geometry.Point a.
+     * @param b geometry.Point b.
      */
     public Line(Point a, Point b) {
         this.start = a;
@@ -34,7 +38,7 @@ public class Line {
     /**
      * contructor function 2.
      *
-     * constructor of the 'Line' object.
+     * constructor of the 'geometry.line.Line' object.
      * A line is constructed from 2 points in space which are four coordinates.
      * starting point: x and y coordinate. and ending point x and y coordinates.
      *
@@ -51,12 +55,12 @@ public class Line {
     /**
      * returns the length of a line
      * <p>
-     * length of Line object is the distance between the two points:
+     * length of geometry.line.Line object is the distance between the two points:
      * starting point and ending point.
-     * Using Point class method of measuring distance between two points will
-     * give the Line's length.
+     * Using geometry.Point class method of measuring distance between two points will
+     * give the geometry.line.Line's length.
      *
-     * @return double, Line's length.
+     * @return double, geometry.line.Line's length.
      */
     public double length() {
         return this.start.distance(this.end);
@@ -65,7 +69,7 @@ public class Line {
     /**
      * returns the middle point of a line.
      *
-     * @return Point, Line's middle point.
+     * @return geometry.Point, geometry.line.Line's middle point.
      */
     public Point middle() {
         return new Point((start.getX() + end.getX()) / 2,
@@ -75,7 +79,7 @@ public class Line {
     /**
      * returns the starting point of a given line.
      *
-     * @return Point, Line's starting point.
+     * @return geometry.Point, geometry.line.Line's starting point.
      */
     public Point start() {
         return this.start;
@@ -84,7 +88,7 @@ public class Line {
     /**
      * returns the ending point of a given line.
      *
-     * @return Point, Line's ending point.
+     * @return geometry.Point, geometry.line.Line's ending point.
      */
     public Point end() {
         return this.end;
@@ -138,7 +142,7 @@ public class Line {
      *
      * @param other the other line which is being checked for the intersection
      *              point.
-     * @return Point, the intersection point of the two lines.
+     * @return geometry.Point, the intersection point of the two lines.
      */
     public Point intersectionWith(Line other) {
 
@@ -176,8 +180,8 @@ public class Line {
      *
      * @param intersection the intersection point being checked for being a
      *                     base point in one of the lines.
-     * @param line a Line object.
-     * @param other another Line object.
+     * @param line a geometry.line.Line object.
+     * @param other another geometry.line.Line object.
      * @return 'true' if the input point is a base point in either on of the two
      *          input lines.
      */

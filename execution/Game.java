@@ -1,8 +1,16 @@
-//ID: 204351670
+package execution;//ID: 204351670
 
 import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.Sleeper;
+import gameelemnts.collidables.Collidable;
+import geometry.Point;
+import gameelemnts.sprites.movingitems.ball.Ball;
+import gameelemnts.sprites.movingitems.Paddle;
+import gameelemnts.sprites.Sprite;
+import gameelemnts.sprites.SpriteCollection;
+import gameelemnts.sprites.staticitems.Block;
+
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +20,7 @@ import static java.lang.Double.min;
 import static java.lang.Math.abs;
 
 /**
- * Game class supports methods that their goal is to represent the game of
+ * execution.Game class supports methods that their goal is to represent the game of
  * Arkanoid. The methods will create the game objects, and will animate the
  * movement of the objects.
  *
@@ -31,7 +39,7 @@ public class Game {
     //number of balls in game.
     private static final int BALLS_IN_GAME_INITIAL = 2;
 
-    //Ball Max and Min speed:
+    //gameelemnts.sprites.movingitems.ball.Ball Max and Min speed:
     private static final int MAX_SPEED = 10;
     private static final int MIN_SPEED = -10;
 
@@ -44,7 +52,7 @@ public class Game {
     private static final int NUMBER_OF_BLOCKS_ROW = 6;
 
 
-    //Block top row height in proportion to the border thickness.
+    //gameelemnts.sprites.staticitems.Block top row height in proportion to the border thickness.
     private static final double TOP_BLOCK_ROW_HEIGHT = 5.2
                                                         * getBorderThickness();
 
@@ -54,7 +62,7 @@ public class Game {
 
     declaring a constant of the balls initial position.
 
-    because Point may raise exception, we declare the constant using try and
+    because geometry.Point may raise exception, we declare the constant using try and
     catch in a static block.
      */
     private static final Point BALLS_STARTING_POINT;
@@ -75,9 +83,9 @@ public class Game {
     private GUI gui;
 
     /**
-     * constructor of the 'Game' object.
+     * constructor of the 'execution.Game' object.
      *
-     * will create a new Sprite collection and a new Game environment for the
+     * will create a new gameelemnts.sprites.Sprite collection and a new execution.Game environment for the
      * game.
      */
     public Game() {
@@ -86,18 +94,18 @@ public class Game {
     }
 
     /**
-     * will add an input Collidable into environment field - (a GameEnvironment
+     * will add an input gameelemnts.collidables.Collidable into environment field - (a execution.GameEnvironment
      * object).
      *
-     * @param c input Collidable object
+     * @param c input gameelemnts.collidables.Collidable object
      */
     public void addCollidable(Collidable c) {
         this.environment.getCollidables().add(c);
     }
     /**
-     * will add an input Sprite into 'sprites' field (a SpriteCollection object).
+     * will add an input gameelemnts.sprites.Sprite into 'gameelemnts.sprites' field (a gameelemnts.sprites.SpriteCollection object).
      *
-     * @param s input Sprite object
+     * @param s input gameelemnts.sprites.Sprite object
      */
     public void addSprite(Sprite s) {
         sprites.addSprite(s);
@@ -147,7 +155,7 @@ public class Game {
         }
     }
 
-    //generating elemnts of the game and adding them to sprites and environemt.
+    //generating elemnts of the game and adding them to gameelemnts.sprites and environment.
     /**
      * Generating the background block and adding it to game.
      */
@@ -218,7 +226,7 @@ public class Game {
      * Generating the game balls, and returning a list that holds all the ball
      * objects created.
      *
-     * @return list of Ball objects. (the game balls).
+     * @return list of gameelemnts.sprites.movingitems.ball.Ball objects. (the game balls).
      * @throws Exception if the ball's speed is bigger then the screen width
      *          or height.
      */

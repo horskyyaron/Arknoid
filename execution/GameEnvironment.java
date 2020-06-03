@@ -1,11 +1,17 @@
-//ID: 204351670
+package execution;//ID: 204351670
+
+import gameelemnts.collidables.Collidable;
+import gameelemnts.collidables.CollisionInfo;
+import geometry.line.Line;
+import geometry.Point;
+import geometry.Rectangle;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * GameEnvironment class supports methods that their goal is to hold all of the
+ * execution.GameEnvironment class supports methods that their goal is to hold all of the
  * game objects that the ball can collide with.
  */
 public class GameEnvironment {
@@ -17,7 +23,7 @@ public class GameEnvironment {
     /**
      * constructor function.
      *
-     * @param collidables a list of Collidable objects.
+     * @param collidables a list of gameelemnts.collidables.Collidable objects.
      */
     public GameEnvironment(List<Collidable> collidables) {
         this.collidables = collidables;
@@ -31,20 +37,20 @@ public class GameEnvironment {
     }
 
     /**
-     * the function will add input Collidable object to the the Collidables
+     * the function will add input gameelemnts.collidables.Collidable object to the the Collidables
      * list field.
      *
-     * @param c an input Collidable object.
+     * @param c an input gameelemnts.collidables.Collidable object.
      */
     public void addCollidable(Collidable c) {
         this.collidables.add(c);
     }
 
     /**
-     * the function will add input Collidable objects list to the the
+     * the function will add input gameelemnts.collidables.Collidable objects list to the the
      * Collidables list field.
      *
-     * @param list an input Collidable object.
+     * @param list an input gameelemnts.collidables.Collidable object.
      */
     public void addCollidableList(List<Collidable> list) {
        this.collidables.addAll(list);
@@ -56,19 +62,19 @@ public class GameEnvironment {
      * the starting point of the the trajectory.
      *
      * Assume an object moving from A to B.
-     * If this object will not collide with any of the collidables
+     * If this object will not collide with any of the gameelemnts.collidables
      * in this collection, return null. Else, return the information
      * about the closest collision to point A.
      *
      * @param trajectory the input line represents the ball trajectory.
-     * @return the information on the closest collision. a CollisionInfo object.
+     * @return the information on the closest collision. a gameelemnts.collidables.CollisionInfo object.
      */
     public CollisionInfo getClosestCollision(Line trajectory) {
 
         List<Point> trajectoryCollisionPoints = new LinkedList<>();
         List<Collidable> collidablesInTrajectory = new LinkedList<>();
 
-        //getting all "closests" collision points from all the collidables
+        //getting all "closests" collision points from all the gameelemnts.collidables
         // in the trajectory line.
         for (Collidable c: collidables) {
             Point collidableClosestPoint = trajectory.
@@ -113,9 +119,9 @@ public class GameEnvironment {
      * the trajectory, it must have an intersection point on the collidable.
      *
      * @param closestCollisionPoint the closest collision point calculated.
-     * @param collidableStrucked the Collidable object that is intersecting with
+     * @param collidableStrucked the gameelemnts.collidables.Collidable object that is intersecting with
      *                           trajectory.
-     * @return the correct collision point with Collidable object.
+     * @return the correct collision point with gameelemnts.collidables.Collidable object.
      */
     private Point updateCollisionPointFix(Point closestCollisionPoint,
                                           Collidable collidableStrucked) {
@@ -126,7 +132,7 @@ public class GameEnvironment {
         double xCord = closestCollisionPoint.getX();
         double yCord = closestCollisionPoint.getY();
 
-        //check for inaccuracy, and returning the correct Point object
+        //check for inaccuracy, and returning the correct geometry.Point object
         // accordingly.
         if (xCord > r.getUpperLeft().getX() - EPSILON
                 && xCord < r.getUpperLeft().getX() + EPSILON) {
@@ -146,10 +152,10 @@ public class GameEnvironment {
     }
 
     /**
-     * the function will return the list of Collidable objects in the
-     * GameEnvironment.
+     * the function will return the list of gameelemnts.collidables.Collidable objects in the
+     * execution.GameEnvironment.
      *
-     * @return the list of collidables in the game environment
+     * @return the list of gameelemnts.collidables in the game environment
      */
     public List<Collidable> getCollidables() {
         return collidables;

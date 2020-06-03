@@ -1,23 +1,28 @@
-//ID: 204351670
+package gameelemnts.collidables;//ID: 204351670
+
+import geometry.line.Line;
+import geometry.Point;
+import geometry.Rectangle;
+import gameelemnts.sprites.movingitems.ball.Velocity;
 
 /**
- * Collidable object is an object that's being drawn to screen, and that
+ * gameelemnts.collidables.Collidable object is an object that's being drawn to screen, and that
  * the ball in the game can collide with.
  */
 public interface Collidable {
 
     /**
-     * return the Collidable rectangle object.
+     * return the gameelemnts.collidables.Collidable rectangle object.
      *
-     * all the collidables in the game are of a rectangle shape.
+     * all the gameelemnts.collidables in the game are of a rectangle shape.
      *
-     * @return the Collidable rectangle object.
+     * @return the gameelemnts.collidables.Collidable rectangle object.
      */
     Rectangle getCollisionRectangle();
 
     /**
      * the function will calculate new velocity for the striking object that
-     * hit the given Collidable.
+     * hit the given gameelemnts.collidables.Collidable.
      *
      * @param collisionPoint the collision point.
      * @param currentVelocity the velocity of the striking object.
@@ -26,7 +31,7 @@ public interface Collidable {
     Velocity hit(Point collisionPoint, Velocity currentVelocity);
 
     /**
-     * calculate which of the given Collidable's lines was a part of the
+     * calculate which of the given gameelemnts.collidables.Collidable's lines was a part of the
      * collision, then returns that line.
      *
      * @param collisionPoint the collision point.

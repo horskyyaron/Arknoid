@@ -1,8 +1,8 @@
-//ID: 204351670
+package geometry.line;//ID: 204351670
 
 
 /**
- * LineEquation class supports methods that their goal is to represent the line
+ * geometry.line.LineEquation class supports methods that their goal is to represent the line
  * equation.
  * The form of the equation is: ax + by + c = 0
  */
@@ -15,9 +15,9 @@ public class LineEquation {
     private double freeCoefficient;
 
     /**
-     * constructor of the 'LineEquation' object.
+     * constructor of the 'geometry.line.LineEquation' object.
      *
-     * @param line the line that will be represented in the LineEquation object.
+     * @param line the line that will be represented in the geometry.line.LineEquation object.
      */
     public LineEquation(Line line) {
         this.line = line;

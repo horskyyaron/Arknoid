@@ -1,10 +1,17 @@
-//ID: 204351670
+package gameelemnts.sprites.movingitems.ball;//ID: 204351670
 import biuoop.DrawSurface;
+import execution.Game;
+import execution.GameEnvironment;
+import geometry.line.Line;
+import geometry.Point;
+import gameelemnts.sprites.Sprite;
+import gameelemnts.collidables.CollisionInfo;
+
 import java.awt.Color;
 import java.util.Random;
 
 /**
- * Ball class supports methods that their goal is to represent a ball on the
+ * gameelemnts.sprites.movingitems.ball.Ball class supports methods that their goal is to represent a ball on the
  * screen animation.
  */
 public class Ball implements Sprite {
@@ -25,8 +32,8 @@ public class Ball implements Sprite {
     /**
      * constructor function
      *
-     * constructor of the 'Ball' object.
-     * a Ball object has three components: a center point (Point object), a
+     * constructor of the 'gameelemnts.sprites.movingitems.ball.Ball' object.
+     * a gameelemnts.sprites.movingitems.ball.Ball object has three components: a center point (geometry.Point object), a
      * radius and background color.
      *
      * @param center the ball center point on screen.
@@ -95,7 +102,7 @@ public class Ball implements Sprite {
         }
     }
 
-    //Sprite Interface Methods
+    //gameelemnts.sprites.Sprite Interface Methods
 
     @Override
     public void drawOn(DrawSurface surface) {
@@ -114,45 +121,45 @@ public class Ball implements Sprite {
 
     //getters
     /**
-     * returns the Ball's center's point x-coordinate.
+     * returns the gameelemnts.sprites.movingitems.ball.Ball's center's point x-coordinate.
      *
-     * @return the given Ball's center's point x-coordinate.
+     * @return the given gameelemnts.sprites.movingitems.ball.Ball's center's point x-coordinate.
      */
     public double getX() {
         return this.center.getX();
     }
 
     /**
-     * returns the Ball's center's point x-coordinate.
+     * returns the gameelemnts.sprites.movingitems.ball.Ball's center's point x-coordinate.
      *
-     * @return the given Ball's center's point y-coordinate.
+     * @return the given gameelemnts.sprites.movingitems.ball.Ball's center's point y-coordinate.
      */
     public double getY() {
         return this.center.getY();
     }
 
     /**
-     * returns the Ball's radius.
+     * returns the gameelemnts.sprites.movingitems.ball.Ball's radius.
      *
-     * @return the given Ball's radius.
+     * @return the given gameelemnts.sprites.movingitems.ball.Ball's radius.
      */
     public int getSize() {
         return this.radius;
     }
 
     /**
-     * returns the Ball's background color.
+     * returns the gameelemnts.sprites.movingitems.ball.Ball's background color.
      *
-     * @return the given Ball's background color.
+     * @return the given gameelemnts.sprites.movingitems.ball.Ball's background color.
      */
     public java.awt.Color getColor() {
         return this.color;
     }
 
     /**
-     * returns the Ball's velocity.
+     * returns the gameelemnts.sprites.movingitems.ball.Ball's velocity.
      *
-     * @return the given Ball's velocity.
+     * @return the given gameelemnts.sprites.movingitems.ball.Ball's velocity.
      */
     public Velocity getVelocity() {
         return this.velocity;
@@ -303,11 +310,11 @@ public class Ball implements Sprite {
     /**
      * will compute and return the ball's trajectory.
      *
-     * a Line object represented by the ball current position as the starting
+     * a geometry.line.Line object represented by the ball current position as the starting
      * point and the it's next position as it's ending point, based on it's
      * velocity.
      *
-     * @return ball's trajectory represented as a Line object.
+     * @return ball's trajectory represented as a geometry.line.Line object.
      */
     private Line computeBallTrajectory() {
         double endingPointXCoordinate = this.center.getX()
@@ -330,12 +337,12 @@ public class Ball implements Sprite {
     }
 
     /**
-     * will add the GameEnvironment object to ball's field.
+     * will add the execution.GameEnvironment object to ball's field.
      *
      * the ball must know about other objects in the game, that is why
-     * we're adding GameEnvironment object to ball's field.
+     * we're adding execution.GameEnvironment object to ball's field.
      *
-     * @param environment the GameEnvironment object being added to the ball
+     * @param environment the execution.GameEnvironment object being added to the ball
      *                    fields.
      */
     public void setGameEnvironment(GameEnvironment environment) {
@@ -343,7 +350,7 @@ public class Ball implements Sprite {
     }
 
     /**
-     * the function will add the Ball object to the input game.
+     * the function will add the gameelemnts.sprites.movingitems.ball.Ball object to the input game.
      *
      * @param game the game which the ball will be a part of.
      */

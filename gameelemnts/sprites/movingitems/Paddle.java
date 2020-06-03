@@ -1,17 +1,26 @@
-//204351670
+package gameelemnts.sprites.movingitems;//204351670
 
 import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.KeyboardSensor;
+import gameelemnts.collidables.Collidable;
+import execution.Game;
+import geometry.line.Line;
+import geometry.Point;
+import geometry.Rectangle;
+import gameelemnts.sprites.Sprite;
+import gameelemnts.sprites.movingitems.ball.Velocity;
+import gameelemnts.sprites.staticitems.Block;
+
 import java.awt.Color;
 
 /**
- * Paddle class supports methods that their goal is to represent the game
+ * gameelemnts.sprites.movingitems.Paddle class supports methods that their goal is to represent the game
  * paddle which will be controlled by the user.
  */
 public class Paddle implements Sprite, Collidable {
 
-    //Paddle specs (Constants) to make it look good on screen.
+    //gameelemnts.sprites.movingitems.Paddle specs (Constants) to make it look good on screen.
     private static final double PADDLE_SIZE_FACTOR = 0.2;
     private static final double PADDLE_HEIGHT_FACTOR = 0.03;
     private static final double PADDLE_SPEED = Game.getWIDTH() * 0.015;
@@ -22,7 +31,7 @@ public class Paddle implements Sprite, Collidable {
     private Rectangle paddleBody;
 
     /**
-     * constructor of the 'Paddle' object.
+     * constructor of the 'gameelemnts.sprites.movingitems.Paddle' object.
      *
      * @param gui the game Gui.
      */
@@ -31,12 +40,12 @@ public class Paddle implements Sprite, Collidable {
         this.paddleBody = buildPaddle();
     }
 
-    //Paddle methods.
+    //gameelemnts.sprites.movingitems.Paddle methods.
 
     /**
      * the function builds the paddle body - a rectangle.
      *
-     * @return a Rectangle object, which is the paddle body.
+     * @return a geometry.Rectangle object, which is the paddle body.
      */
     private Rectangle buildPaddle() {
         //calculating the width and height of the paddle based on the size
@@ -217,7 +226,7 @@ public class Paddle implements Sprite, Collidable {
 
 
     /**
-     * the function will add the given paddle to the game Collidable
+     * the function will add the given paddle to the game gameelemnts.collidables.Collidable
      * and Sprites lists.
      *
      * @param g class object that holds all of the game component,
@@ -228,7 +237,7 @@ public class Paddle implements Sprite, Collidable {
         g.addCollidable(this);
     }
 
-    // Sprite Interface methods.
+    // gameelemnts.sprites.Sprite Interface methods.
     @Override
     public void timePassed() {
         if (this.keyboard.isPressed(KeyboardSensor.RIGHT_KEY)) {
@@ -259,7 +268,7 @@ public class Paddle implements Sprite, Collidable {
         //drawZones(surface);
     }
 
-    // Collidable Interface methods.
+    // gameelemnts.collidables.Collidable Interface methods.
     @Override
     public Rectangle getCollisionRectangle() {
         return this.paddleBody;
@@ -292,7 +301,7 @@ public class Paddle implements Sprite, Collidable {
     @Override
     public Line getImpactLineFromCollisionPoint(Point collisionPoint) {
         //creating a block with the same specs as the paddle body to
-        // use Block's function.
+        // use gameelemnts.sprites.staticitems.Block's function.
         Block b = new Block(this.paddleBody);
         return b.getImpactLineFromCollisionPoint(collisionPoint);
     }

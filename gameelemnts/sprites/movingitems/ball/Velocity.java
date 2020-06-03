@@ -1,4 +1,6 @@
-//ID: 204351670
+package gameelemnts.sprites.movingitems.ball;//ID: 204351670
+
+import geometry.Point;
 
 import java.util.Objects;
 import static java.lang.Math.abs;
@@ -11,7 +13,7 @@ import static java.lang.Math.pow;
 
 
 /**
- * Velocity specifies the change in position on the `x` and the `y` axes.
+ * gameelemnts.sprites.movingitems.ball.Velocity specifies the change in position on the `x` and the `y` axes.
  * supports method of changing and getting the speed of a ball.
  */
 public class Velocity {
@@ -32,8 +34,8 @@ public class Velocity {
     private double dy;
 
     /**
-     * constructor of the 'Velocity' object.
-     * a Velocity object has two fields: dx- speed component in the horizontal
+     * constructor of the 'gameelemnts.sprites.movingitems.ball.Velocity' object.
+     * a gameelemnts.sprites.movingitems.ball.Velocity object has two fields: dx- speed component in the horizontal
      * direction and dy- speed in the vertical direction.
      *
      * @param dx speed component in the horizontal direction.
@@ -62,9 +64,9 @@ public class Velocity {
      * Take a point with position (x,y) and return a new point
      * with position (x+dx, y+dy).
      *
-     * @param p Point, represents the current location of the ball, before
+     * @param p geometry.Point, represents the current location of the ball, before
      *           a change took place.
-     * @return Point, a Point object which represents the new position of the
+     * @return geometry.Point, a geometry.Point object which represents the new position of the
      *         ball.
      */
     public Point applyToPoint(Point p) {
@@ -97,7 +99,7 @@ public class Velocity {
      *
      * @param angle double, the ball's angle of movement.
      * @param speed double, the ball's speed.
-     * @return Velocity returns velocity according to a given angle and speed.
+     * @return gameelemnts.sprites.movingitems.ball.Velocity returns velocity according to a given angle and speed.
      */
     public static Velocity getVelocityFromAngleAndSpeed(double angle, double speed) {
         double dx;
@@ -267,7 +269,7 @@ public class Velocity {
      * Will compare given velocity to another object.
      *
      * @param obj the object being compared with given velocity.
-     * @return 'true' if the other object is a Velocity object with same
+     * @return 'true' if the other object is a gameelemnts.sprites.movingitems.ball.Velocity object with same
      *          horizontal and vertical components. 'false' otherwise.
      */
     @Override
