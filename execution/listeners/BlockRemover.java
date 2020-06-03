@@ -1,5 +1,6 @@
-package execution;
+package execution.listeners;
 
+import execution.Game;
 import gameelemnts.HitListener;
 import gameelemnts.sprites.movingitems.ball.Ball;
 import gameelemnts.sprites.staticitems.Block;
@@ -19,13 +20,13 @@ public class BlockRemover implements HitListener {
     // Blocks that are hit should be removed
     // from the game. Remember to remove this listener from the block
     // that is being removed from the game.
+    @Override
     public void hitEvent(Block beingHit, Ball hitter) {
         //updating the remaining blocks counter
         this.remainingBlocks.decrease(1);
         //removing listner from block.
         beingHit.removeHitListener(this);
         //removing block from game.
-        this.game.removeCollidable(beingHit);
-        this.game.removeSprite(beingHit);
+        beingHit.removeFromGame(this.game);
     }
 }

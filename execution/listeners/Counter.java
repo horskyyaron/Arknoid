@@ -1,4 +1,4 @@
-package execution;
+package execution.listeners;
 
 public class Counter {
 
@@ -10,15 +10,15 @@ public class Counter {
     }
 
     // add number to current count.
-    void increase(int number) {
+    public void increase(int number) {
         this.value = this.value + number;
     };
     // subtract number from current count.
-    void decrease(int number) {
+    public void decrease(int number) {
         this.value = this.value - number;
     }
     // get current count.
-    int getValue() {
+    public int getValue() {
         return this.value;
     }
 }

@@ -3,7 +3,12 @@ package execution;//ID: 204351670
 import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.Sleeper;
+import execution.listeners.BallRemover;
+import execution.listeners.BlockRemover;
+import execution.listeners.Counter;
+import execution.listeners.ScoreTrackingListener;
 import gameelemnts.collidables.Collidable;
+import gameelemnts.sprites.staticitems.ScoreIndicator;
 import geometry.Point;
 import gameelemnts.sprites.movingitems.ball.Ball;
 import gameelemnts.sprites.movingitems.Paddle;
@@ -37,7 +42,7 @@ public class Game {
     private static final double BORDER_THICKNESS_FACTOR = 0.04;
 
     //number of balls in game.
-    private static final int BALLS_IN_GAME_INITIAL = 2;
+    private static final int BALLS_IN_GAME_INITIAL = 150;
 
     //gameelemnts.sprites.movingitems.ball.Ball Max and Min speed:
     private static final int MAX_SPEED = 10;
@@ -51,6 +56,8 @@ public class Game {
     private static final int BLOCKS_IN_TOP_ROW = 12;
     private static final int NUMBER_OF_BLOCKS_ROW = 6;
 
+    //Winning bonus points
+    private static final int GAME_WON_BONUS = 100;
 
     //gameelemnts.sprites.staticitems.Block top row height in proportion to the border thickness.
     private static final double TOP_BLOCK_ROW_HEIGHT = 5.2
@@ -82,6 +89,8 @@ public class Game {
     private GameEnvironment environment;
     private GUI gui;
     private Counter remainingBlocksCounter;
+    private Counter remainingBallsCounter;
+    private Counter score;
 
     /**
      * constructor of the 'execution.Game' object.
@@ -93,6 +102,8 @@ public class Game {
         this.sprites = new SpriteCollection();
         this.environment = new GameEnvironment();
         this.remainingBlocksCounter = new Counter();
+        this.remainingBallsCounter = new Counter();
+        this.score = new Counter();
     }
 
     /**
@@ -127,7 +138,14 @@ public class Game {
         generateGameBorders();
         generateBalls();
         generatePaddle();
+        generateScoreIndicator(this.score);
+    }
 
+    private void generateScoreIndicator(Counter score) {
+        //creating score indicator
+        ScoreIndicator scoreIndicator = new ScoreIndicator(score);
+        //adding to sprite collection
+        this.sprites.addSprite(scoreIndicator);
     }
 
     /**
@@ -141,16 +159,42 @@ public class Game {
 
         //animation loop.
         while (true) {
+            //All blocks destroyed. end game.
+            if(this.remainingBlocksCounter.getValue() == 0) {
+                //get bonus points
+                this.score.increase(GAME_WON_BONUS);
+
+                long startTime = System.currentTimeMillis(); // timing
+
+                DrawSurface d = this.gui.getDrawSurface();
+                this.sprites.drawAllOn(d);
+                gui.show(d);
+                this.sprites.notifyAllTimePassed();
+
+                // timing
+                long usedTime = System.currentTimeMillis() - startTime;
+                long milliSecondLeftToSleep = millisecondsPerFrame - usedTime;
+                if (milliSecondLeftToSleep > 0) {
+                    sleeper.sleepFor(milliSecondLeftToSleep);
+                }
+
+                //close gui
+                this.gui.close();
+                return;
+            }
+
+            //All balls went to death-region. (out of bounds). lost. end game.
+            if(this.remainingBallsCounter.getValue() == 0) {
+                this.gui.close();
+                return;
+            }
+
             long startTime = System.currentTimeMillis(); // timing
 
             DrawSurface d = this.gui.getDrawSurface();
             this.sprites.drawAllOn(d);
             gui.show(d);
             this.sprites.notifyAllTimePassed();
-
-            if(this.remainingBlocksCounter.getValue() == 55) {
-                int x=5;
-            }
 
             // timing
             long usedTime = System.currentTimeMillis() - startTime;
@@ -195,8 +239,13 @@ public class Game {
         Block up = new Block(new Point(0, 0), WIDTH, thickness, color);
         Block right = new Block(new Point(WIDTH - thickness, thickness),
                 thickness, HEIGHT - thickness, color);
+
+        //Death-Region Block
         Block down = new Block(new Point(thickness, HEIGHT - thickness),
                 WIDTH - 2 * thickness, thickness, color);
+        BallRemover ballRemover = new BallRemover(this, this.remainingBallsCounter);
+        down.addHitListener(ballRemover);
+
 
         //adding to game.
         left.addToGame(this);
@@ -226,6 +275,8 @@ public class Game {
         for (int i = 0; i < gameBalls.size(); i++) {
             gameBalls.get(i).addToGame(this);
         }
+        //updating balls counter
+        this.remainingBallsCounter.increase(gameBalls.size());
     }
 
     /**
@@ -261,6 +312,7 @@ public class Game {
             //adding the game environment to ball's data.
             ball.setGameEnvironment(this.environment);
             ballsList.add(ball);
+
         }
         return ballsList;
     }
@@ -274,6 +326,8 @@ public class Game {
 
         //creating the block remover.
         BlockRemover blockRemover = new BlockRemover(this, this.remainingBlocksCounter);
+        //creating score indicator listner.
+        ScoreTrackingListener scoreTrackingListener = new ScoreTrackingListener(this.score);
 
         //generating each row separately.
         for (int i = 0; i < NUMBER_OF_BLOCKS_ROW; i++) {
@@ -282,7 +336,7 @@ public class Game {
                     firstRowFirstBlock.getY() + i * BLOCK_HEIGHT);
             //each row will have one block less than the row above it.
             generateBlockRow(firstBlock, BLOCK_WIDTH, BLOCK_HEIGHT,
-                    BLOCKS_IN_TOP_ROW - i, getRandomColor(), blockRemover);
+                    BLOCKS_IN_TOP_ROW - i, getRandomColor(), blockRemover,scoreTrackingListener);
         }
 
     }
@@ -300,7 +354,8 @@ public class Game {
     private void generateBlockRow(Point firstBlock,
                                   double singleBlockWidth,
                                   double singleBlockHeight, int blocksCounter,
-                                  java.awt.Color color, BlockRemover blockRemover) {
+                                  java.awt.Color color, BlockRemover blockRemover,
+                                  ScoreTrackingListener scoreTrackingListener) {
 
         if (blocksCounter <= 0) {
             return;
@@ -315,11 +370,13 @@ public class Game {
             this.remainingBlocksCounter.increase(1);
             //adding block remover as a listner.
             block.addHitListener(blockRemover);
+            //adding score indicator listner
+            block.addHitListener(scoreTrackingListener);
 
             //recursively generating blocks in the left direction.
             generateBlockRow(new Point(firstBlock.getX() - singleBlockWidth,
                     firstBlock.getY()), singleBlockWidth, singleBlockHeight,
-                    blocksCounter - 1, color, blockRemover);
+                    blocksCounter - 1, color, blockRemover,scoreTrackingListener);
         }
     }
 
@@ -381,4 +438,9 @@ public class Game {
     public void removeSprite(Sprite s) {
         this.sprites.getSpriteElements().remove(s);
     }
+
+    public int getScore() {
+        return this.score.getValue();
+    }
+
 }

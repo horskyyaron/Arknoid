@@ -2,12 +2,15 @@ package gameelemnts.sprites.movingitems.ball;//ID: 204351670
 import biuoop.DrawSurface;
 import execution.Game;
 import execution.GameEnvironment;
+import gameelemnts.HitListener;
+import gameelemnts.HitNotifier;
 import geometry.line.Line;
 import geometry.Point;
 import gameelemnts.sprites.Sprite;
 import gameelemnts.collidables.CollisionInfo;
 
 import java.awt.Color;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -357,4 +360,9 @@ public class Ball implements Sprite {
     public void addToGame(Game game) {
         game.addSprite(this);
     }
+
+    public void removeFromGame(Game g) {
+        g.removeSprite(this);
+    }
+
 }

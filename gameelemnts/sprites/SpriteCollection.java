@@ -1,7 +1,10 @@
 package gameelemnts.sprites;//ID: 204351670
 
 import biuoop.DrawSurface;
+import gameelemnts.HitListener;
+
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -54,7 +57,10 @@ public class SpriteCollection {
      * time has passed.
      */
     public void notifyAllTimePassed() {
-        for (Sprite s: this.spriteElements) {
+        // Make a copy of the Sprites before iterating over them.
+        List<Sprite> elements = new LinkedList<>(this.spriteElements);
+        // Notify all Sprites that time passed.
+        for (Sprite s: elements) {
             s.timePassed();
         }
     }
@@ -66,6 +72,9 @@ public class SpriteCollection {
      * @param d the surface that the Sprites will be drawn on.
      */
     public void drawAllOn(DrawSurface d) {
+        // Make a copy of the Sprites before iterating over them.
+        List<Sprite> elements = new LinkedList<>(this.spriteElements);
+        //Draw all Sprites.
         for (Sprite s: this.spriteElements) {
             s.drawOn(d);
         }
