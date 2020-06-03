@@ -47,8 +47,8 @@ public class Game {
     private static final int BALLS_IN_GAME_INITIAL = 3;
 
     //gameelemnts.sprites.movingitems.ball.Ball Max and Min speed:
-    private static final int MAX_SPEED = 10;
-    private static final int MIN_SPEED = -10;
+    private static final int MAX_SPEED = 7;
+    private static final int MIN_SPEED = -7;
 
     //the blocks size will be determined by the screen size.
     private static final double BLOCK_WIDTH =  getWIDTH() / 16.0;
@@ -79,7 +79,7 @@ public class Game {
     static {
         Point temp = null;
         try {
-            temp = new Point(WIDTH / 2.0, (int) (HEIGHT * 0.7));
+            temp = new Point(WIDTH / 2.0, (int) (HEIGHT * 0.55));
         } catch (Exception e) {
             e.printStackTrace();
         }

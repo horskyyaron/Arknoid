@@ -15,6 +15,8 @@ import java.awt.Color;
 public class ScoreIndicator implements Sprite {
     //Font size.
     private static final int FONT_SIZE = 15;
+    private static final int SCORE_TEXT_X_COORDINATE = Game.getWIDTH() / 2 - 20;
+    private static final int SCORE_TEXT_Y_COORDINATE = (int) Game.getBorderThickness() / 2 + 5;
 
     //fields
     private Counter score;
@@ -32,7 +34,7 @@ public class ScoreIndicator implements Sprite {
     public void drawOn(DrawSurface d) {
         d.setColor(Color.BLACK);
         //will draw the score text onto the input surface.
-        d.drawText(Game.getWIDTH() / 2, ((int) Game.getBorderThickness() / 2),
+        d.drawText(SCORE_TEXT_X_COORDINATE, SCORE_TEXT_Y_COORDINATE,
                 "Score:" + this.score.getValue(), FONT_SIZE);
     }
 
