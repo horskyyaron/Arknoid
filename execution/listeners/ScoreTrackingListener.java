@@ -2,7 +2,7 @@
 
 package execution.listeners;
 
-import gameelemnts.HitListener;
+import execution.Counter;
 import gameelemnts.sprites.movingitems.ball.Ball;
 import gameelemnts.sprites.staticitems.Block;
 
@@ -34,12 +34,4 @@ public class ScoreTrackingListener implements HitListener {
        beingHit.removeHitListener(this);
     }
 
-    /**
-     * Gets current score.
-     *
-     * @return the current score
-     */
-    public Counter getCurrentScore() {
-        return currentScore;
-    }
 }

@@ -5,8 +5,10 @@ package gameelemnts.sprites.movingitems;
 import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.KeyboardSensor;
+import execution.GameConstants;
+import execution.levels.LevelInformation;
 import gameelemnts.collidables.Collidable;
-import execution.Game;
+import execution.GameLevel;
 import gameelemnts.sprites.movingitems.ball.Ball;
 import geometry.line.Line;
 import geometry.Point;
@@ -23,24 +25,25 @@ import java.awt.Color;
  */
 public class Paddle implements Sprite, Collidable {
 
-    //gameelemnts.sprites.movingitems.Paddle specs (Constants) to make it look good on screen.
-    private static final double PADDLE_SIZE_FACTOR = 0.2;
+    //Paddle height (Constants) to make it look good on screen.
     private static final double PADDLE_HEIGHT_FACTOR = 0.03;
-    private static final double PADDLE_SPEED = Game.getWIDTH() * 0.015;
 
 
     //fields.
     private biuoop.KeyboardSensor keyboard;
     private Rectangle paddleBody;
+    private LevelInformation levelInformation;
 
     /**
      * constructor of the 'gameelemnts.sprites.movingitems.Paddle' object.
      *
      * @param gui the game Gui.
      */
-    public Paddle(GUI gui) {
+    public Paddle(GUI gui, LevelInformation levelInfo) {
         this.keyboard = gui.getKeyboardSensor();
+        this.levelInformation = levelInfo;
         this.paddleBody = buildPaddle();
+
     }
 
     //gameelemnts.sprites.movingitems.Paddle methods.
@@ -53,12 +56,12 @@ public class Paddle implements Sprite, Collidable {
     private Rectangle buildPaddle() {
         //calculating the width and height of the paddle based on the size
         // factors.
-        double paddleWidth = PADDLE_SIZE_FACTOR * Game.getWIDTH();
-        double paddleHeight = PADDLE_HEIGHT_FACTOR * Game.getHEIGHT();
+        double paddleWidth = this.levelInformation.paddleWidth();
+        double paddleHeight = PADDLE_HEIGHT_FACTOR * GameConstants.getHeight();
         //calculating and creating the paddle top left corner point.
-        double rectUpperLeftXCord = Game.getWIDTH() / 2.0 - paddleWidth / 2.0;
-        double rectUpperLeftYCord = Game.getHEIGHT()
-                - Game.getBorderThickness() - paddleHeight - 1;
+        double rectUpperLeftXCord = GameConstants.getWidth() / 2.0 - paddleWidth / 2.0;
+        double rectUpperLeftYCord = GameConstants.getHeight()
+                - GameConstants.getBorderThickness() - paddleHeight - 1;
         Point rectUpperLeft = new Point(rectUpperLeftXCord, rectUpperLeftYCord);
 
         return new Rectangle(rectUpperLeft, paddleWidth, paddleHeight);
@@ -78,13 +81,13 @@ public class Paddle implements Sprite, Collidable {
         double paddleHeight = this.paddleBody.getHeight();
 
         //check if the paddle is in the edge of the game-play zone.
-        if (isNextMoveOutOfBounds(curUpperLeft.getX() - PADDLE_SPEED)) {
+        if (isNextMoveOutOfBounds(curUpperLeft.getX() - this.levelInformation.paddleSpeed())) {
             //move to edge
-            Point newUpperLeft = new Point(Game.getBorderThickness(), curUpperLeft.getY());
+            Point newUpperLeft = new Point(GameConstants.getBorderThickness(), curUpperLeft.getY());
             this.paddleBody = new Rectangle(newUpperLeft, paddleWidth, paddleHeight);
         } else {
             //move to the left.
-            Point newUpperLeft = new Point(curUpperLeft.getX() - PADDLE_SPEED, curUpperLeft.getY());
+            Point newUpperLeft = new Point(curUpperLeft.getX() - this.levelInformation.paddleSpeed(), curUpperLeft.getY());
             this.paddleBody = new Rectangle(newUpperLeft, paddleWidth, paddleHeight);
         }
     }
@@ -102,16 +105,16 @@ public class Paddle implements Sprite, Collidable {
         double paddleHeight = this.paddleBody.getHeight();
 
 
-        if (isNextMoveOutOfBounds(curUpperLeft.getX() + PADDLE_SPEED)) {
+        if (isNextMoveOutOfBounds(curUpperLeft.getX() + this.levelInformation.paddleSpeed())) {
             //move to edge
-            Point newUpperLeft = new Point(Game.getWIDTH()
-                    - Game.getBorderThickness() - paddleWidth,
+            Point newUpperLeft = new Point(GameConstants.getWidth()
+                    - GameConstants.getBorderThickness() - paddleWidth,
                     curUpperLeft.getY());
             this.paddleBody = new Rectangle(newUpperLeft, paddleWidth,
                     paddleHeight);
         } else {
             //move to the right.
-            Point newUpperLeft = new Point(curUpperLeft.getX() + PADDLE_SPEED,
+            Point newUpperLeft = new Point(curUpperLeft.getX() + this.levelInformation.paddleSpeed(),
                     curUpperLeft.getY());
             this.paddleBody = new Rectangle(newUpperLeft, paddleWidth,
                     paddleHeight);
@@ -130,12 +133,12 @@ public class Paddle implements Sprite, Collidable {
      */
     private boolean isNextMoveOutOfBounds(double nextPositionOfUpperLeftXCoordinate) {
         //out of game-play zone to the right.
-        if (nextPositionOfUpperLeftXCoordinate < Game.getBorderThickness()) {
+        if (nextPositionOfUpperLeftXCoordinate < GameConstants.getBorderThickness()) {
             return true;
             //out of game-play zone to the left.
         } else {
             return nextPositionOfUpperLeftXCoordinate + this.getPaddleWidth()
-                > Game.getWIDTH() - Game.getBorderThickness();
+                > GameConstants.getWidth() - GameConstants.getBorderThickness();
         }
     }
 
@@ -235,7 +238,7 @@ public class Paddle implements Sprite, Collidable {
      * @param g class object that holds all of the game component,
      *             paddle included.
      */
-    public void addToGame(Game g) {
+    public void addToGame(GameLevel g) {
         g.addSprite(this);
         g.addCollidable(this);
     }

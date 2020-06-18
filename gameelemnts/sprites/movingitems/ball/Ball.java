@@ -3,7 +3,8 @@
 package gameelemnts.sprites.movingitems.ball;
 
 import biuoop.DrawSurface;
-import execution.Game;
+import execution.GameConstants;
+import execution.GameLevel;
 import execution.GameEnvironment;
 import geometry.line.Line;
 import geometry.Point;
@@ -108,11 +109,11 @@ public class Ball implements Sprite {
 
     @Override
     public void drawOn(DrawSurface surface) {
-        //frame
-//        surface.setColor(Color.black);
-//        surface.fillCircle((int)this.getX(),(int) this.getY(), this.radius);
         surface.setColor(this.color);
-        surface.fillCircle((int) this.getX(), (int) this.getY(), this.radius);
+        surface.fillCircle((int) this.getX(), (int) this.getY(), this.radius );
+        surface.setColor(Color.BLACK);
+        surface.drawCircle((int) this.getX(),(int) this.getY(), this.radius);
+
     }
 
     @Override
@@ -255,10 +256,10 @@ public class Ball implements Sprite {
 
         check if it's in the left part of the game-play zone.
          */
-        if (cornerPoint.getX() < (double) Game.getWIDTH() / 2) {
+        if (cornerPoint.getX() < (double) GameConstants.getWidth() / 2) {
             //check if't the lower or upper corner in the left side of the
             // game-play zone.
-            if (cornerPoint.getY() < (double) Game.getHEIGHT() / 2) {
+            if (cornerPoint.getY() < (double) GameConstants.getHeight() / 2) {
                 this.center = new Point(cornerPoint.getX() + DELTA,
                         cornerPoint.getY() + DELTA);
             } else {
@@ -268,7 +269,7 @@ public class Ball implements Sprite {
         } else {
             //check if't the lower or upper corner in the right side of the
             // game-play zone.
-            if (cornerPoint.getY() < (double) Game.getHEIGHT() / 2) {
+            if (cornerPoint.getY() < (double) GameConstants.getHeight() / 2) {
                 this.center = new Point(cornerPoint.getX() - DELTA,
                         cornerPoint.getY() + DELTA);
             } else {
@@ -354,10 +355,10 @@ public class Ball implements Sprite {
     /**
      * the function will add the Ball object to the input game.
      *
-     * @param game the game which the ball will be a part of.
+     * @param gameLevel the game which the ball will be a part of.
      */
-    public void addToGame(Game game) {
-        game.addSprite(this);
+    public void addToGame(GameLevel gameLevel) {
+        gameLevel.addSprite(this);
     }
 
     /**
@@ -365,7 +366,7 @@ public class Ball implements Sprite {
      *
      * @param g the game which the ball will be a part of.
      */
-    public void removeFromGame(Game g) {
+    public void removeFromGame(GameLevel g) {
         g.removeSprite(this);
     }
 

@@ -76,25 +76,6 @@ public class Velocity {
     }
 
     /**
-     * setting ball speed.
-     *
-     * smaller radius => higher speed.
-     *
-     * @param ballRadius int, ball's radius.
-     * @return int, ball's speed.
-     */
-    public static int setSpeed(int ballRadius) {
-        //Client's requirement: if radius is larger than 50 then-> minimum speed
-        if (ballRadius > 50) {
-            //
-            return MIM_SPEED;
-        } else {
-            //selected ratio for ball's speed.
-            return ((100 - ballRadius) / 7);
-        }
-    }
-
-    /**
      * setting velocity from given angle and speed.
      *
      * the 0 degree is set to be the up direction and growing clockwise.
@@ -106,28 +87,49 @@ public class Velocity {
     public static Velocity getVelocityFromAngleAndSpeed(double angle, double speed) {
         double dx;
         double dy;
+
+        //getting in range
+        angle = toThreeSixty(angle);
+
         //converting degree to radians.
-        angle = toRadians(angle);
+        double angleInRadiands = toRadians(angle);
 
         //Trigonometry calculations
         if (angle >= 0 && angle <= 90) {
-            dy = ((speed * cos(angle)) * (-1));
-            dx = (speed * sin(angle));
+            dy = (speed * cos(angleInRadiands) * (-1));
+            dx = (speed * sin(angleInRadiands));
         } else if (angle > 90 && angle <= 180) {
-            dy = (speed * cos(180 - angle));
-            dx = (speed * sin(180 - angle));
+            dy = (speed * cos(toRadians(180 - angle)));
+            dx = (speed * sin(toRadians(180 - angle)));
         } else if (angle > 180 && angle <= 270) {
-            dy = (speed * cos(angle - 180));
-            dx = (speed * sin(angle - 180) * (-1));
+            dy = (speed * cos(toRadians(angle - 180)));
+            dx = (speed * sin(toRadians(angle - 180)) * (-1));
         } else if (angle > 270 && angle < 360) {
-            dy = (speed * cos(360 - angle) * (-1));
-            dx = (speed * sin(360 - angle) * (-1));
+            dy = (speed * cos(toRadians(360 - angle)) * (-1));
+            dx = (speed * sin(toRadians(360 - angle) * (-1)));
         } else {
             dx = 0;
             dy = 0;
         }
 
         return new Velocity(dx, dy);
+    }
+
+    private static double toThreeSixty(double angle) {
+        double inRangeAngle = angle;
+        if (angle < 0) {
+            while (inRangeAngle < 0) {
+                inRangeAngle = inRangeAngle + 360;
+            }
+            return inRangeAngle;
+        } else if (angle > 360) {
+            while(inRangeAngle > 360) {
+                inRangeAngle = inRangeAngle - 360;
+            }
+            return inRangeAngle;
+        } else {
+            return angle;
+        }
     }
 
     /**
@@ -283,12 +285,6 @@ public class Velocity {
                 && Double.compare(velocity.dy, dy) == 0;
     }
 
-    /*
-
-    looking online, i found that override hashCode function should not have
-    documentation, plus checkstyle didn't raise error so i leave it as is.
-    https://stackoverflow.com/questions/24355424/should-i-document-overriden-hashcode-and-tostring
-    */
     @Override
     public int hashCode() {
         return Objects.hash(dx, dy);

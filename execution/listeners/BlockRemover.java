@@ -2,8 +2,8 @@
 
 package execution.listeners;
 
-import execution.Game;
-import gameelemnts.HitListener;
+import execution.Counter;
+import execution.GameLevel;
 import gameelemnts.sprites.movingitems.ball.Ball;
 import gameelemnts.sprites.staticitems.Block;
 
@@ -14,17 +14,17 @@ import gameelemnts.sprites.staticitems.Block;
 public class BlockRemover implements HitListener {
 
     //fields
-    private Game game;
+    private GameLevel gameLevel;
     private Counter remainingBlocks;
 
     /**
      * Instantiates a new Block remover.
      *
-     * @param game          the game
+     * @param gameLevel          the game
      * @param removedBlocks the removed blocks
      */
-    public BlockRemover(Game game, Counter removedBlocks) {
-        this.game = game;
+    public BlockRemover(GameLevel gameLevel, Counter removedBlocks) {
+        this.gameLevel = gameLevel;
         this.remainingBlocks = removedBlocks;
     }
 
@@ -36,6 +36,6 @@ public class BlockRemover implements HitListener {
         //removing listner from block.
         beingHit.removeHitListener(this);
         //removing block from game.
-        beingHit.removeFromGame(this.game);
+        beingHit.removeFromGame(this.gameLevel);
     }
 }

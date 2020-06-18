@@ -3,10 +3,10 @@
 package gameelemnts.sprites.staticitems;
 
 import biuoop.DrawSurface;
-import gameelemnts.HitListener;
-import gameelemnts.HitNotifier;
+import execution.listeners.HitListener;
+import execution.listeners.HitNotifier;
 import gameelemnts.collidables.Collidable;
-import execution.Game;
+import execution.GameLevel;
 import gameelemnts.sprites.movingitems.ball.Ball;
 import geometry.line.Line;
 import geometry.line.LineEquation;
@@ -177,21 +177,21 @@ public class Block implements Collidable, Sprite, HitNotifier {
     /**
      * the function will add the block object to the input game.
      *
-     * @param game the game which the block will be a part of.
+     * @param gameLevel the game which the block will be a part of.
      */
-    public void addToGame(Game game) {
-        game.addSprite(this);
-        game.addCollidable(this);
+    public void addToGame(GameLevel gameLevel) {
+        gameLevel.addSprite(this);
+        gameLevel.addCollidable(this);
     }
 
     /**
      * the function will remove the block object from the input game.
      *
-     * @param game the game which the block will be a part of.
+     * @param gameLevel the game which the block will be a part of.
      */
-    public void removeFromGame(Game game) {
-        game.removeSprite(this);
-        game.removeCollidable(this);
+    public void removeFromGame(GameLevel gameLevel) {
+        gameLevel.removeSprite(this);
+        gameLevel.removeCollidable(this);
     }
 
     @Override

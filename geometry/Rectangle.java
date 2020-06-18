@@ -1,7 +1,8 @@
 //ID: 204351670
 package geometry;
 
-import execution.Game;
+import execution.GameConstants;
+import execution.GameLevel;
 import geometry.line.Line;
 
 import java.util.LinkedList;
@@ -27,8 +28,8 @@ public class Rectangle {
      * @param height holds the rectangle height.
      */
     public Rectangle(Point upperLeft, double width, double height) {
-        if (width < 0 || width > Game.getWIDTH() || height < 0
-                || height > Game.getHEIGHT()) {
+        if (width < 0 || width > GameConstants.getWidth() || height < 0
+                || height > GameConstants.getHeight()) {
             throw new IllegalArgumentException("can't have a rectangle with"
                     + "negative height or width or negative height or width.");
         } else {
@@ -168,6 +169,12 @@ public class Rectangle {
      */
     public java.util.List<Point> getIntersectionPoints(Line line) {
         return intersectionPoints(line);
+    }
+
+    public Point getCenterOfRec() {
+        double x = this.getUpperLeft().getX() + this.width/2.0;
+        double y = this.getUpperLeft().getY() + this.height/2.0;
+        return new Point(x, y);
     }
 
     @Override

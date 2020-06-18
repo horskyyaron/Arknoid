@@ -2,7 +2,8 @@
 
 package geometry;
 
-import execution.Game;
+import execution.GameConstants;
+import execution.GameLevel;
 import geometry.line.LineEquation;
 
 import java.util.ArrayList;
@@ -162,8 +163,8 @@ public class Point {
      */
     public boolean isAGameCorner() {
         //getting the game-play zone corner points.
-        List<Point> cornerPoints = getGameCornerPoints(Game.getWIDTH(),
-                Game.getHEIGHT(), Game.getBorderThickness());
+        List<Point> cornerPoints = getGameCornerPoints(GameConstants.getWidth(),
+                GameConstants.getHeight(), GameConstants.getHeight());
         //check if given point is one of the corner points.
         return cornerPoints.contains(this);
     }
