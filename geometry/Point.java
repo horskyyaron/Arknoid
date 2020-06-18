@@ -3,7 +3,6 @@
 package geometry;
 
 import execution.GameConstants;
-import execution.GameLevel;
 import geometry.line.LineEquation;
 
 import java.util.ArrayList;

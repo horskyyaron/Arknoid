@@ -2,7 +2,6 @@
 package geometry;
 
 import execution.GameConstants;
-import execution.GameLevel;
 import geometry.line.Line;
 
 import java.util.LinkedList;
@@ -22,10 +21,9 @@ public class Rectangle {
     /**
      * constructor of the 'geometry.Rectangle' object.
      *
-     * @param upperLeft a geometry.Point object which will be the top left corner of the
-     *                frame.
-     * @param width holds the rectangle width.
-     * @param height holds the rectangle height.
+     * @param upperLeft a geometry.Point object which will be the top left corner of the                frame.
+     * @param width     holds the rectangle width.
+     * @param height    holds the rectangle height.
      */
     public Rectangle(Point upperLeft, double width, double height) {
         if (width < 0 || width > GameConstants.getWidth() || height < 0
@@ -70,9 +68,8 @@ public class Rectangle {
      * returns the intersection points of given rectangle with input line.
      *
      * @param line the geometry.line.Line object which is being checked for intersetion points
-     *            with the given rectangle.
-     * @return geometry.Point object list which holds the intersection points with the
-     *         line.
+     *             with the given rectangle.
+     * @return geometry.Point object list which holds the intersection points with the         line.
      */
     public java.util.List<Point> intersectionPoints(Line line) {
         //getting an array of the rectangle Lines.
@@ -171,9 +168,14 @@ public class Rectangle {
         return intersectionPoints(line);
     }
 
+    /**
+     * returns the middle of a rectangle. (mid of width, mid of height)
+     *
+     * @return the center point of the rectangle.
+     */
     public Point getCenterOfRec() {
-        double x = this.getUpperLeft().getX() + this.width/2.0;
-        double y = this.getUpperLeft().getY() + this.height/2.0;
+        double x = this.getUpperLeft().getX() + this.width / 2.0;
+        double y = this.getUpperLeft().getY() + this.height / 2.0;
         return new Point(x, y);
     }
 
