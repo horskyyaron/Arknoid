@@ -23,15 +23,19 @@ public class LevelFour implements LevelInformation {
     private static final double BLOCK_HEIGHT = GameConstants.getHeight() / 22.2;
 
 
-    private static final double INITIAL_BALLS_VELOCITY = 4;
+    private static final double INITIAL_BALLS_VELOCITY = 20;
     //private static final int NUMBER_OF_BALLS_IN_GAME = 3;
 
     private static final int PADDLE_SPEED = 8;
     //private static final int PADDLE_WIDTH = ((int)(GameConstants.getWidth() * 0.9));
 
-    //cheating for testing:
+    private static final int BALLS_INIT_ANGLE = 45;
+    private static final int ANGLE_INCREMENT = 5;
+
+
+    //@@@@@@@@@@@@@22cheating for testing:@@@@@@@@@@@@@@@@@@@@2
     private static final int PADDLE_WIDTH = 700;
-    private static final int NUMBER_OF_BALLS_IN_GAME = 80;
+    private static final int NUMBER_OF_BALLS_IN_GAME = 300 ;
 
     @Override
     public int numberOfBalls() {
@@ -40,7 +44,7 @@ public class LevelFour implements LevelInformation {
 
     @Override
     public List<Velocity> initialBallVelocities() {
-        int angle = 45;
+        int angle = BALLS_INIT_ANGLE;
         List<Velocity> ballVelocities = new LinkedList<>();
 
         for (int i = 0; i < NUMBER_OF_BALLS_IN_GAME / 2; i++) {
@@ -48,7 +52,7 @@ public class LevelFour implements LevelInformation {
             ballVelocities.add(Velocity.getVelocityFromAngleAndSpeed((-1)*angle, INITIAL_BALLS_VELOCITY));
 
             //if we want to add more balls in future
-            //angle = angle + 5;
+            angle = angle + ANGLE_INCREMENT;
         }
         //ball that goes straight up.
         ballVelocities.add(new Velocity(0, (-1) * INITIAL_BALLS_VELOCITY));

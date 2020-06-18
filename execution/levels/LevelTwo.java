@@ -18,14 +18,19 @@ public class LevelTwo implements LevelInformation {
     private static final double BLOCK_HEIGHT = GameConstants.getHeight() / 22.2;
     private static final double ROW_HEIGHT = GameConstants.getHeight() * 0.3;
     private static final int BLOCKS_IN_TOP_ROW = 15;
-    private static final double INITIAL_BALLS_VELOCITY = 4.0;
+    private static final double INITIAL_BALLS_VELOCITY = 5.0;
     //private static final int NUMBER_OF_BALLS_IN_GAME = 10;
     //private static final int PADDLE_WIDTH = ((int)(GameConstants.getWidth() * 0.7));
     private static final int PADDLE_SPEED = 4;
 
-    //cheating for testing:
+    private static final int BALLS_INIT_ANGLE = 10;
+    private static final int ANGLE_INCREMENT = 10;
+
+    //@@@@@@@@@@@@@22cheating for testing:@@@@@@@@@@@@@@@@@@@@2
     private static final int PADDLE_WIDTH = 700;
-    private static final int NUMBER_OF_BALLS_IN_GAME = 150;
+    private static final int NUMBER_OF_BALLS_IN_GAME = 200;
+
+
 
 
     public LevelTwo() {
@@ -44,13 +49,13 @@ public class LevelTwo implements LevelInformation {
     @Override
     public List<Velocity> initialBallVelocities() {
 
-        int angle = 5;
+        int angle = BALLS_INIT_ANGLE;
         List<Velocity> ballVelocities = new LinkedList<>();
 
         for (int i = 0; i < (NUMBER_OF_BALLS_IN_GAME / 2); i++) {
             ballVelocities.add(Velocity.getVelocityFromAngleAndSpeed(angle, INITIAL_BALLS_VELOCITY));
             ballVelocities.add(Velocity.getVelocityFromAngleAndSpeed((-1)*angle, INITIAL_BALLS_VELOCITY));
-            angle = angle + 5;
+            angle = angle + ANGLE_INCREMENT;
         }
         return ballVelocities;
     }

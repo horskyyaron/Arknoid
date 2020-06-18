@@ -19,14 +19,14 @@ public class LevelThree implements LevelInformation {
     private static final double BLOCK_HEIGHT = GameConstants.getHeight() / 22.2;
     private static final double ROW_HEIGHT = GameConstants.getHeight() * 0.3;
     private static final int BLOCKS_IN_TOP_ROW = 10;
-    private static final double INITIAL_BALLS_VELOCITY = 4.0;
+    private static final double INITIAL_BALLS_VELOCITY = 5.0;
     //private static final int NUMBER_OF_BALLS_IN_GAME = 2;
     private static final int PADDLE_SPEED = 6;
     //private static final int PADDLE_WIDTH = ((int)(GameConstants.getWidth() * 0.1));
 
-    //cheating for testing:
+    //@@@@@@@@@@@@@22cheating for testing:@@@@@@@@@@@@@@@@@@@@2
     private static final int PADDLE_WIDTH = 700;
-    private static final int NUMBER_OF_BALLS_IN_GAME = 80;
+    private static final int NUMBER_OF_BALLS_IN_GAME = 300;
 
 
 

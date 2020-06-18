@@ -10,6 +10,8 @@ import execution.levels.LevelInformation;
 import execution.listeners.BallRemover;
 import execution.listeners.BlockRemover;
 import execution.listeners.ScoreTrackingListener;
+import execution.screens.KeyPressStoppableAnimation;
+import execution.screens.PauseScreen;
 import gameelemnts.collidables.Collidable;
 import gameelemnts.sprites.movingitems.ball.Velocity;
 import gameelemnts.sprites.staticitems.ScoreIndicator;
@@ -58,6 +60,9 @@ public class GameLevel implements Animation {
         BALLS_STARTING_POINT = temp;
     }
 
+    private static final double COUNTDOWN_DURATION = 2.0;
+    private static final int COUNT_FROM = 3;
+
     //fields.
     private SpriteCollection sprites;
     private GameEnvironment environment;
@@ -75,8 +80,16 @@ public class GameLevel implements Animation {
      * <p>
      * will create a new game elemnts.sprites.Sprite collection and a new execution.Game environment for the
      * game.
+     *
+     * @param levelInformation       the level information
+     * @param totalScore             the total score
+     * @param remainingBallsCounter  the remaining balls counter
+     * @param remainingBlocksCounter the remaining blocks counter
+     * @param ks                     the ks
+     * @param ar                     the ar
+     * @param gui                    the gui
      */
-    public GameLevel(LevelInformation levelInformation,Counter totalScore, Counter remainingBallsCounter,
+    public GameLevel(LevelInformation levelInformation, Counter totalScore, Counter remainingBallsCounter,
                      Counter remainingBlocksCounter, KeyboardSensor ks, AnimationRunner ar, GUI gui) {
         this.sprites = new SpriteCollection();
         this.environment = new GameEnvironment();
@@ -118,7 +131,6 @@ public class GameLevel implements Animation {
      */
     public void initialize() {
 
-
         //background
         generateBackground();
 
@@ -152,6 +164,7 @@ public class GameLevel implements Animation {
      */
     public void run() {
         //this.createBallsOnTopOfPaddle(); // or a similar method
+        this.runner.run(new CountDownAnimation(COUNTDOWN_DURATION, COUNT_FROM, this.sprites));
         this.running = true;
         // use our runner to run the current animation -- which is one turn of
         // the game.
@@ -308,7 +321,8 @@ public class GameLevel implements Animation {
             // stopping situation
             //Paused
             if (this.keyboard.isPressed("p")) {
-                this.runner.run(new PauseScreen(this.keyboard));
+                this.runner.run(new KeyPressStoppableAnimation(this.keyboard, KeyboardSensor.SPACE_KEY,
+                        new PauseScreen()));
             }
             //lost
             if (this.remainingBallsCounter.getValue() == 0) {

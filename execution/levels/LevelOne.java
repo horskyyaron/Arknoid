@@ -19,7 +19,7 @@ public class LevelOne implements LevelInformation {
 //    private static final int NUMBER_OF_BALLS_IN_GAME = 20;
 //    private static final double PADDLE_WIDTH = GameConstants.getWidth()/4.0;
 
-    //cheating for testing:
+    //@@@@@@@@@@@@@22cheating for testing:@@@@@@@@@@@@@@@@@@@@2
     private static final double PADDLE_WIDTH = 700;
     private static final int NUMBER_OF_BALLS_IN_GAME = 80;
 
