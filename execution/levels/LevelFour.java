@@ -1,3 +1,4 @@
+//ID: 204351670
 package execution.levels;
 
 import execution.GameConstants;
@@ -7,11 +8,14 @@ import gameelemnts.sprites.movingitems.ball.Velocity;
 import gameelemnts.sprites.staticitems.Block;
 import geometry.Point;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
+/**
+ * The class LevelFour holds all of the information of level four:
+ * number of balls, blocks, paddle speed and width etc..
+ */
 public class LevelFour implements LevelInformation {
 
 
@@ -19,23 +23,58 @@ public class LevelFour implements LevelInformation {
     private static final int BLOCKS_IN_A_ROW = 15;
     private static final int NUMBER_OF_BLOCK_ROWS = 7;
 
-    private static final double BLOCK_WIDTH = (GameConstants.getWidth() - 2*GameConstants.getBorderThickness()) / 15.0;
+    private static final double BLOCK_WIDTH = (GameConstants.getWidth() - 2
+            * GameConstants.getBorderThickness()) / 15.0;
     private static final double BLOCK_HEIGHT = GameConstants.getHeight() / 22.2;
 
 
     private static final double INITIAL_BALLS_VELOCITY = 20;
-    //private static final int NUMBER_OF_BALLS_IN_GAME = 3;
+    private static final int NUMBER_OF_BALLS_IN_GAME = 3;
 
     private static final int PADDLE_SPEED = 8;
-    //private static final int PADDLE_WIDTH = ((int)(GameConstants.getWidth() * 0.9));
+    private static final int PADDLE_WIDTH = ((int) (GameConstants.getWidth() * 0.9));
 
     private static final int BALLS_INIT_ANGLE = 45;
     private static final int ANGLE_INCREMENT = 5;
 
 
-    //@@@@@@@@@@@@@22cheating for testing:@@@@@@@@@@@@@@@@@@@@2
-    private static final int PADDLE_WIDTH = 700;
-    private static final int NUMBER_OF_BALLS_IN_GAME = 300 ;
+//    //@@@@@@@@@@@@@22cheating for testing:@@@@@@@@@@@@@@@@@@@@2
+//    private static final int PADDLE_WIDTH = 700;
+//    private static final int NUMBER_OF_BALLS_IN_GAME = 300;
+
+    /**
+     * Will generate the level's blocks and add them to input block list.
+     *
+     * the level's blocks are in a single row.
+     *
+     * @param firstBlock upper left corner of the first block.
+     * @param singleBlockWidth a block's width.
+     * @param singleBlockHeight a block's height.
+     * @param blocksCounter a counter that keeps track of how many more blocks needs to be created.
+     * @param blockList will hold the information of the generated blocks.
+     * @param color the color of the blocks.
+     */
+    private void generateBlockRow(Point firstBlock,
+                                  double singleBlockWidth,
+                                  double singleBlockHeight, int blocksCounter, List<Block> blockList, Color color) {
+
+        if (!(blocksCounter <= 0)) {
+            //creating the block and adding it to game.
+            Block block = new Block(firstBlock, singleBlockWidth,
+                    singleBlockHeight, color);
+            blockList.add(block);
+
+            //checks if last block was added.
+            if (blocksCounter - 1 == 0) {
+                return;
+            }
+
+            //recursively generating blocks in the left direction.
+            generateBlockRow(new Point(firstBlock.getX() - singleBlockWidth,
+                            firstBlock.getY()), singleBlockWidth, singleBlockHeight,
+                    blocksCounter - 1, blockList, color);
+        }
+    }
 
     @Override
     public int numberOfBalls() {
@@ -49,7 +88,7 @@ public class LevelFour implements LevelInformation {
 
         for (int i = 0; i < NUMBER_OF_BALLS_IN_GAME / 2; i++) {
             ballVelocities.add(Velocity.getVelocityFromAngleAndSpeed(angle, INITIAL_BALLS_VELOCITY));
-            ballVelocities.add(Velocity.getVelocityFromAngleAndSpeed((-1)*angle, INITIAL_BALLS_VELOCITY));
+            ballVelocities.add(Velocity.getVelocityFromAngleAndSpeed((-1) * angle, INITIAL_BALLS_VELOCITY));
 
             //if we want to add more balls in future
             angle = angle + ANGLE_INCREMENT;
@@ -93,49 +132,13 @@ public class LevelFour implements LevelInformation {
             Point firstBlock = new Point(firstRowFirstBlock.getX(),
                     firstRowFirstBlock.getY() + i * BLOCK_HEIGHT);
 
-            Color backgroundColor = getRandomColor();
+            Color backgroundColor = GameConstants.getRandomColor();
 
             //each row will have one block less than the row above it.
             generateBlockRow(firstBlock, BLOCK_WIDTH, BLOCK_HEIGHT,
                     BLOCKS_IN_A_ROW, blockList, backgroundColor);
         }
         return blockList;
-    }
-
-
-
-    private void generateBlockRow(Point firstBlock,
-                                  double singleBlockWidth,
-                                  double singleBlockHeight, int blocksCounter, List<Block> blockList, Color color) {
-
-        if (!(blocksCounter <= 0)) {
-            //creating the block and adding it to game.
-            Block block = new Block(firstBlock, singleBlockWidth,
-                    singleBlockHeight,color);
-            blockList.add(block);
-
-            if(blocksCounter - 1 == 0) {
-                return;
-            }
-
-            //recursively generating blocks in the left direction.
-            generateBlockRow(new Point(firstBlock.getX() - singleBlockWidth,
-                            firstBlock.getY()), singleBlockWidth, singleBlockHeight,
-                    blocksCounter - 1, blockList, color);
-        }
-    }
-
-    /**
-     * Generating and returning a randome color.
-     *
-     * @return a random chosen RGB color.
-     */
-    private static Color getRandomColor() {
-        Random random = new Random();
-        int r = random.nextInt(255) + 1;
-        int g = random.nextInt(255) + 1;
-        int b = random.nextInt(255) + 1;
-        return new Color(r, g, b);
     }
 
     @Override
