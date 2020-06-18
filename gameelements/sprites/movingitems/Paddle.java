@@ -1,21 +1,19 @@
 //204351670
 
-package gameelemnts.sprites.movingitems;
+package gameelements.sprites.movingitems;
 
 import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.KeyboardSensor;
 import execution.GameConstants;
 import execution.levels.LevelInformation;
-import gameelemnts.collidables.Collidable;
+import gameelements.collidables.Collidable;
 import execution.GameLevel;
-import gameelemnts.sprites.movingitems.ball.Ball;
 import geometry.line.Line;
 import geometry.Point;
 import geometry.Rectangle;
-import gameelemnts.sprites.Sprite;
-import gameelemnts.sprites.movingitems.ball.Velocity;
-import gameelemnts.sprites.staticitems.Block;
+import gameelements.sprites.Sprite;
+import gameelements.sprites.staticitems.Block;
 
 import java.awt.Color;
 
@@ -38,6 +36,7 @@ public class Paddle implements Sprite, Collidable {
      * constructor of the 'gameelemnts.sprites.movingitems.Paddle' object.
      *
      * @param gui the game Gui.
+     * @param levelInfo the information about the level which the paddle will be created in.
      */
     public Paddle(GUI gui, LevelInformation levelInfo) {
         this.keyboard = gui.getKeyboardSensor();
@@ -87,7 +86,8 @@ public class Paddle implements Sprite, Collidable {
             this.paddleBody = new Rectangle(newUpperLeft, paddleWidth, paddleHeight);
         } else {
             //move to the left.
-            Point newUpperLeft = new Point(curUpperLeft.getX() - this.levelInformation.paddleSpeed(), curUpperLeft.getY());
+            Point newUpperLeft = new Point(curUpperLeft.getX() - this.levelInformation.paddleSpeed(),
+                    curUpperLeft.getY());
             this.paddleBody = new Rectangle(newUpperLeft, paddleWidth, paddleHeight);
         }
     }

@@ -1,19 +1,19 @@
 //ID: 204351670
 
-package gameelemnts.sprites.staticitems;
+package gameelements.sprites.staticitems;
 
 import biuoop.DrawSurface;
 import execution.listeners.HitListener;
 import execution.listeners.HitNotifier;
-import gameelemnts.collidables.Collidable;
+import gameelements.collidables.Collidable;
 import execution.GameLevel;
-import gameelemnts.sprites.movingitems.ball.Ball;
+import gameelements.sprites.movingitems.Ball;
 import geometry.line.Line;
 import geometry.line.LineEquation;
 import geometry.Point;
 import geometry.Rectangle;
-import gameelemnts.sprites.movingitems.ball.Velocity;
-import gameelemnts.sprites.Sprite;
+import gameelements.sprites.movingitems.Velocity;
+import gameelements.sprites.Sprite;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.LinkedList;

@@ -1,9 +1,9 @@
 //ID: 204351670
 package execution.levels;
 
-import gameelemnts.sprites.Sprite;
-import gameelemnts.sprites.movingitems.ball.Velocity;
-import gameelemnts.sprites.staticitems.Block;
+import gameelements.sprites.Sprite;
+import gameelements.sprites.movingitems.Velocity;
+import gameelements.sprites.staticitems.Block;
 
 import java.util.List;
 

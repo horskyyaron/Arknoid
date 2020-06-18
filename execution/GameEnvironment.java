@@ -2,8 +2,8 @@
 
 package execution;
 
-import gameelemnts.collidables.Collidable;
-import gameelemnts.collidables.CollisionInfo;
+import gameelements.collidables.Collidable;
+import gameelements.collidables.CollisionInfo;
 import geometry.line.Line;
 import geometry.Point;
 import geometry.Rectangle;

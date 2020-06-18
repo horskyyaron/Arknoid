@@ -5,7 +5,7 @@ import biuoop.DrawSurface;
 import execution.GameConstants;
 import execution.levels.LevelInformation;
 import execution.levels.LevelOne;
-import gameelemnts.sprites.Sprite;
+import gameelements.sprites.Sprite;
 import geometry.Point;
 
 import java.awt.Color;

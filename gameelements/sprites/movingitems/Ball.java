@@ -1,6 +1,6 @@
 //ID: 204351670
 
-package gameelemnts.sprites.movingitems.ball;
+package gameelements.sprites.movingitems;
 
 import biuoop.DrawSurface;
 import execution.GameConstants;
@@ -8,8 +8,8 @@ import execution.GameLevel;
 import execution.GameEnvironment;
 import geometry.line.Line;
 import geometry.Point;
-import gameelemnts.sprites.Sprite;
-import gameelemnts.collidables.CollisionInfo;
+import gameelements.sprites.Sprite;
+import gameelements.collidables.CollisionInfo;
 
 import java.awt.Color;
 import java.util.Random;
@@ -110,9 +110,9 @@ public class Ball implements Sprite {
     @Override
     public void drawOn(DrawSurface surface) {
         surface.setColor(this.color);
-        surface.fillCircle((int) this.getX(), (int) this.getY(), this.radius );
+        surface.fillCircle((int) this.getX(), (int) this.getY(), this.radius);
         surface.setColor(Color.BLACK);
-        surface.drawCircle((int) this.getX(),(int) this.getY(), this.radius);
+        surface.drawCircle((int) this.getX(), (int) this.getY(), this.radius);
 
     }
 

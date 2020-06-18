@@ -3,7 +3,7 @@ package execution.backgrounds;
 
 import biuoop.DrawSurface;
 import execution.GameConstants;
-import gameelemnts.sprites.Sprite;
+import gameelements.sprites.Sprite;
 import geometry.Point;
 
 import java.awt.Color;

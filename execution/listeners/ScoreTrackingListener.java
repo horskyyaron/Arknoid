@@ -3,8 +3,8 @@
 package execution.listeners;
 
 import execution.Counter;
-import gameelemnts.sprites.movingitems.ball.Ball;
-import gameelemnts.sprites.staticitems.Block;
+import gameelements.sprites.movingitems.Ball;
+import gameelements.sprites.staticitems.Block;
 
 /**
  * ScoreTrackingListener is a class that supports methods that will keep track of the game score,

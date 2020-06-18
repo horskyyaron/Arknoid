@@ -2,8 +2,8 @@
 
 package execution.listeners;
 
-import gameelemnts.sprites.movingitems.ball.Ball;
-import gameelemnts.sprites.staticitems.Block;
+import gameelements.sprites.movingitems.Ball;
+import gameelements.sprites.staticitems.Block;
 
 /**
  * The interface Hit listener. will start a hit event when a hit is preformed between a ball and a block.

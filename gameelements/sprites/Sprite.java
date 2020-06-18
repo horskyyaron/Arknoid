@@ -1,6 +1,6 @@
 //ID: 204351670
 
-package gameelemnts.sprites;
+package gameelements.sprites;
 
 import biuoop.DrawSurface;
 

@@ -1,12 +1,12 @@
 //ID: 204351670
 
-package gameelemnts.sprites.staticitems;
+package gameelements.sprites.staticitems;
 
 import biuoop.DrawSurface;
 import execution.GameConstants;
 import execution.levels.LevelInformation;
 import execution.Counter;
-import gameelemnts.sprites.Sprite;
+import gameelements.sprites.Sprite;
 import java.awt.Color;
 
 /**
@@ -27,6 +27,7 @@ public class ScoreIndicator implements Sprite {
      * Instantiates a new Score indicator.
      *
      * @param scoreCounter the score counter
+     * @param levelInformation information about the level which the score indicator will be in.
      */
     public ScoreIndicator(Counter scoreCounter, LevelInformation levelInformation) {
         this.score = scoreCounter;
@@ -38,7 +39,7 @@ public class ScoreIndicator implements Sprite {
         d.setColor(Color.BLACK);
         //will draw the score text onto the input surface.
         d.drawText(SCORE_TEXT_X_COORDINATE, SCORE_TEXT_Y_COORDINATE,
-                "Score:" + this.score.getValue() +"                            Level Name:"
+                "Score:" + this.score.getValue() + "                            Level Name:"
                         + this.levelInfo.levelName(), FONT_SIZE);
 
     }

@@ -1,12 +1,12 @@
 //ID: 204351670
 
-package gameelemnts.collidables;
+package gameelements.collidables;
 
-import gameelemnts.sprites.movingitems.ball.Ball;
+import gameelements.sprites.movingitems.Ball;
 import geometry.line.Line;
 import geometry.Point;
 import geometry.Rectangle;
-import gameelemnts.sprites.movingitems.ball.Velocity;
+import gameelements.sprites.movingitems.Velocity;
 
 /**
  * gameelemnts.collidables.Collidable object is an object that's being drawn to screen, and that

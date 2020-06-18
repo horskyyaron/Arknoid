@@ -1,6 +1,6 @@
 //ID: 204351670
 
-package gameelemnts.sprites.movingitems.ball;
+package gameelements.sprites.movingitems;
 
 import geometry.Point;
 
@@ -115,6 +115,12 @@ public class Velocity {
         return new Velocity(dx, dy);
     }
 
+    /**
+     * will convert the angle to a value within 0-360 degrees.
+     *
+     * @param angle the degree.
+     * @return the angle in the range of 0-360 degrees.
+     */
     private static double toThreeSixty(double angle) {
         double inRangeAngle = angle;
         if (angle < 0) {
@@ -123,7 +129,7 @@ public class Velocity {
             }
             return inRangeAngle;
         } else if (angle > 360) {
-            while(inRangeAngle > 360) {
+            while (inRangeAngle > 360) {
                 inRangeAngle = inRangeAngle - 360;
             }
             return inRangeAngle;

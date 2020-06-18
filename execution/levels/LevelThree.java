@@ -3,9 +3,9 @@ package execution.levels;
 
 import execution.GameConstants;
 import execution.backgrounds.LevelThreeBackground;
-import gameelemnts.sprites.Sprite;
-import gameelemnts.sprites.movingitems.ball.Velocity;
-import gameelemnts.sprites.staticitems.Block;
+import gameelements.sprites.Sprite;
+import gameelements.sprites.movingitems.Velocity;
+import gameelements.sprites.staticitems.Block;
 import geometry.Point;
 
 import java.awt.Color;

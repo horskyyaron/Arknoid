@@ -4,8 +4,8 @@ package execution.listeners;
 
 import execution.Counter;
 import execution.GameLevel;
-import gameelemnts.sprites.movingitems.ball.Ball;
-import gameelemnts.sprites.staticitems.Block;
+import gameelements.sprites.movingitems.Ball;
+import gameelements.sprites.staticitems.Block;
 
 /**
  * BlockRemover is a class that supports methods that will keep track of the number of blocks

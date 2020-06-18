@@ -2,7 +2,7 @@
 package execution;
 
 import biuoop.DrawSurface;
-import gameelemnts.sprites.SpriteCollection;
+import gameelements.sprites.SpriteCollection;
 import geometry.Point;
 
 import java.awt.Color;
