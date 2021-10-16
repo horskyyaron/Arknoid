@@ -1,0 +1,6 @@
+*.iml
+biuoop.xml
+bin/
+.idea/
+out/
+Tests/
