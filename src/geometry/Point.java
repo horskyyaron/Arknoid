@@ -2,7 +2,7 @@
 
 package geometry;
 
-import execution.animation.GameConstants;
+import execution.animation.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -161,8 +161,8 @@ public class Point {
      */
     public boolean isAGameCorner() {
         //getting the game-play zone corner points.
-        List<Point> cornerPoints = getGameCornerPoints(GameConstants.getWidth(),
-                GameConstants.getHeight(), GameConstants.getHeight());
+        List<Point> cornerPoints = getGameCornerPoints(Utils.getWidth(),
+                Utils.getHeight(), Utils.getHeight());
         //check if given point is one of the corner points.
         return cornerPoints.contains(this);
     }

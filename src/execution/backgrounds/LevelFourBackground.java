@@ -2,7 +2,7 @@
 package execution.backgrounds;
 
 import biuoop.DrawSurface;
-import execution.animation.GameConstants;
+import execution.animation.Utils;
 import gameelements.sprites.Sprite;
 import geometry.Point;
 
@@ -56,7 +56,7 @@ public class LevelFourBackground implements Sprite {
      * @param rainAngle the angle which the rain rays will be drawn.
      */
     private void drawRain(DrawSurface d, Point cloudCenterPoint, double rainAngle) {
-        double distanceCloudToBottom = GameConstants.getHeight() - cloudCenterPoint.getY();
+        double distanceCloudToBottom = Utils.getHeight() - cloudCenterPoint.getY();
         double horizontalIntervals = distanceCloudToBottom * Math.atan(Math.toRadians(rainAngle));
 
         if (isMovingRight) {
@@ -76,7 +76,7 @@ public class LevelFourBackground implements Sprite {
         int yCenterCloud = (int) cloudCenterPoint.getY();
 
         int xCenterBottom = (int) (cloudCenterPoint.getX() - horizontalIntervals + movingFactor);
-        int yCenterBottom = GameConstants.getHeight();
+        int yCenterBottom = Utils.getHeight();
 
         d.setColor(Color.WHITE);
 
@@ -97,7 +97,7 @@ public class LevelFourBackground implements Sprite {
      */
     private void drawBackgroundColor(DrawSurface d) {
         d.setColor(BACKGROUND_COLOR);
-        d.fillRectangle(0, 0, GameConstants.getWidth(), GameConstants.getHeight());
+        d.fillRectangle(0, 0, Utils.getWidth(), Utils.getHeight());
     }
 
     /**
@@ -185,8 +185,8 @@ public class LevelFourBackground implements Sprite {
         drawBackgroundColor(d);
 
         //clouds center points.
-        Point leftCloudCenter = new Point(GameConstants.getWidth() * 0.15, GameConstants.getHeight() * 0.6);
-        Point rightCloudCenter = new Point(GameConstants.getWidth() * 0.8, GameConstants.getHeight() * 0.8);
+        Point leftCloudCenter = new Point(Utils.getWidth() * 0.15, Utils.getHeight() * 0.6);
+        Point rightCloudCenter = new Point(Utils.getWidth() * 0.8, Utils.getHeight() * 0.8);
 
         //drawing rain
         drawRain(d, leftCloudCenter, LEFT_RAIN_ANGLE);

@@ -3,7 +3,7 @@
 package gameelements.sprites;
 
 import biuoop.DrawSurface;
-import execution.animation.GameConstants;
+import execution.animation.Utils;
 import execution.animation.GameLevel;
 import execution.animation.GameEnvironment;
 import geometry.Line;
@@ -255,10 +255,10 @@ public class Ball implements Sprite {
 
         check if it's in the left part of the game-play zone.
          */
-        if (cornerPoint.getX() < (double) GameConstants.getWidth() / 2) {
+        if (cornerPoint.getX() < (double) Utils.getWidth() / 2) {
             //check if't the lower or upper corner in the left side of the
             // game-play zone.
-            if (cornerPoint.getY() < (double) GameConstants.getHeight() / 2) {
+            if (cornerPoint.getY() < (double) Utils.getHeight() / 2) {
                 this.center = new Point(cornerPoint.getX() + DELTA,
                         cornerPoint.getY() + DELTA);
             } else {
@@ -268,7 +268,7 @@ public class Ball implements Sprite {
         } else {
             //check if't the lower or upper corner in the right side of the
             // game-play zone.
-            if (cornerPoint.getY() < (double) GameConstants.getHeight() / 2) {
+            if (cornerPoint.getY() < (double) Utils.getHeight() / 2) {
                 this.center = new Point(cornerPoint.getX() - DELTA,
                         cornerPoint.getY() + DELTA);
             } else {

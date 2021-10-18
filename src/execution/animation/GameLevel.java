@@ -170,7 +170,7 @@ public class GameLevel implements Animation {
      * the game borders will set the game-play zone, where the ball can move.
      */
     private void generateGameBorders() {
-        Double thickness = GameConstants.getBorderThickness();
+        Double thickness = Utils.getBorderThickness();
 
         //in case we random color background.
         //java.awt.Color backgroundColor = getRandomColor();
@@ -178,13 +178,13 @@ public class GameLevel implements Animation {
         java.awt.Color color = Color.gray;
         //generating border blocks.
         Block left = new Block(new Point(0, thickness), thickness,
-                GameConstants.getHeight() - thickness, color);
-        Block up = new Block(new Point(0, 0), GameConstants.getWidth(), thickness, color);
-        Block right = new Block(new Point(GameConstants.getWidth() - thickness, thickness),
-                thickness, GameConstants.getHeight() - thickness, color);
+                Utils.getHeight() - thickness, color);
+        Block up = new Block(new Point(0, 0), Utils.getWidth(), thickness, color);
+        Block right = new Block(new Point(Utils.getWidth() - thickness, thickness),
+                thickness, Utils.getHeight() - thickness, color);
 
         //Death-Region Block
-        Block down = new Block(new Point(0, GameConstants.getHeight()), GameConstants.getWidth(),
+        Block down = new Block(new Point(0, Utils.getHeight()), Utils.getWidth(),
                 DEATH_REGION_THICKNESS);
         BallRemover ballRemover = new BallRemover(this, this.remainingBallsCounter);
         down.addHitListener(ballRemover);

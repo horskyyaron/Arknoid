@@ -15,8 +15,6 @@ import static java.lang.System.exit;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("enter levels:");
-
         List<LevelInformation> levels = generateLevelListFromArguments(args);
         GameFlow gameFlow = new GameFlow(levels);
         gameFlow.runLevels(levels);

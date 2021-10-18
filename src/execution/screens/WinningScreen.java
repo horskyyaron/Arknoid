@@ -5,7 +5,7 @@ package execution.screens;
 import biuoop.DrawSurface;
 import execution.animation.Animation;
 import execution.animation.Counter;
-import execution.animation.GameConstants;
+import execution.animation.Utils;
 import geometry.Point;
 
 import java.awt.Color;
@@ -17,8 +17,8 @@ import java.util.Random;
 public class WinningScreen implements Animation {
 
     private static final int FONT_SIZE = 32;
-    private static final double STRING_LEFT_EDGE_COORDINATE = GameConstants.getWidth() * 0.2;
-    private static final double STRING_HEIGHT = GameConstants.getHeight() * 0.13;
+    private static final double STRING_LEFT_EDGE_COORDINATE = Utils.getWidth() * 0.2;
+    private static final double STRING_HEIGHT = Utils.getHeight() * 0.13;
 
     private static final int NUMBER_OF_JELLYFISHES_ON_SCREEN = 10;
     private static final int BIGGEST_JELLYFISH_RADIUS = 60;
@@ -39,7 +39,7 @@ public class WinningScreen implements Animation {
     public void doOneFrame(DrawSurface d) {
         //setting background color
         d.setColor(Color.WHITE);
-        d.fillRectangle(0, 0, GameConstants.getWidth(), GameConstants.getHeight());
+        d.fillRectangle(0, 0, Utils.getWidth(), Utils.getHeight());
 
 
         //drawing spongebob
@@ -62,8 +62,8 @@ public class WinningScreen implements Animation {
     private void drawJellyFish(DrawSurface d) {
         Random random = new Random();
         for (int i = 0; i < NUMBER_OF_JELLYFISHES_ON_SCREEN; i++) {
-            drawJellyFish(d, random.nextInt(BIGGEST_JELLYFISH_RADIUS), GameConstants.getRandomColor(),
-                    new Point(random.nextInt(GameConstants.getWidth()), random.nextInt(GameConstants.getHeight())));
+            drawJellyFish(d, random.nextInt(BIGGEST_JELLYFISH_RADIUS), Utils.getRandomColor(),
+                    new Point(random.nextInt(Utils.getWidth()), random.nextInt(Utils.getHeight())));
         }
     }
 
@@ -121,7 +121,7 @@ public class WinningScreen implements Animation {
          * so that the drawing will look good.
          */
 
-        Point centerOfScreen = GameConstants.getCenterOfScreen();
+        Point centerOfScreen = Utils.getCenterOfScreen();
         int xCord = (int) centerOfScreen.getX();
         int yCord = (int) centerOfScreen.getY();
 
@@ -135,7 +135,7 @@ public class WinningScreen implements Animation {
         d.setColor(Color.white);
         d.fillRectangle(xCord + 74, 0 , 300, xCord);
         d.fillRectangle(xCord - 320, 0 , 300, xCord);
-        d.fillRectangle(0, 0, GameConstants.getWidth(), 200);
+        d.fillRectangle(0, 0, Utils.getWidth(), 200);
 
         d.setColor(Color.BLACK);
         for (int i = 0; i < 5; i++) {
@@ -143,9 +143,9 @@ public class WinningScreen implements Animation {
         }
 
         d.setColor(Color.white);
-        d.fillRectangle(xCord + 68, 0, 300, (int) (GameConstants.getHeight() * 0.63));
+        d.fillRectangle(xCord + 68, 0, 300, (int) (Utils.getHeight() * 0.63));
         d.setColor(Color.white);
-        d.fillRectangle(xCord - 100, 0, 300, (int) (GameConstants.getHeight() * 0.60));
+        d.fillRectangle(xCord - 100, 0, 300, (int) (Utils.getHeight() * 0.60));
 
         d.setColor(Color.black);
         for (int i = 0; i < 5; i++) {

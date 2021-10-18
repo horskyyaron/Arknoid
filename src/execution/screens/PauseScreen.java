@@ -4,7 +4,7 @@ package execution.screens;
 
 import biuoop.DrawSurface;
 import execution.animation.Animation;
-import execution.animation.GameConstants;
+import execution.animation.Utils;
 import geometry.Point;
 
 import java.awt.Color;
@@ -15,8 +15,8 @@ import java.awt.Color;
 public class PauseScreen implements Animation {
 
     private static final int FONT_SIZE = 32;
-    private static final double STRING_LEFT_EDGE_COORDINATE = GameConstants.getWidth() * 0.2;
-    private static final double STRING_HEIGHT = GameConstants.getHeight() * 0.13;
+    private static final double STRING_LEFT_EDGE_COORDINATE = Utils.getWidth() * 0.2;
+    private static final double STRING_HEIGHT = Utils.getHeight() * 0.13;
 
     private static final int BIG_RADIUS = 200;
     private static final int SMALL_RADIUS = 190;
@@ -38,7 +38,7 @@ public class PauseScreen implements Animation {
     public void doOneFrame(DrawSurface d) {
         drawPauseSymbol(d);
 
-        d.setColor(GameConstants.getRandomColor());
+        d.setColor(Utils.getRandomColor());
         d.drawText((int) STRING_LEFT_EDGE_COORDINATE, (int) STRING_HEIGHT, "paused -- press space to continue",
                 FONT_SIZE);
     }
@@ -49,7 +49,7 @@ public class PauseScreen implements Animation {
      * @param d the surface which the pause symbol will be draw on.
      */
     private void drawPauseSymbol(DrawSurface d) {
-        Point centerOfScreen = GameConstants.getCenterOfScreen();
+        Point centerOfScreen = Utils.getCenterOfScreen();
         d.setColor(Color.BLACK);
         d.fillCircle((int) centerOfScreen.getX(), (int) centerOfScreen.getY(), (int) (BIG_RADIUS * radiusFactor));
         d.setColor(Color.WHITE);
@@ -75,7 +75,7 @@ public class PauseScreen implements Animation {
      * @param d the surface which the pause symbol- lines will be draw on.
      */
     private void drawPauseMiddleLines(DrawSurface d) {
-        Point centerOfScreen = GameConstants.getCenterOfScreen();
+        Point centerOfScreen = Utils.getCenterOfScreen();
 
         d.setColor(Color.BLACK);
         d.fillRectangle((int) (centerOfScreen.getX() - 1.8 * LINES_GAP),

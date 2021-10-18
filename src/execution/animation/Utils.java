@@ -11,7 +11,7 @@ import java.util.Random;
  * The class GameConstant will hold all kind of constant variable of the game that will not be changed.
  * also, will hold some generic function used in the project.
  */
-public class GameConstants {
+public class Utils {
     //screen size constants.
     private static final int WIDTH = 800;
     private static final int HEIGHT = 600;
@@ -52,8 +52,8 @@ public class GameConstants {
      * @return the middle of screen point.
      */
     public static Point getCenterOfScreen() {
-        return new Point((int) (GameConstants.getWidth() / 2.0),
-                (int) (GameConstants.getHeight() / 2.0));
+        return new Point((int) (Utils.getWidth() / 2.0),
+                (int) (Utils.getHeight() / 2.0));
     }
 
     /**

@@ -33,7 +33,7 @@ public class GameFlow {
      */
     public GameFlow(List<LevelInformation> lil) {
         this.levelInformationList = lil;
-        this.gui = new GUI("Arkanoid", GameConstants.getWidth(), GameConstants.getHeight());
+        this.gui = new GUI("Arkanoid", Utils.getWidth(), Utils.getHeight());
         this.runner = new AnimationRunner(this.gui, FRAME_PER_SECOND);
         this.keyboardSensor = this.gui.getKeyboardSensor();
     }

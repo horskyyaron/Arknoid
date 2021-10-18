@@ -1,7 +1,7 @@
 //ID: 204351670
 package geometry;
 
-import execution.animation.GameConstants;
+import execution.animation.Utils;
 
 import java.util.LinkedList;
 import java.util.Objects;
@@ -25,8 +25,8 @@ public class Rectangle {
      * @param height    holds the rectangle height.
      */
     public Rectangle(Point upperLeft, double width, double height) {
-        if (width < 0 || width > GameConstants.getWidth() || height < 0
-                || height > GameConstants.getHeight()) {
+        if (width < 0 || width > Utils.getWidth() || height < 0
+                || height > Utils.getHeight()) {
             throw new IllegalArgumentException("can't have a rectangle with"
                     + "negative height or width or negative height or width.");
         } else {

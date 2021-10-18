@@ -66,8 +66,8 @@ public class CountDownAnimation implements Animation {
         String str = "" + (char) (digit + 48);;
 
         d.setColor(getBlackColor(blackCounter));
-        d.drawText((int) (GameConstants.getWidth() / 2) - 50, d.getHeight() / 2 - 30, "Get Ready" , 20);
-        d.drawText((int) (GameConstants.getWidth() / 2) - 10, d.getHeight() / 2 + 40, str , 50);
+        d.drawText((int) (Utils.getWidth() / 2) - 50, d.getHeight() / 2 - 30, "Get Ready" , 20);
+        d.drawText((int) (Utils.getWidth() / 2) - 10, d.getHeight() / 2 + 40, str , 50);
 
     }
 
@@ -97,11 +97,11 @@ public class CountDownAnimation implements Animation {
      */
     private void drawMassageCircle(DrawSurface d) {
         d.setColor(Color.BLACK);
-        Point centerOfScreen = new Point((int) (GameConstants.getWidth() / 2.0),
-                (int) (GameConstants.getHeight() / 2.0));
+        Point centerOfScreen = new Point((int) (Utils.getWidth() / 2.0),
+                (int) (Utils.getHeight() / 2.0));
         d.fillCircle((int) centerOfScreen.getX(), (int) centerOfScreen.getY(), RADIUS);
 
-        d.setColor(GameConstants.getRandomColor());
+        d.setColor(Utils.getRandomColor());
         d.fillCircle((int) centerOfScreen.getX(), (int) centerOfScreen.getY(), RADIUS - 5);
 
     }

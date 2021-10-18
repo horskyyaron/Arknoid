@@ -1,7 +1,7 @@
 //ID: 204351670
 package execution.levels;
 
-import execution.animation.GameConstants;
+import execution.animation.Utils;
 import execution.backgrounds.LevelThreeBackground;
 import gameelements.sprites.Sprite;
 import gameelements.sprites.Velocity;
@@ -19,18 +19,16 @@ import java.util.List;
 public class LevelThree implements LevelInformation {
 
     private static final int NUMBER_OF_BLOCK_ROWS = 5;
-    private static final double BLOCK_WIDTH = GameConstants.getWidth() * 0.06;
-    private static final double BLOCK_HEIGHT = GameConstants.getHeight() / 22.2;
-    private static final double ROW_HEIGHT = GameConstants.getHeight() * 0.3;
+    private static final double BLOCK_WIDTH = Utils.getWidth() * 0.06;
+    private static final double BLOCK_HEIGHT = Utils.getHeight() / 22.2;
+    private static final double ROW_HEIGHT = Utils.getHeight() * 0.3;
     private static final int BLOCKS_IN_TOP_ROW = 10;
-
     private static final double INITIAL_BALLS_VELOCITY = 5.0;
-    private static final int NUMBER_OF_BALLS_IN_GAME = 100;
+    private static final int NUMBER_OF_BALLS_IN_GAME = 3;
     private static final double BALLS_ANGLE = 45.0;
     private static final double BALLS_ANGLE_GAP = 5.0;
-
     private static final int PADDLE_SPEED = 8;
-    private static final int PADDLE_WIDTH = ((int) (GameConstants.getWidth() * 0.1));
+    private static final int PADDLE_WIDTH = ((int) (Utils.getWidth() * 0.1));
 
     /**
      * Instantiates a new Level three.
@@ -116,7 +114,7 @@ public class LevelThree implements LevelInformation {
 
         List<Block> blockList = new LinkedList<>();
 
-        Point firstRowFirstBlock = new Point(GameConstants.getWidth() - GameConstants.getBorderThickness()
+        Point firstRowFirstBlock = new Point(Utils.getWidth() - Utils.getBorderThickness()
                 - BLOCK_WIDTH , ROW_HEIGHT);
 
         //generating each row separately.
@@ -125,7 +123,7 @@ public class LevelThree implements LevelInformation {
             Point firstBlock = new Point(firstRowFirstBlock.getX(),
                     firstRowFirstBlock.getY() + i * BLOCK_HEIGHT);
 
-            Color backgroundColor = GameConstants.getRandomColor();
+            Color backgroundColor = Utils.getRandomColor();
 
             //each row will have one block less than the row above it.
             generateBlockRow(firstBlock, BLOCK_WIDTH, BLOCK_HEIGHT,

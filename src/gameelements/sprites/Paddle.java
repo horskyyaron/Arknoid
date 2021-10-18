@@ -5,7 +5,7 @@ package gameelements.sprites;
 import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.KeyboardSensor;
-import execution.animation.GameConstants;
+import execution.animation.Utils;
 import execution.levels.LevelInformation;
 import gameelements.collidables.Collidable;
 import execution.animation.GameLevel;
@@ -49,12 +49,12 @@ public class Paddle implements Sprite, Collidable {
         //calculating the width and height of the paddle based on the size
         // factors.
         double paddleWidth = this.levelInformation.paddleWidth();
-        double paddleHeight = PADDLE_HEIGHT_FACTOR * GameConstants.getHeight();
+        double paddleHeight = PADDLE_HEIGHT_FACTOR * Utils.getHeight();
 
         //calculating and creating the paddle top left corner point.
-        double rectUpperLeftXCord = GameConstants.getWidth() / 2.0 - paddleWidth / 2.0;
-        double rectUpperLeftYCord = GameConstants.getHeight()
-                - GameConstants.getBorderThickness() - 1;
+        double rectUpperLeftXCord = Utils.getWidth() / 2.0 - paddleWidth / 2.0;
+        double rectUpperLeftYCord = Utils.getHeight()
+                - Utils.getBorderThickness() - 1;
         Point rectUpperLeft = new Point(rectUpperLeftXCord, rectUpperLeftYCord);
 
         return new Rectangle(rectUpperLeft, paddleWidth, paddleHeight);
@@ -76,7 +76,7 @@ public class Paddle implements Sprite, Collidable {
         //check if the paddle is in the edge of the game-play zone.
         if (isNextMoveOutOfBounds(curUpperLeft.getX() - this.levelInformation.paddleSpeed())) {
             //move to edge
-            Point newUpperLeft = new Point(GameConstants.getBorderThickness(), curUpperLeft.getY());
+            Point newUpperLeft = new Point(Utils.getBorderThickness(), curUpperLeft.getY());
             this.paddleBody = new Rectangle(newUpperLeft, paddleWidth, paddleHeight);
         } else {
             //move to the left.
@@ -101,8 +101,8 @@ public class Paddle implements Sprite, Collidable {
 
         if (isNextMoveOutOfBounds(curUpperLeft.getX() + this.levelInformation.paddleSpeed())) {
             //move to edge
-            Point newUpperLeft = new Point(GameConstants.getWidth()
-                    - GameConstants.getBorderThickness() - paddleWidth,
+            Point newUpperLeft = new Point(Utils.getWidth()
+                    - Utils.getBorderThickness() - paddleWidth,
                     curUpperLeft.getY());
             this.paddleBody = new Rectangle(newUpperLeft, paddleWidth,
                     paddleHeight);
@@ -127,12 +127,12 @@ public class Paddle implements Sprite, Collidable {
      */
     private boolean isNextMoveOutOfBounds(double nextPositionOfUpperLeftXCoordinate) {
         //out of game-play zone to the right.
-        if (nextPositionOfUpperLeftXCoordinate < GameConstants.getBorderThickness()) {
+        if (nextPositionOfUpperLeftXCoordinate < Utils.getBorderThickness()) {
             return true;
             //out of game-play zone to the left.
         } else {
             return nextPositionOfUpperLeftXCoordinate + this.getPaddleWidth()
-                > GameConstants.getWidth() - GameConstants.getBorderThickness();
+                > Utils.getWidth() - Utils.getBorderThickness();
         }
     }
 

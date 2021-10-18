@@ -5,7 +5,7 @@ package execution.screens;
 import biuoop.DrawSurface;
 import execution.animation.Animation;
 import execution.animation.Counter;
-import execution.animation.GameConstants;
+import execution.animation.Utils;
 
 /**
  * LosingScreen is an animation that will take place once a game is lost.
@@ -13,8 +13,8 @@ import execution.animation.GameConstants;
 public class LosingScreen implements Animation {
 
     private static final int FONT_SIZE = 32;
-    private static final double STRING_LEFT_EDGE_COORDINATE = GameConstants.getWidth() * 0.2;
-    private static final double STRING_HEIGHT = GameConstants.getHeight() / 2.0;
+    private static final double STRING_LEFT_EDGE_COORDINATE = Utils.getWidth() * 0.2;
+    private static final double STRING_HEIGHT = Utils.getHeight() / 2.0;
 
 
     //fields

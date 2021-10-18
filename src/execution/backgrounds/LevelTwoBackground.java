@@ -2,7 +2,7 @@
 package execution.backgrounds;
 
 import biuoop.DrawSurface;
-import execution.animation.GameConstants;
+import execution.animation.Utils;
 import execution.levels.LevelInformation;
 import execution.levels.LevelTwo;
 import gameelements.sprites.Sprite;
@@ -39,7 +39,7 @@ public class LevelTwoBackground implements Sprite {
      */
     private void drawBackgroundColor(DrawSurface d) {
         d.setColor(Color.WHITE);
-        d.fillRectangle(0, 0, GameConstants.getWidth(), GameConstants.getHeight());
+        d.fillRectangle(0, 0, Utils.getWidth(), Utils.getHeight());
     }
 
     /**
@@ -68,9 +68,9 @@ public class LevelTwoBackground implements Sprite {
      */
     private Point getSunCenter() {
         double rowHeight = this.levelInformation.blocks().get(0).getCollisionRectangle().getUpperLeft().getY();
-        double topEdgeOfScreen = GameConstants.getBorderThickness();
+        double topEdgeOfScreen = Utils.getBorderThickness();
         double heightOfSunCenter = (rowHeight + topEdgeOfScreen) / 2.0;
-        return new Point(GameConstants.getWidth() * 0.2, heightOfSunCenter);
+        return new Point(Utils.getWidth() * 0.2, heightOfSunCenter);
 
     }
 

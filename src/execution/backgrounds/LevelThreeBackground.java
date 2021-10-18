@@ -2,7 +2,7 @@
 package execution.backgrounds;
 
 import biuoop.DrawSurface;
-import execution.animation.GameConstants;
+import execution.animation.Utils;
 import execution.levels.LevelInformation;
 import execution.levels.LevelThree;
 import gameelements.sprites.Sprite;
@@ -19,10 +19,10 @@ public class LevelThreeBackground implements Sprite {
     private LevelInformation levelInformation = new LevelThree();
 
     //building const
-    private static final double BUILDING_UPPERLEFT_X =  GameConstants.getWidth() * 0.09;
-    private static final double BUILDING_UPPERLEFT_Y =  GameConstants.getHeight() * 0.7;
-    private static final int BUILDING_WIDTH =  (int) (GameConstants.getWidth() * 0.125);
-    private static final int BUILDING_HEIGHT =  (int) (GameConstants.getHeight() - BUILDING_UPPERLEFT_Y);
+    private static final double BUILDING_UPPERLEFT_X =  Utils.getWidth() * 0.09;
+    private static final double BUILDING_UPPERLEFT_Y =  Utils.getHeight() * 0.7;
+    private static final int BUILDING_WIDTH =  (int) (Utils.getWidth() * 0.125);
+    private static final int BUILDING_HEIGHT =  (int) (Utils.getHeight() - BUILDING_UPPERLEFT_Y);
 
     //Window const
     private static final double WINDOW_WIDTH =  BUILDING_WIDTH * 0.1;
@@ -35,7 +35,7 @@ public class LevelThreeBackground implements Sprite {
 
     //Antenna base const
     private static final double ANTENNA_BASE_WIDTH = BUILDING_WIDTH * 0.25;
-    private static final double ANTENNA_BASE_HEIGHT = GameConstants.getHeight() * 0.06;
+    private static final double ANTENNA_BASE_HEIGHT = Utils.getHeight() * 0.06;
     private static final double ANTENNA_BASE_UPPERLEFT_Y = BUILDING_UPPERLEFT_Y - ANTENNA_BASE_HEIGHT;
     private static final double ANTENNA_BASE_UPPERLEFT_X =  (BUILDING_UPPERLEFT_X
             + (BUILDING_WIDTH + BUILDING_UPPERLEFT_X)) / 2.0 - (ANTENNA_BASE_WIDTH / 2.0);
@@ -200,7 +200,7 @@ public class LevelThreeBackground implements Sprite {
      */
     private void drawBackgroundColor(DrawSurface d) {
         d.setColor(BACKGROUND_COLOR);
-        d.fillRectangle(0, 0, GameConstants.getWidth(), GameConstants.getHeight());
+        d.fillRectangle(0, 0, Utils.getWidth(), Utils.getHeight());
     }
 
     @Override

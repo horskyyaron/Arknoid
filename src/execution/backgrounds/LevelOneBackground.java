@@ -2,7 +2,7 @@
 package execution.backgrounds;
 
 import biuoop.DrawSurface;
-import execution.animation.GameConstants;
+import execution.animation.Utils;
 import execution.levels.LevelInformation;
 import execution.levels.LevelOne;
 import gameelements.sprites.Sprite;
@@ -68,7 +68,7 @@ public class LevelOneBackground implements Sprite {
      */
     private void drawBackground(DrawSurface d) {
         d.setColor(Color.BLACK);
-        d.fillRectangle(0, 0, GameConstants.getWidth(), GameConstants.getHeight());
+        d.fillRectangle(0, 0, Utils.getWidth(), Utils.getHeight());
     }
 
     @Override
