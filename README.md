@@ -2,11 +2,6 @@
 A semester long project in Java as part of Object Oriented Programming course in BIU.
 It uses an implementation of GUI provided by the course staff and it is not using the built-in GUI objects of java.
 
-
-## Main Objectives
-*  Using OOP principles to create an Arknoid game.
-
-
 ## Requirements:
 * You must have Java SE 11 or higher installed on your machine. 
 
